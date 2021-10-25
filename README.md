@@ -21,22 +21,10 @@ All these steps are orchestrated by the top-level `build.py` script.
 
 ## Dockercross customization
 
-Dockercross is a general-purpose docker image to enable cross-compilation for a variety of architectures
-and operating system on almost any x64 machine. Unfortunately it is not designed to specifically
-support the Raspberry Pi OS and as a result a modified version of dockercross must be used.
-
-As of October 2021 the Raspberry Pi OS uses Debian buster, GCC 8.3, and glibc 2.28.
-In order to successfully build packages for the rPi a version of dockercross must be built that
-uses (more or less) exactly these software versions. This can be accomplished as follows:
-- start with dockercross at commit `12a662e`, which is the last commit that uses buster
-- apply (PR 624)[https://github.com/dockcross/dockcross/pull/624], which won't apply cleanly, so
-  some tweaking is required (the conflicts are mostly in the github workflow spec, which we don't
-  care about)
-- create a derivative image with dependencies used by SensorGnome installed using the
-  Dockerfile in this repo
-
-The end result is a docker image called `sensorgnome-armv7-hf` and a `sensorgnome-armv7-hf`
-script to run a command in that image.
+A custom version of dockercross is used to generate packages for the Raspberry Pi.
+For general use, it should be sufficient to use the published image (see `docker/Dockerfile`)
+until Raspberry Pi OS moves to Debian bullseye.
+Information on how to generate a new image are in (docker/README.md)[docker/README.md].
 
 ## Package Building
 
@@ -78,7 +66,35 @@ standard Raspberry Pi OS image is flashed.
 - Install docker
 - pip install -r requirements.txt (preferably in a venv)
 
-### Notes
+## Docker comments
+
+To understand the role of docker in the build process here are a couple of points:
+- For our purposes, docker is not much more than a chroot: it runs processes within a filesystem
+  environment that is different from the host system.
+- In the case of the dockcross image the filesystem environment contains a full cross-compilation
+  toolchain with all its dependencies. This means that within that container it's easy to 
+  run cross-compilations.
+- In the case of pi-gen the container contains everything found on a standard debian system.
+  This allows the build process to use programs commonly found on debian to put together the image.
+- When a docker image is run (resulting in a running container) the container's filesystem
+  is initialized with the image content. On its own this is not very useful to us because we
+  need the dockcross container to also have access to the sources we want to cross-compile, and we
+  want the pi-gen container to have access to all the files it needs to install. The solution is
+  volume mounts: a volume mount mounts a directory of the host onto a directory within the container. 
+- To build packages we perform the entire build process within a dockcross container.
+  The `build_packages` subdirectory is mounted into the dockcross container and the
+  the `build_packages/build_packages.py` script is run inside the container. It can then pull
+  repositories from github and build the associated debian packages using the cross-compilation
+  tools made available by the container image.
+- To build the rPi image we use pi-gen and it starts with a debian container and successively
+  installs everything to make it be Raspberry Pi OS. This allows standard debian tools to be used
+  to install stuff, for example with apt-get.
+- The build packages process has one hack, which is that in order to be able to build packages from
+  checked-out sources it also mounts the parent directory of the sensorgnome-build dir as a volume.
+  The intent is that a developer can clone all the sensorgnome-* repos into one dir, and then the
+  build process can use those directories instead of fetching from github.
+
+## Notes
 
 Misc notes.
 
