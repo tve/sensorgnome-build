@@ -46,7 +46,7 @@ def install_files(files):
         if permissions is not None:
             recursive_chmod(destination, permissions)
         # Hardcoded 0:0 (root:root) for now.
-        recursive_chown(destination, 0, 0)
+        #recursive_chown(destination, 0, 0)
 
 
 def copytree2(source, destination, symlinks=False, ignore=None):

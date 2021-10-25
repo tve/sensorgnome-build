@@ -1,9 +1,5 @@
 # Build Debian Packages of all Sensorgnome Software
 
-## Docker Package Crosscompiling and Package Build
-
-See `Docker.md` for docker specific documentation and instructions.
-
 ## Package Building
 
 Run build_packages.py to create output packages.

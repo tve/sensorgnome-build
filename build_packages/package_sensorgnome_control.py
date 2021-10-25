@@ -38,7 +38,7 @@ def build(temp_dir, build_output_dir, version, compiler=None, strip_bin="strip",
         "Version": version,
         "Architecture": "armhf",
         "Essential": "yes",
-        "Depends": "nodejs, sensorgnome-support",
+        "Depends": "nodejs, sensorgnome-support",  # "node":from nodesource.org; "nodejs":from debian
         "Maintainer": "Dale Floer <dalefloer@gmail.com>",
         "Description": "Sensorgnome master control process.",
         }

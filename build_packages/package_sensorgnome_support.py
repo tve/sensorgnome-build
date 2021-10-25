@@ -55,11 +55,10 @@ def build(temp_dir, build_output_dir, version, compiler=None, strip_bin="strip",
     files = {
         "scripts/": [build_dir, path.join(temp_package_dir, "home", "pi", "proj", "sensorgnome", "scripts"), 0o755],
         "udev-rules/usb-hub-devices.rules": [build_dir, path.join(temp_package_dir, "etc", "udev", "rules.d"), None],
-        "root/etc/": [build_dir, path.join(temp_package_dir, "etc"), None],
+        "etc-network/": [build_dir, path.join(temp_package_dir, "etc", "network"), None],
         "systemd-services/": [build_dir, path.join(temp_package_dir, "lib", "systemd", "system"), None],
-        # "root/dev/sdcard/uboot/network.txt": [build_dir, path.join(temp_package_dir, "boot"), None],
+        "data-config/": [build_dir, path.join(temp_package_dir, "data", "config"), None],
         # todo: Handle overlays.
-        # todo: Handle GESTURES.TXT too.
         }
     install_files(files)
     # Note: There may need to be a post-install trigger to run "udevadm control --reload-rules".

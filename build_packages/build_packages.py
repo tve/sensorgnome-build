@@ -38,8 +38,8 @@ def build(temp_dir, build_dir, c_compiler=None, cpp_compiler=None, strip_bin=Non
         strip_bin (Path, optional): Path to the strip executable. Default: None.
         xcc_host (str, optional): GCC compiler triplet, needed if cross-compiling. Default: None.
         for_repo (bool, optional): Whether or not to create the supporting files needed to make these packages part of a repo. Default: True.
-"""
-# Create the temporary build dir if it doesn't exist. Remove it (and its contents).
+    """
+    # Create the temporary build dir if it doesn't exist. Remove it (and its contents).
     # That is, always a clean build.
     try:
         mkdir(temp_dir)
@@ -86,8 +86,8 @@ def build(temp_dir, build_dir, c_compiler=None, cpp_compiler=None, strip_bin=Non
         create_repo_files(build_dir)
 
     if all(build_success.values()):
-        print(f"[{timestamp()}]: Cleaning up temporary build files.")
-        rmtree(temp_dir)
+        #print(f"[{timestamp()}]: Cleaning up temporary build files.")
+        #rmtree(temp_dir)
         print(f"[{timestamp()}]: {bcolors.GREEN}Sensorgnome software packages successfully built.{bcolors.ENDC}")
         return True
     else:

@@ -44,7 +44,8 @@ def build(temp_dir, build_output_dir, version, compiler=None, strip_bin="strip",
         "Version": version,
         "Architecture": "armhf",
         "Essential": "yes",
-        "Depends": "libboost-filesystem-dev, libboost-system-dev, libboost-thread-dev, libasound2-dev, libvamp-hostsdk3v5, libfftw3-dev",
+        "Depends": "libboost-filesystem-dev, libboost-system-dev, libboost-thread-dev, " + \
+            "libasound2-dev, libvamp-hostsdk3v5, libvamp-sdk2v5, libfftw3-dev",
         "Maintainer": "Dale Floer <dalefloer@gmail.com>",
         "Description": "ALSA support for hosting vamp audio plugins for Sensorgnome.",
         }

@@ -19,32 +19,34 @@ def build(temp_dir, build_output_dir, version, compiler=None, strip_bin="strip",
     print(f"[{timestamp()}]: Starting configure.")
     build_dir = path.join(base_dir, temp_dir, PROJECT)
     chdir(build_dir)
-    # Create temporary packaging directory.
-    temp_package_dir = path.join(base_dir, temp_dir, f"{PROJECT}_{version}")
-    mkdir(temp_package_dir)
-    autoreconf_process = subprocess.Popen("autoreconf", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    # Wait for autoreconf to finish running.
-    while autoreconf_process.stdout.readline() or autoreconf_process.stderr.readline():
-        pass
-    if host:
-        host = f"--host {host}"
-    if compiler:
-        compiler = f"CXX={compiler}"
-    # --host is needed for cross-compiling. --disable-strip is needed because there doesn't seem to be a way to override the strip binary.
-    # AR= may also be needed for cross-compilation.
-    configure_command = f"./configure {host} {compiler} --disable-strip"
-    success, info = make_subprocess(configure_command, show_debug="no", errors="console")
-    if not success:
-        print(f"[{timestamp()}]: Configure failed with error: {bcolors.RED}\n{info['error']}{bcolors.ENDC}")
-        return False
+    try:
+        # Create temporary packaging directory.
+        temp_package_dir = path.join(base_dir, temp_dir, f"{PROJECT}_{version}")
+        mkdir(temp_package_dir)
+        autoreconf_process = subprocess.Popen("autoreconf", shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        # Wait for autoreconf to finish running.
+        while autoreconf_process.stdout.readline() or autoreconf_process.stderr.readline():
+            pass
+        if host:
+            host = f"--host {host}"
+        if compiler:
+            compiler = f"CXX={compiler}"
+        # --host is needed for cross-compiling. --disable-strip is needed because there doesn't seem to be a way to override the strip binary.
+        # AR= may also be needed for cross-compilation.
+        configure_command = f"./configure {host} {compiler} --disable-strip"
+        success, info = make_subprocess(configure_command, show_debug="no", errors="console")
+        if not success:
+            print(f"[{timestamp()}]: Configure failed with error: {bcolors.RED}\n{info['error']}{bcolors.ENDC}")
+            return False
 
-    print(f"[{timestamp()}]: Starting make.")
-    make_command = f"make clean install-nosysconf DESTDIR={temp_package_dir}"
-    success, info = make_subprocess(make_command, show_debug="no", errors="console")
-    if not success:
-        print(f"[{timestamp()}]: Build failed with error: {bcolors.RED}\n{info['error']}{bcolors.ENDC}")
-        return False
-    chdir(base_dir)
+        print(f"[{timestamp()}]: Starting make.")
+        make_command = f"make clean install-nosysconf DESTDIR={temp_package_dir}"
+        success, info = make_subprocess(make_command, show_debug="no", errors="console")
+        if not success:
+            print(f"[{timestamp()}]: Build failed with error: {bcolors.RED}\n{info['error']}{bcolors.ENDC}")
+            return False
+    finally:
+        chdir(base_dir)
     
     output_package_name = f"{PROJECT}_{version}.deb"
     print(f"[{timestamp()}]: Creating debian package at \"{path.join(build_output_dir, output_package_name)}\".")
