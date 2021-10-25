@@ -1,6 +1,7 @@
 #!/bin/sh -e
 # copy packages into /tmp/ for installation.
 
+echo "Copying sensorgnome packages."
 mkdir -p "${ROOTFS_DIR}"/tmp/sg/
 cp fcd_0.5-1.deb "${ROOTFS_DIR}"/tmp/sg/fcd_0.5-1.deb
 cp find_tags_0.5-1.deb "${ROOTFS_DIR}"/tmp/sg/find_tags_0.5-1.deb
