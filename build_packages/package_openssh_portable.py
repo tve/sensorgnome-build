@@ -6,8 +6,8 @@ from os import mkdir, chdir, getcwd, path
 from shutil import copyfile
 from package_helpers import timestamp, bcolors, install_files, create_package, make_subprocess
 
-PROJECT = "sensorgnome-openssh-portable"
-REPO = "https://github.com/sensorgnome-org/sensorgnome-openssh-portable.git"
+PROJECT = "openssh-portable"
+REPO = "https://github.com/openssh/openssh-portable"
 
 def build(temp_dir, build_output_dir, version, compiler=None, strip_bin="strip", host=''):
     base_dir = getcwd()
