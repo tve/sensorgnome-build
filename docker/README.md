@@ -1,20 +1,32 @@
-## Docker Specific Documentation
+# Docker Details
 
-While everything should be automated, this document serves as a tool to help troubleshooting if something goes wrong.
+tl;dr; you can use the tvoneicken/linux-armv7-rpi-buster image that is automatically pulled from
+dockerhub, or you can build your own.
 
-The docker builds use [dockcross](https://github.com/dockcross/dockcross) to build ARM binaries on an x64 machine. WHile dockcross is great, it has its trickky aspects. Specifically, the GCC toolchain used by dockcross must match what's installed on the target rPi and other libraries that are pulled into dockcross to be able to compile applications also need to have the same version as the ones ultimately installed on the rPi.
+Docker is used to build packages for ARM on non-arch machines using the dockercross image.
+It is also used to build the rpi image using the pi-gen tool.
 
-### Library compatibility issue
+The dockercross image used to build packages is somewhat tricky.
+Dockercross is a general-purpose docker image to enable cross-compilation for a variety of architectures
+and operating system on almost any x64 machine. Unfortunately it is not designed to specifically
+support the Raspberry Pi OS and as a result a modified version of dockercross must be used.
 
-As of October 2021 dockcross uses debian bullseye as a base while the rPi uses debian buster, which is older. Binaries compiled using this dockcross do not work on an rPi because the libraries the applications are compiled against are newer than the ones actually available on the rPi.
+As of October 2021 the Raspberry Pi OS uses Debian buster, GCC 8.3, and glibc 2.28.
+In order to successfully build packages for the rPi a version of dockercross must be built that
+uses (more or less) exactly these software versions. This can be accomplished as follows:
+- start with dockercross at commit `12a662e`, which is the last commit that uses buster
+- replace `linux-armv7/crosstool-ng.config` with the file of the same name in this directory.
+- build the linux-armv7 image (`make linux-armv7`)
 
-#### Fix
+The dockercross image thus generated is generic -- to compile anything.
+It is further customized for SG by installing specific dependencies.
+While it may seem odd to split the customization into two steps it does serve a useful
+purpose. The dockercross image customized for rPi should works for as long as rPi OS is based
+on buster. The additional SG dependencies may well change as the SG software changes.
 
-Build a dockcross image using debian buster:
-- Clone the dockcross repo
-- Check out commit `12a662e`
-- Build the dockcross image using `make linux-armv7-lts`
-- Proceed with building the SG image (`python3 build.py` in the top-level dir)
+## Deprecated
+
+The notes below are old and date from when raspbian used Debian stretch.
 
 ### GCC compatibility issue
 

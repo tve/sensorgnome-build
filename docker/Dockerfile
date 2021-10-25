@@ -1,11 +1,16 @@
 # Raspberry Pi OS used in this build is based on Debian buster. We need to use a version of
 # dockcross that is also based on buster so it uses the same compiler version and the same
 # shared library versions as will be found on the rPi.
-# We end up using the changes made for linux-armv7-lts applied to the last dockcross buster image
-# which was commit 12a662e
-FROM dockcross/linux-armv7-lts
+# We end up using the last dockcross buster image, which was commit 12a662e, with some minor changes
+# applied to use GLIBC2.28 and hard-float.
 
-ENV DEFAULT_DOCKCROSS_IMAGE sensorgnome-armv7-hf
+# use this to pull a pre-built dockcross image
+FROM tvoneicken/linux-armv7-rpi-buster
+
+# use this if you built your own according to the readme
+#FROM dockcross/linux-armv7-rpi-buster
+
+ENV DEFAULT_DOCKCROSS_IMAGE sensorgnome-armv7-rpi-buster
 
 # Dockcross pulls from official debian repos. Seems to work OK. The following
 # causes arm packages to be pulled from the raspberry-pi repos using the debian multiarch
