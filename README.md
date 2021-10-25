@@ -98,11 +98,7 @@ To understand the role of docker in the build process here are a couple of point
 
 ## Notes
 
-Misc notes.
-
 - Applied patch by Evan Jobling: `patch -f -p1 --binary <evanj.patch` -- ignore that one hunk fails
-- To run just the image build step:
-  `python -c 'import build; build.create_image(build.image_name())'`
 - To build an image using checked-out repositories, check them out (clone) into a sibling dir
   to sensorgnome-build (this repo), then set `SRCDIR` in
   `build_packages/package_sensorgnome_support.py` or
