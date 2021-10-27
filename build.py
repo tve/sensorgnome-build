@@ -69,7 +69,7 @@ def docker_build_image(dockerfile_location, dockcross_image, clean=False):
             print(f"[{timestamp()}]: {bcolors.RED}Docker run failed.{bcolors.ENDC}")
         # make it executable
         dockcross_exec_path.chmod(0o755)
-    return true
+    return True
 
 def docker_build_packages(dockcross_exec, clean=True):
     """
