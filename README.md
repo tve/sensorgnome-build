@@ -43,6 +43,24 @@ where the maintainer states "pi-gen serves its primary purpose of building the o
 release images well enough", i.e., it's not designed for customizing.
 Pimod's focus is customization.
 
+## Operation
+
+The image build process is organized as follows:
+
+- a `manifest-xxx' file specifies what is to be built, such as the official OS base image,
+  the packagaes to install, the dockcross image to use, the name of the final image, etc.
+- a `base-xxx.pifile` tells pimod how to construct a "base image" from the official OS image;
+  the intent being that only standard packages get installed that are unlikely to change.
+- a `sg-xxx.pifile` tells pimod how to construct the final sensorgnome image from the base
+  image by adding all the sensorgnome stuff that may often change.
+- the `build.sh` script downloads the original OS image, the sensorgnome packages, and
+  then runs pimod two times to generate first the base image and then the final image.
+- the split into a base image and a final image is motivated by the fact that building the
+  base image takes a long time due to the many packages that get downloaded and updated
+  and it's nice to be able to iterate more quickly on the sensorgnome stuff that changes.
+- the `build.sh` tries to avoid re-downloading or re-building things that are already there,
+  to start from a clean slate remove the `images` and `packages` directories.
+
 ## Docker
 
 The reason the build process uses docker is that it allows carefully constructed OS images with
