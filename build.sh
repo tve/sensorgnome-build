@@ -13,8 +13,8 @@ IMAGE_ZIP=${OS_IMAGE##*/}
 IMAGE_IMG=${IMAGE_ZIP/%.zip/.img}
 echo OS Image: $OS_IMAGE
 if [[ ! -f images/$IMAGE_IMG ]]; then
-    wget -O images/$IMAGE_ZIP $OS_IMAGE
-    (cd images; 7z x $IMAGE_IMG)
+    wget -q -O images/$IMAGE_ZIP $OS_IMAGE
+    (cd images; 7z x $IMAGE_ZIP $IMAGE_IMG)
 fi
 
 # Ensure we have the dockcross script
