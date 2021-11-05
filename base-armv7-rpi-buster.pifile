@@ -1,0 +1,29 @@
+# Create ARMv7 buster image for RaspberryPi Sensorgnome
+
+FROM images/$IMAGE_IMG
+TO images/base-$TYPE-temp.img
+PUMP 400M
+
+# Update OS and sources
+RUN apt-get update
+RUN apt-get upgrade -y
+
+# Install dependencies (should be real dependencies in the packages so we don't have to list
+# them here in duplicate!)
+RUN apt install -y \
+    libc-ares2 \
+    libnode64 \
+    libuv1 \
+    libjson-perl \
+    vsftpd \
+    udhcpc \
+    autossh \
+    gpsd \
+    gpsd-clients \
+    chrony
+
+# Set-up nodejs repository so we can install a recent node.js
+RUN tee /etc/apt/sources.list.d/nodesource.list <<EOF
+deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_12.x buster main
+EOF
+INSTALL 644 nodesource.gpg /usr/share/keyrings/nodesource.gpg

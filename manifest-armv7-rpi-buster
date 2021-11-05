@@ -1,0 +1,30 @@
+# Manifest to build Sensorgnome for ARMv7 Raspberry Pi running buster
+# (his is a shell script)
+
+# dockerhub image for pimod
+PIMOD_IMAGE=tvoneicken/pimod:master
+
+#DOCKCROSS_IMAGE=tvoneicken/sensorgnome-dockcross:armv7-rpi-buster-main
+
+# original operating system image, typ frmo raspberrypi.org
+OS_IMAGE=https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2021-05-28/2021-05-07-raspios-buster-armhf-lite.zip
+
+# image type, gets prefixes by sg- or base- and suffixed by .zip, .img, .pifile, etc
+TYPE=armv7-rpi-buster
+
+# sensorgnome packages to install, either URL or file .in packages subdir
+BP=build_packages/output
+S3=https://motus-builds.s3.us-east-2.amazonaws.com/tve
+SG_DEBS=(
+    $S3/manual-build/fcd_0.5-1.deb
+    $S3/manual-build/find_tags_0.5-1.deb
+    $S3/manual-build/sensorgnome-librtlsdr_0.5-1.deb
+    $S3/manual-build/vamp-alsa-host_0.5-1.deb
+    $S3/manual-build/vamp-plugins_0.5-1.deb
+    $S3/sensorgnome-support/systemd/sg-boot.deb
+    $S3/sensorgnome-support/systemd/sg-gps-clock.deb
+    $S3/sensorgnome-support/systemd/sg-ssh-tunnel.deb
+    $S3/sensorgnome-support/systemd/sg-udev-usb.deb
+    $S3/sensorgnome-support/systemd/sg-wifi-button.deb
+    $S3/sensorgnome-control/master/sg-control.deb
+)

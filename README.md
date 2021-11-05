@@ -1,5 +1,52 @@
 # Build Sensorgnome Images and Packages
 
+This repository contains scripts to build a complete Sensorgnome flash image,
+currently only for Raspberry Pi.
+
+The whole build process from scratch consists of 3 steps:
+- build a dockcross docker image to be able to cross-compile for the target architecture & OS
+- build all the sensorgnome packages
+- build a bootable flash image
+
+This repository only deals with the third step. The first step is found in the
+sensorgnome-dockcross repo, which results in a docker image on DockerHub
+(currently tvoneicken/sensorgnome-dockcross:armv7-rpi-debian-main).
+Unless this docker images needs to be rebuilt the easiest is to use the DockerHub one.
+
+The second step should be handled within all the respective repositories and ideally each
+repo should have a github worflow that automatically produces the packages on push.
+Until all repos are converted to this new scheme, some are generated using the `build_packages`
+subdir in this repo.
+The outcome of all this is a bunch of packages in some downloadable location, currently
+`https://https://motus-builds.s3.us-east-2.amazonaws.com/<owner>/<repo>/<branch>/*.deb`
+
+The final step is handled in this repo using pimod. Pimod uses a docker container and QEMU
+(a processor emulator) to modify an existing image.
+This is used to load up an official Raspberry Pi OS image, install all the packages
+produced in the previous step, apply some final tweaks, and save the result as a
+bootable Sensorgnome image.
+
+Note: the previous version of all this used pi-gen to produce the image and there are a
+few more tools available to do the same. Overall the focus should be on installing the
+debian packages and they should each do everything necessary for their operation without
+requiring additional build steps here. The result ought to be that which exact tool is used
+in the end is unimportant. The switch from pi-gen was motivated by the comments in
+https://github.com/RPi-Distro/pi-gen/issues/486
+where the maintainer states "pi-gen serves its primary purpose of building the official
+release images well enough", i.e., it's not designed for customizing.
+Pimod's focus is customization.
+
+### Tips
+
+- to mount an image:
+```
+  sudo losetup -f images/blah.img --show
+  sudo kpartx -avs /dev/loopN
+  sudo mount /dev/mapper/loopNp1 /mnt
+```
+
+# Old version
+
 This repository contains tools to build SensorGnome software packages for the Raspberry Pi
 (potentially also BeagleBone) and to build a complete Raspberry Pi OS image with the
 SensorGnome software preinstalled.

@@ -1,0 +1,36 @@
+# Create ARMv7 buster image for RaspberryPi Sensorgnome
+
+FROM images/base-$TYPE.img
+TO images/sg-$TYPE-temp.img
+
+PUMP 1000M
+
+# Create data directories, these will be copied to the new partition on first boot
+mkdir -p /data/config /data/SGdata
+
+# Install sensorgnome packages
+RUN dpkg --print-architecture
+RUN mkdir -p /tmp/packages
+for f in $SG_DEBS; do
+  INSTALL $f /tmp/packages/${f##*/}
+done
+RUN ls -ls /tmp/packages
+RUN bash -c 'apt install -y /tmp/packages/*.deb'
+RUN apt-get clean
+
+# Set default password
+RUN chpasswd <<<pi:sensorgnome
+
+# Enable SSH (0 == success status code - enable)
+RUN raspi-config nonint do_ssh 0
+
+# Set US/Eastern timezone
+RUN ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
+
+# Reboot on kernel panic
+RUN tee -a /etc/sysctl.conf <<<kernel.panic=10
+
+# Hack to prevent resizing of root partition on first boot. This allows us to create a data
+# partition. The PUMP statement above creates a large enough root partition.
+# The hack consists of making the check_commands function return a failure.
+RUN sed -i -e 's/cut sed/cut foobar sed/' /usr/lib/raspi-config/init_resize.sh
