@@ -46,7 +46,7 @@ jobs:
 
       - name: Upload images to AWS S3 repo
         run: |
-          aws s3 sync --acl public-read images/sg*.img s3://${{env.S3_PATH}}/$GIT_REF/
+          aws s3 sync --acl public-read images s3://${{env.S3_PATH}}/$GIT_REF/
 
       - name: Create annotation with link to images on S3
         run: |
