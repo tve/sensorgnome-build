@@ -27,7 +27,7 @@ fi
 if [[ ! -f images/base-$TYPE.img ]]; then
     echo ""
     echo "*** Building base image: images/base-$TYPE.img"
-    docker run -ti --rm --privileged \
+    docker run --rm --privileged \
         -v $PWD:/sg \
         -e PATH=/pimod:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
         -e IMAGE_IMG=$IMAGE_IMG \
@@ -65,7 +65,7 @@ SG_DEBS="$pp"
 echo ""
 echo "*** Building sensorgnome image: images/sg-$TYPE.img"
 set -x
-docker run -ti --rm --privileged \
+docker run --rm --privileged \
     -v $PWD:/sg \
     -e PATH=/pimod:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     -e TYPE=$TYPE \
