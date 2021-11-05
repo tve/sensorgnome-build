@@ -16,11 +16,11 @@ TYPE=armv7-rpi-buster
 BP=build_packages/output
 S3=https://motus-builds.s3.us-east-2.amazonaws.com/tve
 SG_DEBS=(
-    $S3/manual-build/fcd_0.5-1.deb
-    $S3/manual-build/find_tags_0.5-1.deb
-    $S3/manual-build/sensorgnome-librtlsdr_0.5-1.deb
-    $S3/manual-build/vamp-alsa-host_0.5-1.deb
-    $S3/manual-build/vamp-plugins_0.5-1.deb
+    $S3/fcd/rpi/fcd.deb
+    $S3/find_tags/find-tags-unifile.deb
+    $S3/sensorgnome-librtlsdr/sg/sensorgnome-librtlsdr.deb
+    $S3/vamp-alsa-host/rpi/vamp-alsa-host.deb
+    $S3/vamp-plugins/master/vamp-plugins.deb
     $S3/sensorgnome-support/systemd/sg-boot.deb
     $S3/sensorgnome-support/systemd/sg-gps-clock.deb
     $S3/sensorgnome-support/systemd/sg-ssh-tunnel.deb

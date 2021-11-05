@@ -8,22 +8,24 @@ PUMP 400M
 RUN apt-get update
 RUN apt-get upgrade -y
 
-# Install dependencies (should be real dependencies in the packages so we don't have to list
-# them here in duplicate!)
+# Install some apps, they should be pulled in via dependencies but doing it here causes the
+# installation time to be absorbed into the base build.
 RUN apt install -y \
-    libc-ares2 \
-    libnode64 \
-    libuv1 \
-    libjson-perl \
     vsftpd \
     udhcpc \
     autossh \
     gpsd \
     gpsd-clients \
     chrony
+#    libc-ares2 \
+#    libnode64 \
+#    libuv1 \
+#    libjson-perl \
 
-# Set-up nodejs repository so we can install a recent node.js
+# Set-up nodejs repository and install a recent node.js
+# This would be installed later by a package dependency but we do it here 'cause it takes a while.
 RUN tee /etc/apt/sources.list.d/nodesource.list <<EOF
 deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_12.x buster main
 EOF
 INSTALL 644 nodesource.gpg /usr/share/keyrings/nodesource.gpg
+RUN apt install -y nodejs
