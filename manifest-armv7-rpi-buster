@@ -17,7 +17,7 @@ BP=build_packages/output
 S3=https://motus-builds.s3.us-east-2.amazonaws.com/tve
 SG_DEBS=(
     $S3/fcd/rpi/fcd.deb
-    $S3/find_tags/find-tags-unifile.deb
+    $S3/find_tags/find_tags_unifile/find-tags-unifile.deb
     $S3/sensorgnome-librtlsdr/sg/sensorgnome-librtlsdr.deb
     $S3/vamp-alsa-host/rpi/vamp-alsa-host.deb
     $S3/vamp-plugins/master/vamp-plugins.deb
