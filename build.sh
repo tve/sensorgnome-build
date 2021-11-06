@@ -74,8 +74,9 @@ docker run --rm --privileged \
     $PIMOD_IMAGE \
     pimod.sh /sg/sg-$TYPE.pifile
 set +x
-mv -f images/sg-$TYPE-temp.img images/sg-$TYPE.img
+V=$(date +%Y-%j)
+mv -f images/sg-$TYPE-temp.img images/sg-$TYPE-$V.img
 
 echo ""
-echo "*** sensorgnome image built: images/sg-$TYPE.img"
-ls -lh images/sg-$TYPE.img
+echo "*** sensorgnome image built: images/sg-$TYPE-$V.img"
+ls -lh images/sg-$TYPE-$V.img
