@@ -7,6 +7,8 @@ PUMP 1000M
 
 # Create data directories, these will be copied to the new partition on first boot
 mkdir -p /data/config /data/SGdata
+date >/data/config/created
+date >/data/SGdata/created
 
 # Install sensorgnome packages
 RUN dpkg --print-architecture
