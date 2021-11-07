@@ -14,13 +14,14 @@ RUN apt install -y \
     vsftpd \
     udhcpc \
     autossh \
+    sqlite3 \
     gpsd \
     gpsd-clients \
-    chrony
+    chrony \
+    libjson-perl
 #    libc-ares2 \
 #    libnode64 \
 #    libuv1 \
-#    libjson-perl \
 
 # Set-up nodejs repository and install a recent node.js
 # This would be installed later by a package dependency but we do it here 'cause it takes a while.

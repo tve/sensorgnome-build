@@ -10,6 +10,9 @@ mkdir -p /data/config /data/SGdata
 date >/data/config/created
 date >/data/SGdata/created
 
+# Set build version
+RUN tee /etc/sensorgnome_version <<<"SG $V"
+
 # Install sensorgnome packages
 RUN dpkg --print-architecture
 RUN mkdir -p /tmp/packages

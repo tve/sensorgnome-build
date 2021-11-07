@@ -64,17 +64,18 @@ SG_DEBS="$pp"
 # Create sensorgnome image
 echo ""
 echo "*** Building sensorgnome image: images/sg-$TYPE.img"
+V=$(date +%Y-%j)
 set -x
 docker run --rm --privileged \
     -v $PWD:/sg \
     -e PATH=/pimod:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     -e TYPE=$TYPE \
+    -e V=$V \
     -e "SG_DEBS=$SG_DEBS" \
     --workdir=/sg \
     $PIMOD_IMAGE \
     pimod.sh /sg/sg-$TYPE.pifile
 set +x
-V=$(date +%Y-%j)
 mv -f images/sg-$TYPE-temp.img images/sg-$TYPE-$V.img
 
 echo ""
