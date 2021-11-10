@@ -7,6 +7,7 @@ fi
 
 set -x
 cp network.txt /run/media/$USER/boot/
+cp SG_tag_database.sqlite /run/media/$USER/boot/
 
 PI=/run/media/$USER/rootfs/home/pi
 mkdir -p $PI/.ssh
@@ -14,3 +15,4 @@ chmod 700 $PI/.ssh
 cat ~/.ssh/*.pub >$PI/.ssh/authorized_keys
 chmod 644 $PI/.ssh/*
 chown -R 1000:1000 $PI/.ssh
+sync
