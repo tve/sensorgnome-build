@@ -7,7 +7,7 @@ source $MANIFEST
 # as opposed to later in the midst of something else
 docker pull $PIMOD_IMAGE
 
-# Extract operating system image frmo zip archive
+# Extract operating system image from zip archive
 mkdir -p images
 IMAGE_ZIP=${OS_IMAGE##*/}
 IMAGE_IMG=${IMAGE_ZIP/%.zip/.img}
