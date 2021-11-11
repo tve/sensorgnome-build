@@ -5,3 +5,4 @@ wpa_supplicant.conf
 OLD
 network.txt
 SG_tag_database.sqlite
+spellright.dict
