@@ -64,7 +64,7 @@ SG_DEBS="$pp"
 # Create sensorgnome image
 echo ""
 echo "*** Building sensorgnome image: images/sg-$TYPE.img"
-V=$(date +%Y-%j)
+V=$(TZ=PST8PDT date +%Y-%j)
 set -x
 docker run --rm --privileged \
     -v $PWD:/sg \
