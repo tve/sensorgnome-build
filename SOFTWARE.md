@@ -48,13 +48,18 @@ just start the hot-spot and go from there!
   select the SDcard as destination, start the flashing process.
 - Remove the SDcard, wait a couple of seconds, plug it back in: this will now mount the
   filesystems so the files on the boot partition can be accessed.
-  On Linux the mount point is typically `/run/media/<user>/boot`.
+  - On Linux the mount point is typically `/run/media/<user>/boot`.
+  - On Windows you will see a "boot" disk and a "USB drive" or similar disk. Do not let
+    Windows "Verify and fix" a partition. (The "USB drive" corresponds to the Linux root
+    partition, which Windows cannot mount.) After first boot there will be a third
+    "DATA" drive showing up.
+  - On MacOS ...
 - Edit configuration files on the boot partition: `deployment.txt`, `network.txt`, and other
   `*.txt` files. See below for more info.
 - Optionally copy a tag database to `SG_tag_database.sqlite` on the boot partition.
 - Remove the SDcard and plug it into the rPi, power on the rPi. It will take up to a minute
   for the rPi to initialize and connect to the network or to react to button presses.
-- Verify connectivity to the rPi using `ping sg.local` or `ping 192.168.7.2`: see more below
+- Verify connectivity to the rPi using `ping sgpi.local` or `ping 192.168.7.2`: see more below
   (or fly blind and proceed to the next step).
 - Open your browser to `http://<sgname>/` where `sgname` is the hostname or IP address of your
   new Sensorgnome as discovered in the previous step (or guessed).
@@ -89,7 +94,10 @@ In the future the Sensorgnome's web interface should allow editing...
 ### Verifying connectivity
 
 Pointing a web browser at the Sensorgnome on first boot is efficient if it works, but it does
-not provide any information when it doesn't work.
+not provide any information when it doesn't work. Note that sometimes it takes a while for
+your laptop/phone to find `sgpi.local` so have some patience, most browsers auto-reload but
+hitting the reload button a few times can't hurt.
+
 The following steps are suggested for troubleshooting whether the problem has to do with
 booting the rPi, connecting to the network, finding the Sensorgnome on the network, or the
 web server not starting on the Sensorgnome.
@@ -98,8 +106,9 @@ web server not starting on the Sensorgnome.
 
 Bring up a command-line/`cmd`/terminal window and enter the command `ping <sgname>`,
 where `sgname` is the hostname or IP address of the new Sensorgnome.
-In all three types of connectivity (WiFi, Ethernet, hot-spot) `sg.local` _should_ work.
-In the hot-spot case `192.168.7.2` also works.
+In all three types of connectivity (WiFi, Ethernet, hot-spot) `sgpi.local` _should_ work.
+In the hot-spot case `192.168.7.2` also works, this IP address does _not_ work for the other
+two cases.
 
 When using WiFi the network's access point user interface may be able to show that the
 Sensorgnome connected and what it's IP address is.
@@ -134,7 +143,7 @@ avoid reconfiguring the laptop. If you use a phone:
   the Sensorgnome's hot-spot doesn't have internet, that is correct, but as a result, if you
   have mobile/cellular data on, Android will use that to route data and your web browser will
   not be able to reach the Sensorgnome's web site.
-- Be sure you use `http://192/168.7.2` (or `http://sg.local`) as URL, emphasis on `http`,
+- Be sure you use `http://192/168.7.2` (or `http://sgpi.local`) as URL, emphasis on `http`,
   so your browser doesn't automagically try https.
 - If one device shows the hot-spot and another doesn't it is possible that the hot-spot
   is on 5Ghz, this happens if the rPi tries to connect to a 5Ghz access point at the same
@@ -152,5 +161,35 @@ a network scan.
   - Mac/Linux command-line: `avahi-browse -alt` _should_ show the SG as `sg ... Workstation`,
     `avahi-browse -altr` will also show IP addresses.
   - Mac command-line: `dns-sd -B _ssh._tcp` (untested)
-- On Windows, if `.local` hostnames don't work install iTunes or the
+  - Windows command-line: supposedly `dns-sd` works, but it doesn't on my machine...
+- Windows 10 has built-in support for mDNS/Bonjour/`.local` hostnames.
+  On older versions install iTunes or the
   [Bonjour Print Services for Windows](http://support.apple.com/kb/DL999).
+
+### FAQ
+
+#### Why a disk image?
+
+The reason the Sensorgnome release is distributed as disk images is that the system requires
+2 disk partitions (two filesystems).
+One small FAT32 partition which the boot loader understands and can load the initial program from.
+And then one large partition that has a proper Linux filesystem that is way too complex for a
+bootloader and that the entire system runs from (and that "gets started" by that "initial program").
+The image packs everything together (and is the standard way of doing these things).
+
+Previous versions of Sensorgnome had only one large FAT32 partition occupying the entire SDcard
+and instead of having a second partition for the linux filesystem they put that
+inside one big file within the FAT32 partition.
+So it was a bit like nested dolls.
+Technically that works, but the performance suffers because every filesystem access
+requires two levels of mapping and access, and it's very unconventional though creative.
+
+#### Why does flashing require root/admin/superuser permissions?
+
+In order to write an image to a disk one has to read/write to the raw disk, which inherently
+provides access to all the data that may be on the disk.
+That's a security issue in that it circumvents all the access controls that the operating
+system normally imposes on disk access.
+For this reason the operating system only allows the super-user/root/admin to access raw disk.
+And that's why Etcher (and any program that writes an image) has to ask for this permission.
+

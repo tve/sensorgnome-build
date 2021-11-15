@@ -47,5 +47,5 @@ RUN sed -i -e 's/cut sed/cut foobar sed/' /usr/lib/raspi-config/init_resize.sh
 RUN ls -R /data
 RUN bash -c 'mv /data/config/*.txt /boot'
 
-# Change the avahi/bonjour/mDNS hostname to sg.local and enable advertising
-RUN bash -c 'sed -ir -e "/host-name/s/.*/host-name=sg/" -e "/publish-workstation/s/no/yes/" /etc/avahi/avahi-daemon.conf'
+# Change the avahi/bonjour/mDNS hostname to sgpi.local and enable advertising
+RUN bash -c 'sed -ir -e "/host-name/s/.*/host-name=sgpi/" -e "/publish-workstation/s/no/yes/" /etc/avahi/avahi-daemon.conf'
