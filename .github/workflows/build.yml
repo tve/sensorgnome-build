@@ -44,6 +44,10 @@ jobs:
           role-session-name: GithubActionsMotus
           aws-region: ${{ env.S3_REGION }}
 
+      - name: zip Compress images
+        run: for f in images/*; do zip -r $f.zip $f; rm $f; done
+        shell: bash
+
       - name: Upload images to AWS S3 repo
         run: |
           aws s3 sync --acl public-read images s3://${{env.S3_PATH}}/$GIT_REF/
