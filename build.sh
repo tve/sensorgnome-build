@@ -7,38 +7,21 @@ source $MANIFEST
 # as opposed to later in the midst of something else
 docker pull $PIMOD_IMAGE
 
-# Extract operating system image from zip archive
-mkdir -p images
-IMAGE_ZIP=${OS_IMAGE##*/}
-IMAGE_IMG=${IMAGE_ZIP/%.zip/.img}
-echo OS Image: $OS_IMAGE
-if [[ ! -f images/$IMAGE_IMG ]]; then
-    wget -q -O images/$IMAGE_ZIP $OS_IMAGE
-    (cd images; 7z x $IMAGE_ZIP $IMAGE_IMG)
-fi
-
-# Ensure we have the dockcross script
-#docker pull $DOCKCROSS_IMAGE
-#DOCKCROSS_SCRIPT=${DOCKCROSS_IMAGE##*/}
-#DOCKCROSS_SCRIPT=$PWD/${DOCKCROSS_SCRIPT/:/-}
-#docker run --rm $DOCKCROSS_IMAGE >$DOCKCROSS_SCRIPT
-
 # If we don't have it, create the base image
-if [[ ! -f images/base-$TYPE.img ]]; then
+PIFILE=base-$TYPE.pifile
+BASE_ZIP=base-$TYPE-$(cksum $PIFILE | cut -f1 -d" ").zip
+BASE_IMG=base-$TYPE.img
+if [[ -f images/$BASE_ZIP ]]; then
     echo ""
-    echo "*** Building base image: images/base-$TYPE.img"
-    docker run --rm --privileged \
-        -v $PWD:/sg \
-        -e PATH=/pimod:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
-        -e IMAGE_IMG=$IMAGE_IMG \
-        -e TYPE=$TYPE \
-        --workdir=/sg \
-        $PIMOD_IMAGE \
-        pimod.sh /sg/base-$TYPE.pifile
-    mv images/base-$TYPE-temp.img images/base-$TYPE.img
+    echo "*** Extracting base image: $BASE_IMG"
+    (cd images; rm -f $BASE_IMG; 7z x -bd $BASE_ZIP $BASE_IMG)
 else
+    echo images/$BASE_ZIP not found
     echo ""
-    echo "*** Using base image: images/base-$TYPE.img"
+    echo "*** Building base image: $BASE_IMG"
+    echo "Hit ctrl-C to cancel...."
+    sleep 5
+    ./build-baseimg.sh $MANIFEST
 fi
 
 # Fetch remote packages, iterate through $SG_DEBS and wget the ones starting with http
@@ -62,9 +45,9 @@ done
 SG_DEBS="$pp"
 
 # Create sensorgnome image
-echo ""
-echo "*** Building sensorgnome image: images/sg-$TYPE.img"
 V=$(TZ=PST8PDT date +%Y-%j)
+echo ""
+echo "*** Building sensorgnome image: images/sg-$TYPE-$V.zip"
 set -x
 docker run --rm --privileged \
     -v $PWD:/sg \
@@ -77,7 +60,9 @@ docker run --rm --privileged \
     pimod.sh /sg/sg-$TYPE.pifile
 set +x
 mv -f images/sg-$TYPE-temp.img images/sg-$TYPE-$V.img
+rm -f images/sg-$TYPE-$V.zip
+7z a images/sg-$TYPE-$V.zip images/sg-$TYPE-$V.img
 
 echo ""
 echo "*** sensorgnome image built: images/sg-$TYPE-$V.img"
-ls -lh images/sg-$TYPE-$V.img
+ls -lh images/sg-$TYPE-$V.*

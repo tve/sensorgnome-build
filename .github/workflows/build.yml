@@ -14,7 +14,7 @@ permissions:
   contents: write
 
 jobs:
-  build-all:
+  build-base:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -23,18 +23,9 @@ jobs:
           path: .
 
       # use branch or tag name in S3 upload path
-      - run: echo GIT_REF=${{github.ref}} | sed -e 's;refs/[^/]*/;;' >>$GITHUB_ENV
-
-      - name: Build image
-        run: ./build.sh
-        shell: bash
-      - run: ls -ls images
-
-      # Upload github artifacts for debugging purposes
-      - uses: actions/upload-artifact@v2
-        with:
-          name: images
-          path: images
+      - run: |
+          echo GIT_REF=${{github.ref}} | sed -e 's;refs/[^/]*/;;' >>$GITHUB_ENV
+          echo BASE_ZIP=$(./build-baseimg.sh --name) >>$GITHUB_ENV
 
       - name: Configure AWS Credentials
         # See https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
@@ -44,15 +35,80 @@ jobs:
           role-session-name: GithubActionsMotus
           aws-region: ${{ env.S3_REGION }}
 
-      - name: zip Compress images
-        run: for f in images/*; do zip -r $f.zip $f; rm $f; done
+      - name: Fetch existing image from S3
+        run: |
+          mkdir -p images
+          aws s3 cp --no-progress s3://$S3_PATH/$GIT_REF/$BASE_ZIP images || echo "BUILD=yes" >>$GITHUB_ENV
+          ls -lsh images
+        
+      - name: Build image, if necessary
+        run: ./build-baseimg.sh --if-missing
         shell: bash
+        if: env.BUILD == 'yes'
+
+      # Upload github artifacts for debugging purposes
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{env.BASE_ZIP}}
+          path: images/${{env.BASE_ZIP}}
+        if: env.BUILD == 'yes'
 
       - name: Upload images to AWS S3 repo
         run: |
-          aws s3 sync --acl public-read images s3://${{env.S3_PATH}}/$GIT_REF/
+          aws s3 cp --acl public-read --no-progress images/$BASE_ZIP s3://$S3_PATH/$GIT_REF/$BASE_ZIP
+        if: env.BUILD == 'yes'
 
       - name: Create annotation with link to images on S3
         run: |
-          echo "https://${{env.S3_PATH}}/$GIT_REF/"
-          echo "::notice title=Images::https://${{env.S3_PATH}}/$GIT_REF/"
+          echo "https://$S3_PATH/$GIT_REF/$BASE_ZIP"
+          echo "::notice title=Base image::https://$S3_PATH/$GIT_REF/$BASE_ZIP"
+  
+
+  build-image:
+    runs-on: ubuntu-latest
+    needs: build-base
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: .
+
+      # use branch or tag name in S3 upload path
+      - run: |
+          echo GIT_REF=${{github.ref}} | sed -e 's;refs/[^/]*/;;' >>$GITHUB_ENV
+          echo BASE_ZIP=$(./build-baseimg.sh --name) >>$GITHUB_ENV
+
+      - name: Configure AWS Credentials
+        # See https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{env.AWS_ROLE}}
+          role-session-name: GithubActionsMotus
+          aws-region: ${{ env.S3_REGION }}
+
+      - name: Fetch existing base image from S3
+        run: |
+          mkdir -p images
+          aws s3 cp --no-progress s3://$S3_PATH/$GIT_REF/$BASE_ZIP images
+          ls -lsh images
+
+      - name: Build image
+        run: ./build.sh
+        shell: bash
+      - run: ls -ls images
+      - run: echo SG_ZIP=$(cd images; echo sg-*.zip) >>$GITHUB_ENV
+
+      # Upload github artifacts for debugging purposes
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{env.SG_ZIP}}
+          path: images/${{env.SG_ZIP}}
+
+      - name: Upload images to AWS S3 repo
+        run: |
+          aws s3 cp --acl public-read --no-progress images/$SG_ZIP s3://$S3_PATH/$GIT_REF/$SG_ZIP 
+
+      - name: Create annotation with link to images on S3
+        run: |
+          echo "https://$S3_PATH/$GIT_REF/$SG_ZIP"
+          echo "::notice title=Sensorgnome Image::https://$S3_PATH/$GIT_REF/$SG_ZIP "
