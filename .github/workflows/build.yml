@@ -60,8 +60,9 @@ jobs:
 
       - name: Create annotation with link to images on S3
         run: |
-          echo "https://$S3_PATH/$GIT_REF/$BASE_ZIP"
-          echo "::notice title=Base image::https://$S3_PATH/$GIT_REF/$BASE_ZIP"
+          S3=${S3_PATH/\//.s3.amazonaws.com\/}
+          echo "https://$S3/$GIT_REF/$BASE_ZIP"
+          echo "::notice title=Base image::https://$S3/$GIT_REF/$BASE_ZIP"
   
 
   build-image:
@@ -110,5 +111,6 @@ jobs:
 
       - name: Create annotation with link to images on S3
         run: |
-          echo "https://$S3_PATH/$GIT_REF/$SG_ZIP"
-          echo "::notice title=Sensorgnome Image::https://$S3_PATH/$GIT_REF/$SG_ZIP "
+          S3=${S3_PATH/\//.s3.amazonaws.com\/}
+          echo "https://$S3/$GIT_REF/$SG_ZIP"
+          echo "::notice title=Sensorgnome Image::https://$S3/$GIT_REF/$SG_ZIP "
