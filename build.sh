@@ -61,8 +61,8 @@ docker run --rm --privileged \
 set +x
 mv -f images/sg-$TYPE-temp.img images/sg-$TYPE-$V.img
 rm -f images/sg-$TYPE-$V.zip
-zip r images/sg-$TYPE-$V.zip images/sg-$TYPE-$V.img
-#7z a images/sg-$TYPE-$V.zip images/sg-$TYPE-$V.img
+(cd images; zip r sg-$TYPE-$V.zip sg-$TYPE-$V.img)
+#(cd images; 7z a sg-$TYPE-$V.zip sg-$TYPE-$V.img)
 
 echo ""
 echo "*** sensorgnome image built: images/sg-$TYPE-$V.img"
