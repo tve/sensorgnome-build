@@ -8,7 +8,7 @@ correct operation.
 Flashing the SDcard
 -------------------
 
-For reliable long term operation in a Rasperry Pi a quality SDcard is highly recommended.
+For reliable long term operation in a Raspberry Pi a quality SDcard is highly recommended.
 The "endurance" series from Samsung or Sandisk are good examples,
 the Samsung EVO series is OK too.
 In 2021 a Samsung PRO Endurance 32GB card costs $9 on Amazon US, 
@@ -64,7 +64,7 @@ just start the hot-spot and go from there!
 - Open your browser to `http://<sgname>/` where `sgname` is the hostname or IP address of your
   new Sensorgnome as discovered in the previous step (or guessed).
 - Once the web page appears your initial installation is complete.
-  Please proceed to [Configure and Verify Receivers]() (not ready yet).
+  Please proceed to [Configure and Verify Receivers](RECEIVER-CONFIG.md).
 
 ### Configuration files
 
