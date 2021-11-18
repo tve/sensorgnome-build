@@ -1,10 +1,10 @@
-Receiver Configuration
-======================
+Radio Dongle Configuration
+==========================
 
-Once the Sensorgnome operating system is up and running the various receivers need
+Once the Sensorgnome operating system is up and running the various radio dongles need
 to be plugged in, configured, and their proper operation verified.
 
-To verify that the receivers are operating properly a simple web browser that can bring up the
+To verify that the radios are operating properly a simple web browser that can bring up the
 Sensorgnome's UI web page is sufficient.
 
 USB port mapping
@@ -16,9 +16,9 @@ Sensorgnome software.
 
 While establishing the port mapping may seem like a detail it is actually extremely important
 because it is the most critical link in communicating antenna orientation to Motus.
-When detection data is evaluated the antenna information is often used to determine animal
+When detection data is evaluated, the antenna information is often used to determine animal
 travel direction.
-If antennas, receivers or ports are misidentified the result is bad science!
+If antennas, radios or ports are misidentified the result is bad science!
 
 ### Background
 
@@ -34,7 +34,7 @@ and the hub's ports are numbered 4 through 7 or 4 through 10 depending on whethe
 or a 7-port hub.
 
 The software uses an entirely different port numbering, which consists of the _path_ through ports
-and hubs to reach a device. For example, a receiver plugged into port 3 of a hub, itself plugged
+and hubs to reach a device. For example, a radio plugged into port 3 of a hub, itself plugged
 into port 4 of an rPi ends up with the path `1.4.3` (the leading 1 refers to the first root
 hub).
 
@@ -49,7 +49,8 @@ To perform the mapping follow these steps:
 - bring up the sensorgnome's web UI and locate the "Devices" section
 - unplug all USB devices (leaving any hub plugged in)
 - plug one device into the desired port, 
-- Watch the device appearing in the Web UI's "Devices" section, note the path shown in parentheses (ex: 1.3.4)
+- Watch the device appearing in the Web UI's "Devices" section, note the path shown in
+  parentheses (ex: 1.3.4)
 - Make a note of the mapping from path to desired port, ex: "1.3.4 -> 5" to map that path to port 5
 - Plug each remaining USB device in one at a time and take note of the desired mapping
 - SSH into the sensorgnome and edit `/data/config/usb-port-map.txt` or move the SDcard to your
@@ -74,7 +75,7 @@ Verifying successful reception
 To verify the correct end-to-end operation of radios some test tags are necessary.
 For Lotek tags a tag database with the test tags is recommended but not essential.
 
-To verify the reception of Lotek tags:
+### Verify the reception of Lotek tags
 
 - Ensure at least one FunCube or RTLSDR radio is plugged in and shows in the Web UI Devices
   section with a port numbered 1 through 10 (i.e. not shown in red)
@@ -88,7 +89,7 @@ To verify the reception of Lotek tags:
 - Note that if you have multiple radios plugged in you should see live pulses and live known
   tags from all of them, so you should see more than 4 lines appear at once.
 
-To verify the reception of CTT tags:
+### Verify the reception of CTT tags
 
 - Ensure at least one CTT MOTUS adapter or equivalent is plugged in and shows in the Web UI
   Devices section with a port numbered 1 through 10 (i.e. not shown in red)

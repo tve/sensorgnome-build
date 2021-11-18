@@ -64,7 +64,7 @@ just start the hot-spot and go from there!
 - Open your browser to `http://<sgname>/` where `sgname` is the hostname or IP address of your
   new Sensorgnome as discovered in the previous step (or guessed).
 - Once the web page appears your initial installation is complete.
-  Please proceed to [Configure and Verify Receivers](RECEIVER-CONFIG.md).
+  Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
 
 ### Configuration files
 
