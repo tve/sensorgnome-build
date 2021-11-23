@@ -193,3 +193,17 @@ system normally imposes on disk access.
 For this reason the operating system only allows the super-user/root/admin to access raw disk.
 And that's why Etcher (and any program that writes an image) has to ask for this permission.
 
+#### What are all the partitions on the SDcard for?
+
+When the SDcard is initially flashed from the image there are two partitions/filesystems:
+
+- a 256MB `boot` partition holding a FAT32 filesystem that is used in the initial boot stage.
+- an approx 3GB `rootfs` partition holding an EXT4 Linux filesystem with the operating system,
+  this partition cannot (easily) be mounted on a Windows system and may show up as empty or
+  unused, but it certainly isn't!
+- the rest of the SDcard is empty/unpartitioned.
+
+When the SDcard is first booted a third partition is created:
+
+- a large `data` partition filling the rest of the SDcard (e.g. about 26GB on a 32GB card) holding
+  a FAT32 filesystem that is used to store the Sensorgnome's config and data.
