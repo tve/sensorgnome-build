@@ -40,12 +40,5 @@ RUN tee -a /etc/sysctl.conf <<<kernel.panic=10
 # The hack consists of making the check_commands function return a failure.
 RUN sed -i -e 's/cut sed/cut foobar sed/' /usr/lib/raspi-config/init_resize.sh
 
-# The standard install of sensorgnome packages places config files into /data/config, but
-# here this is in the root partition since the /data partition doesn't exist yet. So move
-# the files to /boot where the user can edit them (FAT32 partition) and then they get copied
-# to the /data partition on first boot (what a dance...).
-RUN ls -R /data
-RUN bash -c 'mv /data/config/*.txt /boot'
-
 # Change the avahi/bonjour/mDNS hostname to sgpi.local and enable advertising
 RUN bash -c 'sed -ir -e "/host-name/s/.*/host-name=sgpi/" -e "/publish-workstation/s/no/yes/" /etc/avahi/avahi-daemon.conf'
