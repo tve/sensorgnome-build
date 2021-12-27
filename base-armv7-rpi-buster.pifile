@@ -5,9 +5,11 @@ TO images/base-$TYPE-temp.img
 PUMP 400M
 
 # Set-up nodejs repository so we can get a modern version
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
 RUN tee /etc/apt/sources.list.d/nodesource.list <<EOF
-deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_14.x buster main
+deb https://deb.nodesource.com/node_14.x buster main
 EOF
+#deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_14.x buster main
 
 # Update OS and sources
 RUN apt-get update
@@ -15,6 +17,7 @@ RUN apt-get upgrade -y
 
 # Install some apps, they should be pulled in via dependencies but doing it here causes the
 # installation time to be absorbed into the base build.
+RUN apt remove npm -y
 RUN apt install -y \
     vsftpd \
     udhcpc \
@@ -24,5 +27,4 @@ RUN apt install -y \
     gpsd-clients \
     chrony \
     libjson-perl \
-    nodejs \
-    npm
+    nodejs
