@@ -4,6 +4,11 @@ FROM images/$IMAGE_IMG
 TO images/base-$TYPE-temp.img
 PUMP 400M
 
+# Set-up nodejs repository so we can get a modern version
+RUN tee /etc/apt/sources.list.d/nodesource.list <<EOF
+deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_14.x buster main
+EOF
+
 # Update OS and sources
 RUN apt-get update
 RUN apt-get upgrade -y
@@ -18,15 +23,6 @@ RUN apt install -y \
     gpsd \
     gpsd-clients \
     chrony \
-    libjson-perl
-#    libc-ares2 \
-#    libnode64 \
-#    libuv1 \
-
-# Set-up nodejs repository and install a recent node.js
-# This would be installed later by a package dependency but we do it here 'cause it takes a while.
-RUN tee /etc/apt/sources.list.d/nodesource.list <<EOF
-deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_12.x buster main
-EOF
-INSTALL 644 nodesource.gpg /usr/share/keyrings/nodesource.gpg
-RUN apt install -y nodejs
+    libjson-perl \
+    nodejs \
+    npm
