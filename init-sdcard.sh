@@ -1,6 +1,6 @@
 #! /bin/bash -e
 if [[ ! -d /run/media/$USER/boot ]]; then
-    echo "Can find SD card at /run/media/$USER/boot"
+    echo "Cannot find SD card at /run/media/$USER/boot"
     echo "Did you perhaps forget to remove and re-insert the SD card after flashing?"
     exit 1
 fi
