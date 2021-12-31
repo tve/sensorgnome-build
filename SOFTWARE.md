@@ -2,7 +2,7 @@ SensorGnome Software Installation
 =================================
 
 The initial installation consists of flashing an SDcard with a Sensorgnome release image,
-editing some configuration files, booting the rPi, connecting to it, and verifying the
+booting the rPi, connecting to it, configuring it via the web UI, and verifying the
 correct operation.
 
 Flashing the SDcard
@@ -28,43 +28,47 @@ As of this writing there is no official download location for Sensorgnome images
 the provisional location is:
 [https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-buster-2021-XXX.img](https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-buster-2021-XXX.img).
 
-After booting the Sensorgnome a network connection is required in order to verify its operation.
-There are several options:
+After booting the Sensorgnome a network connection and a web browser are required in order to
+verify its operation. There are several options:
 
-- Configure the `network.txt` file in the boot partition with a local WiFi access point
-  SSID/passphrase so it joins that network.
-- Use an Ethernet cable to connect the rPi to a laptop or to the local LAN.
 - Press "the button" to start the Sensorgnome's hot-spot after it initializes and connect to
   the hot-spot with a laptop or phone.
+- Use an Ethernet cable to connect the rPi to a laptop or to the local LAN.
+- After step 2 below, configure the `network.txt` file in the boot partition with a local WiFi
+  access point SSID/passphrase so it joins that network.
 
 Note that all three forms of network can be used at the same time!
 In particular, if WiFi or Ethernet are giving trouble don't disconnect/power off:
-just start the hot-spot and go from there!
+try to start the hot-spot and go from there!
 
 ### Steps
 
-- Plug the SDcard into a laptop/computer.
-- Launch Etcher, select "flash from URL", enter the image URL (e.g. like above),
-  select the SDcard as destination, start the flashing process.
-- Remove the SDcard, wait a couple of seconds, plug it back in: this will now mount the
-  filesystems so the files on the boot partition can be accessed.
+1. Plug the SDcard into a laptop/computer.
+2. Launch Etcher, select "flash from URL", enter the image URL (e.g. like above),
+   select the SDcard as destination, start the flashing process.
+3. Remove the SDcard and plug it into the rPi, power on the rPi. It will take up to a minute
+   for the rPi to initialize and react to button presses.
+4. Verify connectivity to the rPi using `ping sgpi.local` or `ping 192.168.7.2`: see more below
+   (or trust your luck and proceed to the next step).
+5. Open your browser to `http://<sgname>/` where `sgname` is the hostname or IP address of your
+   new Sensorgnome as discovered in the previous step (or guessed).
+6. Once the web page appears navigate to the settings tab (on mobile use landscape orientation or
+   the hamburger menu in the top-left) and modify the basic settings.
+7. Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
+
+If you have prepared configuration files (e.g. to configure the WiFi client or when setting up
+a batch of Sensorgnomes):
+
+- After flashing in step 2 remove the SDcard, wait a couple of seconds, plug it back in:
+  this will now mount the filesystems so the files on the boot partition can be accessed.
   - On Linux the mount point is typically `/run/media/<user>/boot`.
   - On Windows you will see a "boot" disk and a "USB drive" or similar disk. Do not let
     Windows "Verify and fix" a partition. (The "USB drive" corresponds to the Linux root
-    partition, which Windows cannot mount.) After first boot there will be a third
+    partition, which Windows cannot mount.) After the rPi's first boot there will be a third
     "DATA" drive showing up.
   - On MacOS ...
-- Edit configuration files on the boot partition: `deployment.txt`, `network.txt`, and other
-  `*.txt` files. See below for more info.
-- Optionally copy a tag database to `SG_tag_database.sqlite` on the boot partition.
-- Remove the SDcard and plug it into the rPi, power on the rPi. It will take up to a minute
-  for the rPi to initialize and connect to the network or to react to button presses.
-- Verify connectivity to the rPi using `ping sgpi.local` or `ping 192.168.7.2`: see more below
-  (or fly blind and proceed to the next step).
-- Open your browser to `http://<sgname>/` where `sgname` is the hostname or IP address of your
-  new Sensorgnome as discovered in the previous step (or guessed).
-- Once the web page appears your initial installation is complete.
-  Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
+- Copy configuration files to the boot partition: `deployment.json`, `aquisition.json`,
+  `network.txt`, `SG_tag_database.sqlite`, etc. See below for more info.
 
 ### Configuration files
 
@@ -78,13 +82,13 @@ there or you are looking in the wrong place (this does not apply to the tag data
 
 - `network.txt`: configure SSID/passphrase for your local WiFi network so the sensorgnome can join,
   also change the hot-spot SSID/passphrase if desired.
-- `deployment.txt`: configure the sensorgnome deployment information, such as project ID, 
+- `deployment.json`: configure the sensorgnome deployment information, such as project ID, 
   location, etc.
+- `SG_tag_database.sqlite`: tag database with your tags so the SG web UI can display tag names.
+- `acquisition.json`: configure low-level radio acquisition details.
 - `usb-port-map.txt`: configure how the USB ports on the rPi and attached hubs get mapped to
   "port 0" through "port 9" when tag detections are sent to Motus (this is now more flexible
   but a bit less automagic than in earlier Sensorgnome releases).
-- `gestures.txt`: configure the button gestures (rarely necessary).
-- `SG_tag_database.sqlite`: tag database with your tags so the SG web UI can display tag names.
 
 There are two options for editing the config files: plugging the SDcard into a laptop and editing
 there or using a terminal window and SSH-ing into the Sensorgnome as user `pi` and password
