@@ -27,5 +27,5 @@ SG_DEBS=(
     $S3/sensorgnome-support/systemd/sg-ssh-tunnel_2021.365_armhf.deb
     $S3/sensorgnome-support/systemd/sg-udev-usb_2021.365_armhf.deb
     $S3/sensorgnome-support/systemd/sg-wifi-button_2021.365_armhf.deb
-    $S3/sensorgnome-control/flexdash/sg-control_2022.001_armhf.deb
+    $S3/sensorgnome-control/flexdash/sg-control_2022.002_armhf.deb
 )
