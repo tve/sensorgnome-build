@@ -19,7 +19,6 @@ RUN apt-get upgrade -y
 # installation time to be absorbed into the base build.
 RUN apt remove npm -y
 RUN apt install -y \
-    vsftpd \
     udhcpc \
     autossh \
     sqlite3 \
@@ -27,4 +26,5 @@ RUN apt install -y \
     gpsd-clients \
     chrony \
     libjson-perl \
+    libpam0g-dev \
     nodejs
