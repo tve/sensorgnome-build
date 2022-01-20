@@ -2,7 +2,7 @@
 
 FROM images/$IMAGE_IMG
 TO images/base-$TYPE-temp.img
-PUMP 400M
+PUMP 600M
 
 # Set-up nodejs repository so we can get a modern version
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
@@ -38,4 +38,3 @@ RUN apt install -y \
     tmux \
     tcpdump \
     traceroute
-    
