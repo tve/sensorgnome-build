@@ -25,6 +25,8 @@ RUN apt-get clean
 
 # Set default password
 RUN chpasswd <<<pi:sensorgnome
+# Capture orig password so we can tell whether it got changed
+RUN bash -c "egrep '^pi:' /etc/shadow >/etc/pi.pass"
 
 # Enable SSH (0 == success status code - enable)
 RUN raspi-config nonint do_ssh 0
