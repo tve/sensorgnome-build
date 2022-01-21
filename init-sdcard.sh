@@ -6,8 +6,10 @@ if [[ ! -d /run/media/$USER/boot ]]; then
 fi
 
 set -x
-cp network.txt /run/media/$USER/boot/
+#cp network.txt /run/media/$USER/boot/
 cp SG_tag_database.sqlite /run/media/$USER/boot/
+
+cp ~/.tmux.* /run/media/$USER/rootfs/home/pi || true
 
 PI=/run/media/$USER/rootfs/home/pi
 mkdir -p $PI/.ssh
