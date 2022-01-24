@@ -38,4 +38,5 @@ RUN apt install -y \
     tmux \
     tcpdump \
     traceroute \
-    fish
+    fish \
+    libnss3-tools
