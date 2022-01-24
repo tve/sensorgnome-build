@@ -29,9 +29,8 @@ RUN chpasswd <<<pi:sensorgnome
 RUN bash -c "egrep '^pi:' /etc/shadow >/etc/pi.pass"
 
 # Set-up caddy's storage
-RUN mkdir -p /usr/share/caddy/local
-RUN chown caddy /usr/share/caddy/local
-RUN chmod 700 /usr/share/caddy/local
+RUN apt install libnss3-tools
+RUN caddy trust
 
 # Enable SSH (0 == success status code - enable)
 RUN raspi-config nonint do_ssh 0
