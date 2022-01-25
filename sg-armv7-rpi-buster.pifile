@@ -28,8 +28,11 @@ RUN chpasswd <<<pi:sensorgnome
 # Capture orig password so we can tell whether it got changed
 RUN bash -c "egrep '^pi:' /etc/shadow >/etc/pi.pass"
 
-# Set-up caddy's storage
+# Set-up caddy's PKI
 RUN caddy trust
+RUN mkdir -p /var/lib/caddy/.local/share
+RUN mv /root/.local/share/caddy /var/lib/caddy/.local/share
+RUN chown -R caddy /var/lib/caddy
 
 # Enable SSH (0 == success status code - enable)
 RUN raspi-config nonint do_ssh 0
