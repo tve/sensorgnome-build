@@ -11,7 +11,7 @@ The whole build process from scratch consists of 3 steps:
 
 This repository only deals with the third step. The first step is found in the
 sensorgnome-dockcross repo, which results in a docker image on DockerHub
-(currently `tvoneicken/sensorgnome-dockcross:armv7-rpi-buster-main`).
+(currently `tvoneicken/sensorgnome-dockcross:armv7-rpi-bullseye-main`).
 Unless this image needs to be rebuilt the easiest is to use the DockerHub one.
 
 The second step should be handled within all the respective repositories and ideally each

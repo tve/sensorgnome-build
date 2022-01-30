@@ -26,7 +26,7 @@ application it may be necessary to first download the image manually.
 Also, when preparing multiple SDcards it may be faster to download manually only once.
 As of this writing there is no official download location for Sensorgnome images,
 the provisional location is:
-[https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-buster-2021-XXX.img](https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-buster-2021-XXX.img).
+[https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-bullseye-2021-XXX.img](https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-bullseye-2021-XXX.img).
 
 After booting the Sensorgnome a network connection and a web browser are required in order to
 verify its operation. There are several options:

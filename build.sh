@@ -1,6 +1,6 @@
 #! /bin/bash -e
 
-MANIFEST=${1:-manifest-armv7-rpi-buster}
+MANIFEST=${1:-manifest-armv7-rpi-bullseye}
 source $MANIFEST
 
 # Pull docker images we will need explicitly so we get an error here where the problem is obvious

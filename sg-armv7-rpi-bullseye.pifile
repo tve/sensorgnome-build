@@ -1,0 +1,52 @@
+# Create ARMv7 bullseye image for RaspberryPi Sensorgnome
+
+FROM images/base-$TYPE.img
+TO images/sg-$TYPE-temp.img
+
+PUMP 1000M
+
+# Create data directories, these will be copied to the new partition on first boot
+mkdir -p /data/config /data/SGdata
+date >/data/config/created
+date >/data/SGdata/created
+
+# Set build version
+RUN tee /etc/sensorgnome_version <<<"SG $V"
+
+# Install sensorgnome packages
+RUN dpkg --print-architecture
+RUN mkdir -p /tmp/packages
+for f in $SG_DEBS; do
+  INSTALL $f /tmp/packages/${f##*/}
+done
+RUN ls -ls /tmp/packages
+RUN bash -c 'apt install -y /tmp/packages/*.deb'
+RUN apt-get clean
+
+# Set default password
+RUN chpasswd <<<pi:sensorgnome
+# Capture orig password so we can tell whether it got changed
+RUN bash -c "egrep '^pi:' /etc/shadow >/etc/pi.pass"
+
+# Set-up caddy's PKI
+RUN caddy trust
+RUN mkdir -p /var/lib/caddy/.local/share
+RUN mv /root/.local/share/caddy /var/lib/caddy/.local/share
+RUN chown -R caddy /var/lib/caddy
+
+# Enable SSH (0 == success status code - enable)
+RUN raspi-config nonint do_ssh 0
+
+# Set US/Eastern timezone
+RUN ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
+
+# Reboot on kernel panic
+RUN tee -a /etc/sysctl.conf <<<kernel.panic=10
+
+# Hack to prevent resizing of root partition on first boot. This allows us to create a data
+# partition. The PUMP statement above creates a large enough root partition.
+# The hack consists of making the check_commands function return a failure.
+RUN sed -i -e 's/cut sed/cut foobar sed/' /usr/lib/raspi-config/init_resize.sh
+
+# Change the avahi/bonjour/mDNS hostname to sgpi.local and enable advertising
+RUN bash -c 'sed -ir -e "/host-name/s/.*/host-name=sgpi/" -e "/publish-workstation/s/no/yes/" /etc/avahi/avahi-daemon.conf'
