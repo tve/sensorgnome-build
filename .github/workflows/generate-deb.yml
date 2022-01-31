@@ -1,0 +1,97 @@
+name: Build package
+
+on:
+  workflow_call:
+    inputs:
+      command:
+        required: false
+        type: string
+        default: ./gen-packages.sh
+      repo_bucket:
+        required: false
+        type: string
+        default: sensorgnome
+      repo_region:
+        required: false
+        type: string
+        default: us-east-2
+      repo_codename:
+        required: false
+        type: string
+        default: testing
+      aws_role:
+        required: false
+        type: string
+        default: arn:aws:iam::635201719205:role/Github-actions-motus
+      dependency:
+        required: false
+        type: string
+        default: ""
+      gpg_key_id:
+        required: false
+        type: string
+        default: 8EFF151A5DDAE8F1
+    secrets:
+      GPG_PRIVATE_KEY:
+        required: true
+      GPG_PASSPHRASE:
+        required: true
+
+permissions:
+  id-token: write
+  contents: write
+
+jobs:
+  build-all:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          path: .
+
+      # use branch or tag name in S3 upload path
+      - run: echo GIT_REF=${{github.ref}} | sed -e 's;refs/[^/]*/;;' >>$GITHUB_ENV
+
+      - name: Install PAM auth dependency
+        if: ${{inputs.dependency}} != ""
+        run: sudo apt install -y ${{ inputs.dependency }}
+      
+      # To export key: gpg --list-secret-keys --keyid-format LONG; gpg --export-secret-keys --armor {your_keyId}
+      - name: Install GPG key to sign package
+        uses: crazy-max/ghaction-import-gpg@v1
+        env:
+          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+          PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+      
+      - name: Install deb-s3
+        run: |
+          curl -sLO https://github.com/deb-s3/deb-s3/releases/download/0.11.3/deb-s3-0.11.3.gem
+          sudo gem install deb-s3-0.11.3.gem
+
+      - name: Generate .deb packages
+        run: ${{ inputs.command }}
+        shell: bash
+      
+      - run: ls -ls packages
+
+      # Upload github artifacts for debugging purposes
+      - uses: actions/upload-artifact@v2
+        with:
+          name: deb-packages
+          path: packages
+
+      - name: Configure AWS Credentials
+        # See https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
+        uses: aws-actions/configure-aws-credentials@master
+        with:
+          role-to-assume: ${{inputs.aws_role}}
+          role-session-name: GithubActionsMotus
+          aws-region: ${{inputs.repo_region}}
+
+      - name: Insert .debs into repository
+        run: |
+          deb-s3 upload --bucket=${{inputs.repo_bucket}} --s3-region=${{inputs.repo_region}} \
+          --preserve-versions --codename=${{inputs.repo_codename}} --sign=${{inputs.gpg_key_id}} \
+          --visibility=public \
+          packages/*.deb
