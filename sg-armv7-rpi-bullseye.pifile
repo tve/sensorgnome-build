@@ -13,14 +13,14 @@ date >/data/SGdata/created
 # Set build version
 RUN tee /etc/sensorgnome_version <<<"SG $V"
 
+# Configure sensorgnome repository
+RUN bash -c "echo deb https://sensorgnome.s3.amazonaws.com/ testing main | sudo tee /etc/apt/sources.list.d/sensorgnome.list"
+INSTALL sensorgnome-pub.gpg /etc/apt/trusted.gpg.d/sensorgnome.gpg
+RUN apt update
+
 # Install sensorgnome packages
 RUN dpkg --print-architecture
-RUN mkdir -p /tmp/packages
-for f in $SG_DEBS; do
-  INSTALL $f /tmp/packages/${f##*/}
-done
-RUN ls -ls /tmp/packages
-RUN bash -c 'apt install -y /tmp/packages/*.deb'
+RUN apt install -y ${SG_DEBS}
 RUN apt-get clean
 
 # Set default password

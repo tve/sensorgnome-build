@@ -6,7 +6,7 @@ on:
       command:
         required: false
         type: string
-        default: ./gen-packages.sh
+        default: ./gen-package.sh
       repo_bucket:
         required: false
         type: string
