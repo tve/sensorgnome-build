@@ -40,4 +40,5 @@ RUN apt install -y \
     traceroute \
     fish \
     libnss3-tools \
-    iptables
+    iptables \
+    git
