@@ -39,4 +39,5 @@ RUN apt install -y \
     tcpdump \
     traceroute \
     fish \
-    libnss3-tools
+    libnss3-tools \
+    iptables
