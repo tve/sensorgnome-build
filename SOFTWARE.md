@@ -25,21 +25,21 @@ Etcher can directly download the Sensorgnome image given a URL, when using a dif
 application it may be necessary to first download the image manually.
 Also, when preparing multiple SDcards it may be faster to download manually only once.
 As of this writing there is no official download location for Sensorgnome images,
-the provisional location is:
-[https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-bullseye-2021-XXX.img](https://motus-builds.s3.us-east-2.amazonaws.com/release/sg-armv7-rpi-bullseye-2021-XXX.img).
+the provisional location is (`XXX` is a placeholder):
+[https://sensorgnome.s3.amazonaws.com/images/pimod/sg-armv7-rpi-bullseye-2022-XXX.zip](https://sensorgnome.s3.amazonaws.com/images/pimod/sg-armv7-rpi-bullseye-2022-XXX.zip).
 
 After booting the Sensorgnome a network connection and a web browser are required in order to
 verify its operation. There are several options:
 
-- Press "the button" to start the Sensorgnome's hot-spot after it initializes and connect to
-  the hot-spot with a laptop or phone.
+- Connect to the Sensorgnome's hot-spot with a laptop or phone.
 - Use an Ethernet cable to connect the rPi to a laptop or to the local LAN.
-- After step 2 below, configure the `network.txt` file in the boot partition with a local WiFi
-  access point SSID/passphrase so it joins that network.
+- After step 2 below, create a `wpa_supplicant.conf` file in the boot partition with a local WiFi
+  access point SSID/passphrase so it joins that network (this is std Raspberry Pi functionality,
+  more info in the next section).
 
 Note that all three forms of network can be used at the same time!
 In particular, if WiFi or Ethernet are giving trouble don't disconnect/power off:
-try to start the hot-spot and go from there!
+try to connect to the hot-spot and go from there!
 
 ### Steps
 
@@ -47,14 +47,18 @@ try to start the hot-spot and go from there!
 2. Launch Etcher, select "flash from URL", enter the image URL (e.g. like above),
    select the SDcard as destination, start the flashing process.
 3. Remove the SDcard and plug it into the rPi, power on the rPi. It will take up to a minute
-   for the rPi to initialize and react to button presses.
-4. Verify connectivity to the rPi using `ping sgpi.local` or `ping 192.168.7.2`: see more below
-   (or trust your luck and proceed to the next step).
-5. Open your browser to `http://<sgname>/` where `sgname` is the hostname or IP address of your
+   for the rPi to initialize, start its hot-spot and connect to ethernet/wifi if appropriate.
+4. To connect to the hot-spot (recommended) look for an SSID of the form SG-1234RPI3ABCD and
+   connect to it. This should automatically bring up a browser with instructions. If it doesn't,
+   bring up a browser at `https://192.168.7.2/' and click through the security warnings (due to
+   using a self-signed certificate).
+5. If you are using ethernet or WiFi client, verify connectivity to the rPi using ping sgpi.local
+   or ping 192.168.7.2: see more below (or trust your luck and proceed to the next step).
+6. Open your browser to `http://<sgname>/` where `sgname` is the hostname or IP address of your
    new Sensorgnome as discovered in the previous step (or guessed).
-6. Once the web page appears navigate to the settings tab (on mobile use landscape orientation or
+7. Once the web page appears navigate to the settings tab (on mobile use landscape orientation or
    the hamburger menu in the top-left) and modify the basic settings.
-7. Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
+8. Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
 
 If you have prepared configuration files (e.g. to configure the WiFi client or when setting up
 a batch of Sensorgnomes):
@@ -68,20 +72,18 @@ a batch of Sensorgnomes):
     "DATA" drive showing up.
   - On MacOS ...
 - Copy configuration files to the boot partition: `deployment.json`, `aquisition.json`,
-  `network.txt`, `SG_tag_database.sqlite`, etc. See below for more info.
+  `wpa_supplicant.conf`, `SG_tag_database.sqlite`, etc. See below for more info.
 
 ### Configuration files
 
-When the SDcard is flashed the configuration files are found in the boot partition, where
-they can be edited easily on a Windows, Mac, or Linux laptop. On first boot the rPi moves the
-config files to their proper location, which is in `/data/config` on the data partition.
-To edit those files after the first boot they need to be located in the `data` partition
-(which is also the partition where tag detection data files will be found).
-If in doubt: don't create any of the `.txt` files from scratch, they should already be
-there or you are looking in the wrong place (this does not apply to the tag database).
+It is recommended to edit the configuration using the Web UI. However, when setting up a
+batch of Sensorgnomes it can be handy to copy prepared config files instead.
+The config files can be placed in the boot partition (top level directory) and on
+first boot the rPi moves the
+config files to their proper location, which is in `/etc/sensorgnome` on the linux partition.
 
-- `network.txt`: configure SSID/passphrase for your local WiFi network so the sensorgnome can join,
-  also change the hot-spot SSID/passphrase if desired.
+- `wpa_supplicant.conf`: configure SSID/passphrase for your local WiFi network so the sensorgnome
+  can join, as opposed to performing this config using the Web UI.
 - `deployment.json`: configure the sensorgnome deployment information, such as project ID, 
   location, etc.
 - `SG_tag_database.sqlite`: tag database with your tags so the SG web UI can display tag names.
@@ -90,10 +92,10 @@ there or you are looking in the wrong place (this does not apply to the tag data
   "port 0" through "port 9" when tag detections are sent to Motus (this is now more flexible
   but a bit less automagic than in earlier Sensorgnome releases).
 
-There are two options for editing the config files: plugging the SDcard into a laptop and editing
-there or using a terminal window and SSH-ing into the Sensorgnome as user `pi` and password
-`sensorgnome` and using `vi` or similar editor.
-In the future the Sensorgnome's web interface should allow editing...
+Information on creating a `wpa_supplicant.conf` file can be found in the Raspberry Pi
+Computer Configuration documentation in the Setting up a Headless Raspberry Pi
+[Configuring Networking](https://www.raspberrypi.com/documentation/computers/configuration.html#configuring-networking31)
+section
 
 ### Verifying connectivity
 
@@ -124,7 +126,7 @@ Note that on Windows `ping <sgname> /t` prevents the ping from stopping after 4 
 #### Use the hot-spot
 
 If pinging with WiFi or Ethernet connectivity is not working the easiest next step
-is to try the hot-spot.
+is to try the hot-spot (an completely unconfigured Sensorgnome starts the hot-spot automatically).
 Double-press "the button" on the Sensorgnome to start the hot-spot,
 the LED should blink every second when it's enabled.
 

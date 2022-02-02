@@ -6,12 +6,12 @@ TO images/sg-$TYPE-temp.img
 PUMP 1000M
 
 # Create data directories, these will be copied to the new partition on first boot
-mkdir -p /data/config /data/SGdata
-date >/data/config/created
+mkdir -p /data/SGdata
 date >/data/SGdata/created
 
 # Set build version
-RUN tee /etc/sensorgnome_version <<<"SG $V"
+RUN mkdir -p /etc/sensorgnome
+RUN tee /etc/sensorgnome/version <<<"SG $V"
 
 # Configure sensorgnome repository
 RUN bash -c "echo deb https://sensorgnome.s3.amazonaws.com/ testing main | sudo tee /etc/apt/sources.list.d/sensorgnome.list"
