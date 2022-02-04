@@ -213,3 +213,32 @@ When the SDcard is first booted a third partition is created:
 
 - a large `data` partition filling the rest of the SDcard (e.g. about 26GB on a 32GB card) holding
   a FAT32 filesystem that is used to store the Sensorgnome's config and data.
+
+#### Why can't the Web browser security warnings be avoided?
+
+The short is that there is no user-friendly solution for embedded devices, like Sensorgnomes,
+that cannot be accessed from the public internet, that may not have a DNS name,
+and that may not even have any internet connection.
+
+The Sensorgnome provides an HTTPS web site/UI, which means that all communication is
+encrypted. On the web normally sites use a certificate issued by one of the well-known
+"certificate authorities" that are recognized by all major browsers. This allows the
+browser to verify the certificate presented by the web site and everything goes smoothly
+and the web browser displays a green shield or similar in the address bar.
+
+Unfortunately, in order to use certificates issued by public CAs the web site must (a) have a
+DNS name that matches the certificate, and (b) have a certificate that lasts at most 13 months.
+In addition, to use popular free certificates that can be obtained automatically, servers must
+be reachable from the public internet or a public server must be implemented to help in the
+certificate renewal process, which is required every few months.
+
+Given that the Sensorgnome Web UI allows device configuration it is not acceptable to run
+an unencrypted web site, at least not as of 2022. This leaves few options: rely on hot-spot
+encryption, WiFi client encryption, and wired ethernet insecurity or use HTTPS with a self-signed
+certificate. Using HTTPS ends up providing security in all cases and has better encryption properties
+than WiFi. The main risk is that someone could set-up a rogue device to impersonate the Sensorgnome,
+serve up the same login page, and capture the Sensorgnome password.
+
+The software used in the Sensorgnome (the Caddy web server specifically) fully supports public
+HTTPS certificates, including automatic renewals, so this can be set-up if desired and when the
+prerequisites are met.
