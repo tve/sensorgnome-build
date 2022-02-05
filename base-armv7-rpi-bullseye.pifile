@@ -41,4 +41,5 @@ RUN apt install -y \
     fish \
     libnss3-tools \
     iptables \
-    git
+    git \
+    nodemon
