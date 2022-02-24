@@ -42,4 +42,7 @@ RUN apt install -y \
     libnss3-tools \
     iptables \
     git \
-    nodemon
+    libqmi-utils \
+    lshw \
+    ifmetric \
+    python3-pip
