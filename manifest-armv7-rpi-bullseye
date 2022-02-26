@@ -14,7 +14,4 @@ TYPE=armv7-rpi-bullseye
 
 # sensorgnome packages to install, either URL or file .in packages subdir
 # Note: the packages below are versioned as YYYY.DDD where DDD is day of year
-SG_DEBS=(fcd find-tags-unifile vamp-alsa-host vamp-plugins sensorgnome-librtlsdr
-    sg-boot sg-gps-clock sg-ssh-tunnel sg-udev-usb sg-web-portal sg-wifi-button
-    sg-control
-)
+SG_DEBS=(sensorgnome)

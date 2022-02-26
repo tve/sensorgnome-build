@@ -9,10 +9,6 @@ PUMP 1000M
 mkdir -p /data/SGdata
 date >/data/SGdata/created
 
-# Set build version
-RUN mkdir -p /etc/sensorgnome
-RUN tee /etc/sensorgnome/version <<<"SG $V"
-
 # Configure sensorgnome repository
 RUN bash -c "echo deb https://sensorgnome.s3.amazonaws.com/ testing main | sudo tee /etc/apt/sources.list.d/sensorgnome.list"
 INSTALL sensorgnome-pub.gpg /etc/apt/trusted.gpg.d/sensorgnome.gpg

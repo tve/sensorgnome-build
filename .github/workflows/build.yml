@@ -14,6 +14,7 @@ permissions:
   contents: write
 
 jobs:
+  # build-base builds the base rPi image without any sensorgnome specific software
   build-base:
     runs-on: ubuntu-latest
     steps:
@@ -64,10 +65,19 @@ jobs:
           echo "https://$S3/$GIT_REF/$BASE_ZIP"
           echo "::notice title=Base image::https://$S3/$GIT_REF/$BASE_ZIP"
   
+  # build-package builds the sensorgnome package, which pulls in all the other sg-packages
+  build-package:
+    uses: tve/sensorgnome-build/.github/workflows/generate-deb.yml@pimod
+    with:
+      command: ./gen-package.sh
+    secrets:
+      GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
+      GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
 
+  # build-image customizes the base image by adding the sensorgnome software
   build-image:
     runs-on: ubuntu-latest
-    needs: build-base
+    needs: [ build-base, build-package ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2

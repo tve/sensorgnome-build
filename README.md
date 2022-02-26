@@ -158,6 +158,19 @@ standard Raspberry Pi OS image is flashed.
 - Install docker
 - pip install -r requirements.txt (preferably in a venv)
 
+## Keys to sign packages and update the debian repo
+
+- TvE has the sensorgnome-repo key in his gpg keyring, it is encrypted using a password found
+  in his password store
+- The gpg key must be exported as ascii using
+
+``` text
+  gpg --list-secret-keys --keyid-format LONG; gpg --export-secret-keys --armor 11162C1D8661F9148480CDD98EFF151A5DDAE8F1
+```
+
+- The result must be set as `GPG_PRIVATE_KEY` secret in github, and the passphrase as `GPG_PASSPHRASE`
+- To upload the package to S3, an AWS role must be configured to allow the github action to upload
+
 ## Docker comments
 
 To understand the role of docker in the build process here are a couple of points:
