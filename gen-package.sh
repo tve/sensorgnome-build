@@ -6,7 +6,7 @@ mkdir $DESTDIR
 # Set version in version file (goes into /etc/sensorgnome)
 DEST=$DESTDIR/etc/sensorgnome
 install -d $DEST
-TZ=PST8PDT date +%Y-%j > $DEST/version
+TZ=PST8PDT date +'SG %Y-%j' > $DEST/version
 
 # Boilerplate package generation
 cp -r DEBIAN $DESTDIR
