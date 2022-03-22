@@ -20,6 +20,7 @@ RUN bash -c "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb
 RUN apt-get update
 RUN apt-get upgrade -y
 
+
 # Install some apps, they should be pulled in via dependencies but doing it here causes the
 # installation time to be absorbed into the base build.
 RUN apt remove npm -y

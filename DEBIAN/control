@@ -6,7 +6,7 @@ Priority: standard
 Essential: no
 Depends: fcd, find-tags-unifile, vamp-alsa-host, vamp-plugins, sensorgnome-librtlsdr,
     sg-boot, sg-gps-clock, sg-ssh-tunnel, sg-udev-usb, sg-web-portal, sg-wifi-button,
-    sg-control, sg-upgrader
+    sg-control, sg-upgrader, sg-sixfab
 Homepage: https://github.com/sensorgnome-build/sensorgnome
 Maintainer: TvE (tvoneicken@gmail.com)
 Description: Sensorgnome software system 
