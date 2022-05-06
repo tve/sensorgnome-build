@@ -8,8 +8,22 @@ DEST=$DESTDIR/etc/sensorgnome
 install -d $DEST
 TZ=PST8PDT date +'SG %Y-%j' > $DEST/version
 
-# Boilerplate package generation
+# Figure out exact versions of sensorgnome dependencies
 cp -r DEBIAN $DESTDIR
+wget https://sensorgnome.s3.us-east-2.amazonaws.com/dists/testing/main/binary-armhf/Packages
+deps=$(awk -v ORS= '/^Depends:/,/[^,]$/' DEBIAN/control | sed -e 's/^\S*://' -e 's/ *, */ /g')
+echo "Versions found in repo:"
+for d in $deps; do
+    version=$(awk '/^Package:/{pkg=$2} /^Version/&&pkg=="'$d'"{print $2}' Packages | sort | tail -1)
+    echo "$d: $version"
+    sed -ie "s/$d/$d (>= $version)/" $DESTDIR/DEBIAN/control
+done
+echo ""
+echo "sensorgnome package control file:"
+cat $DESTDIR/DEBIAN/control
+echo ""
+
+# Boilerplate package generation
 sed -e "/^Version/s/:.*/: $(TZ=PST8PDT date +%Y.%j)/" -i $DESTDIR/DEBIAN/control # set version: YYYY.DDD
 mkdir -p packages
 dpkg-deb --root-owner-group --build $DESTDIR packages
