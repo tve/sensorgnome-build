@@ -33,14 +33,14 @@ echo Output ZIP: images/$BASE_ZIP
 # as opposed to later in the midst of something else
 docker pull $PIMOD_IMAGE
 
-# Extract operating system image from zip archive
+# Extract operating system image from xz archive
 mkdir -p images
-IMAGE_ZIP=${OS_IMAGE##*/}
-IMAGE_IMG=${IMAGE_ZIP/%.zip/.img}
+IMAGE_XZ=${OS_IMAGE##*/}
+IMAGE_IMG=${IMAGE_XZ%.xz}
 echo OS Image: $OS_IMAGE
 if [[ ! -f images/$IMAGE_IMG ]]; then
-    wget -q -O images/$IMAGE_ZIP $OS_IMAGE
-    (cd images; 7z x $IMAGE_ZIP $IMAGE_IMG)
+    wget -q -O images/$IMAGE_XZ $OS_IMAGE
+    (cd images; xz -d $IMAGE_XZ)
 fi
 
 # Create the base image, append the crc32 of the pifile to the name so we can tell

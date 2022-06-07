@@ -9,6 +9,17 @@ PUMP 1000M
 mkdir -p /data/SGdata
 date >/data/SGdata/created
 
+# Change the pi user to 'gnome', can't use userconf-pi inside this docker env
+NU=gnome
+RUN usermod -l $NU pi
+RUN usermod -m -d /home/$NU $NU
+RUN groupmod -n $NU pi
+RUN sed -i -e "s/^pi:/$NU:/" /etc/subuid
+RUN sed -i -e "s/^pi:/$NU:/" /etc/subgid
+RUN chpasswd -e <<<$NU:x
+RUN systemctl disable userconfig
+RUN systemctl enable getty@tty1
+
 # Configure sensorgnome repository
 RUN bash -c "echo deb https://sensorgnome.s3.amazonaws.com/ testing main | sudo tee /etc/apt/sources.list.d/sensorgnome.list"
 INSTALL sensorgnome-pub.gpg /etc/apt/trusted.gpg.d/sensorgnome.gpg
@@ -19,16 +30,11 @@ RUN dpkg --print-architecture
 RUN apt install -y ${SG_DEBS}
 RUN apt-get clean
 
-# Set default password
-RUN chpasswd <<<pi:sensorgnome
-# Capture orig password so we can tell whether it got changed
-RUN bash -c "egrep '^pi:' /etc/shadow >/etc/pi.pass"
-
-# Set-up caddy's PKI
-RUN caddy trust
-RUN mkdir -p /var/lib/caddy/.local/share
-RUN mv /root/.local/share/caddy /var/lib/caddy/.local/share
-RUN chown -R caddy /var/lib/caddy
+# Set-up caddy's PKI (only needed if using self-signed certs?)
+#RUN caddy trust
+#RUN mkdir -p /var/lib/caddy/.local/share
+#RUN mv /root/.local/share/caddy /var/lib/caddy/.local/share
+#RUN chown -R caddy /var/lib/caddy
 
 # Install some python packages for sixfab stuff
 RUN pip3 install -U atcom pyyaml pyusb smbus2 crc16
