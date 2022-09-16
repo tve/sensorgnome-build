@@ -9,9 +9,10 @@ set -x
 #cp network.txt /run/media/$USER/boot/
 cp SG_tag_database.sqlite /run/media/$USER/boot/
 
-cp ~/.tmux.* /run/media/$USER/rootfs/home/pi || true
+PI=/run/media/$USER/rootfs/home/gnome
 
-PI=/run/media/$USER/rootfs/home/pi
+cp ~/.tmux.* $PI || true
+
 mkdir -p $PI/.ssh
 cat ~/.ssh/*.pub >>$PI/.ssh/authorized_keys
 chmod 644 $PI/.ssh/* || true
