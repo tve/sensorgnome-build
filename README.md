@@ -3,6 +3,10 @@
 This repository contains scripts to build a complete Sensorgnome flash image,
 currently only for Raspberry Pi.
 
+This README is about building the Sensorgnome software.
+For documentation on how to install and use a Sensorgnome, see
+[SOFTWARE.md](SOFTWARE.md).
+
 The whole build process from scratch consists of 3 steps:
 
 - build a dockcross docker image to be able to cross-compile for the target architecture & OS
