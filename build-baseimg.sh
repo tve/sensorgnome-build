@@ -17,7 +17,7 @@ source $MANIFEST
 
 # See whether we already have the image and skip building if requested (happens in github action)
 PIFILE=base-$TYPE.pifile
-BASE_ZIP=base-$TYPE-$(cksum $PIFILE | cut -f1 -d" ").zip
+BASE_ZIP=base-$TYPE-$(echo $OS_IMAGE | cat - $PIFILE | cksum | cut -f1 -d" ").zip
 BASE_IMG=base-$TYPE.img
 if [[ $NAME == yes ]]; then
     echo $BASE_ZIP
