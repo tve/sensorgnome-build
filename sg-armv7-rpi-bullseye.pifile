@@ -49,8 +49,8 @@ RUN rm -rf /var/log/journal
 RUN bash -c "echo 'RuntimeMaxUse=1M' >> /etc/systemd/journald.conf"
 RUN bash -c 'sed -i -e "s/weekly/daily/" -e "/rotate/s/4/8/" /etc/logrotate.d/rsyslog'
 
-# Enable I2C
-RUN raspi-config nonint do_i2c 1
+# Enable I2C (setting '0' = on !?!?)
+RUN raspi-config nonint do_i2c 0
 
 # Set US/Eastern timezone
 RUN ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
