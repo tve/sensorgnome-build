@@ -61,6 +61,9 @@ RUN tee -a /etc/sysctl.conf <<<kernel.panic=10
 # Use act_led (green) for heartbeat
 RUN bash -c 'tee -a /boot/config.txt <<< "dtparam=act_led_trigger=heartbeat"'
 
+# Quiet down rngd logging
+RUN bash -c 'echo RNGDOPTIONS="--stats-interval=86400" >>/etc/default/rng-tools-debian'
+
 # Prevent resizing of root partition on first boot. This allows us to create a data
 # partition. The PUMP statement above creates a large enough root partition.
 # Commands copied from /usr/lib/raspi-config/init_resize.sh
