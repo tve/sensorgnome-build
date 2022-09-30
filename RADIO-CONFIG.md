@@ -27,40 +27,39 @@ and P0 (which stands for 10).
 It is recommended to label the ports on a Sensorgnome in the same way from 1 through 10
 (e.g. using marker pen, sticky labels, etc).
 
-By convention, port 1 is the upper port on the Raspberry PI next to the Ethernet jack,
-port 2 is below, 3 is the upper outer port, and 4 is the lower outer port.
+The Motus convention is that on an rPi2 or rPi3B port 1 is the upper port next to the
+Ethernet jack, port 2 is below, 3 is the upper outer port, and 4 is the lower outer port.
 Typically a Sensorgnome uses a USB hub plugged into the rPi port 4
 and the hub's ports are numbered 4 through 7 or 4 through 10 depending on whether it's a 4-port
 or a 7-port hub.
 
-The software uses an entirely different port numbering, which consists of the _path_ through ports
-and hubs to reach a device. For example, a radio plugged into port 3 of a hub, itself plugged
+On an rPi4B the numbering should be reversed so the USB hub is plugged into a USB3 port (the
+blue ports): port 1 is the lower outer port, port 2 above it, port 3 the lower port next
+to the ethernet jack, and port 4 above it.
+
+The Operating System uses an entirely different port numbering, which consists of the
+_path_ through ports and hubs to reach a device.
+For example, a radio plugged into port 3 of a hub, itself plugged
 into port 4 of an rPi ends up with the path `1.4.3` (the leading 1 refers to the first root
 hub).
+We need to establish a mapping from these paths to port numbers 1..10.
 
 ### Mapping
 
-_The following procedure is intended to be made accessible entirely through the web UI._
-_Editing the `usb-port-map.txt` file is a stop-gap measure._
-
 To perform the mapping follow these steps:
 
-- ensure all USB ports are labeled and all devices to be plugged in are also labeled
-- bring up the sensorgnome's web UI and locate the "Devices" section
-- unplug all USB devices (leaving any hub plugged in)
-- plug one device into the desired port, 
-- Watch the device appearing in the Web UI's "Devices" section, note the path shown in
-  parentheses (ex: 1.3.4)
-- Make a note of the mapping from path to desired port, ex: "1.3.4 -> 5" to map that path to port 5
-- Plug each remaining USB device in one at a time and take note of the desired mapping
-- SSH into the sensorgnome and edit `/data/config/usb-port-map.txt` or move the SDcard to your
-  laptop and edit `config/usb-port-map.txt` in the "DATA" drive
-- Add the mappings noted down to the file (see instructions therein, but it's the format shown
-  above of _path_ `->` _port_)
-- Move the SDcard back to the SG, power up, and double-check the port assignments
+- Ensure all USB ports are labeled and all devices to be plugged in are also labeled.
+- Bring up the sensorgnome's web UI and locate the "Port Mapping" section on the Radios tab.
+- Unplug all USB devices (leaving any hub plugged in).
+- Plug one device into the desired port, 
+- Watch the device appearing in the Web UI's "Devices" widget, note the port path shown as well as
+  the port selected. If it's not red, then it's probably OK.
+- To change the port selected, edit the Port Mapping (pencil icon at the top), edit the mapping
+  and save it.
+- Plug each remaining USB device in one at a time and repeat.
 
 The port mappings are deterministic when using the same model rPi and the same hub models, so
-the `usb-port-map.txt` file can be copied between identical devices.
+the port mapping can be copied between identical devices.
 
 In the end it is highly recommended to double check the correct port mappings:
 
