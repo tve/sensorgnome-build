@@ -45,10 +45,41 @@ configure it using the Sensorgnome's hot-spot (Wifi access point).
    for the hot-spot. You will have to reconnect to the hot-spot using the password after
    setting it.
 6. When reconnecting the Sensorgnome Web UI should automatically come up in the browser,
-   if not, navigate again to `http://192.168.7.2`.
+   if not, navigate again to `http://192.168.7.2` or `http://sgpi.local`.
 7. Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
 
 ### FAQ
+
+#### How does the hot-spot captive portal work?
+
+When a device connects to the hot-spot it detects that there is no internet connection
+(because the hot-spot only provides access to the Sensorgnome).
+It then assumes that this is a "captive portal",
+which means that the user has to connect to a specific web site to
+log in or agree to some legal terms before getting internet access.
+This is typical of wifi in public locations, e.g. airport, hotel, or coffee shop.
+
+In order to facilitate the required login or acceptance of terms your device starts a web browser
+which connects to the Sensorgnome's web UI.
+This usually works well and allows you to use the UI.
+However, depending on the device and on other available wifi networks you may run into issues.
+The main cause for issues is that your device expects to eventually get internet access but
+the Sensorgnome will never provide that, so your device may take actions in an effort to
+restore internet access.
+Specifically, your device may decide to disconnect from the Sensorgnome hot-spot
+and connect to some other network, such as a previously working one.
+
+Tips:
+
+- If your device prompts you with a message stating that this network does not provide
+  internet access and whether you want to stay connected anyway choose the option to 
+  stay connected.
+- If the web UI stops working, check whether your device disconnected from the hot-spot and
+  connected to a different network. If so, reconnect to the hot-spot.
+- The web browser used in the captive portal mode (i.e. to allow you to log-in or accept terms)
+  may not be the regular web browser you use on your device. If it does not work well or
+  is closed on you open your standard browser and try `http://192.168.7.2` or
+  `http://sgpi.local`.
 
 #### Why a disk image?
 
