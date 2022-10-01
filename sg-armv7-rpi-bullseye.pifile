@@ -28,6 +28,7 @@ RUN apt update
 
 # Install sensorgnome packages
 RUN dpkg --print-architecture
+RUN apt remove modemmanager
 RUN apt install -y ${SG_DEBS}
 RUN apt-get clean
 
