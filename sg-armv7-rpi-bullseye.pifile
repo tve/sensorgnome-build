@@ -3,7 +3,7 @@
 FROM images/base-$TYPE.img
 TO images/sg-$TYPE-temp.img
 
-PUMP 1000M
+PUMP 2000M
 
 # Create data directories, these will be copied to the new partition on first boot
 mkdir -p /data/SGdata
@@ -28,7 +28,8 @@ RUN apt update
 
 # Install sensorgnome packages
 RUN dpkg --print-architecture
-RUN apt remove modemmanager
+RUN apt show modemmanager
+RUN apt-get -y remove modemmanager
 RUN apt install -y ${SG_DEBS}
 RUN apt-get clean
 
