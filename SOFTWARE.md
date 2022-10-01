@@ -42,11 +42,15 @@ configure it using the Sensorgnome's hot-spot (Wifi access point).
    connect to it. This should automatically bring up a browser with instructions. If it doesn't,
    bring up a browser at `http://192.168.7.2/'.
 5. Follow the instructions to set a password for the Sensorgnome, a short name, and a password
-   for the hot-spot. You will have to reconnect to the hot-spot using the password after
-   setting it.
-6. When reconnecting the Sensorgnome Web UI should automatically come up in the browser,
+   for the hot-spot.
+6. IMPORTANT: At this point you will be disconnected from the hot-spot because it switches from
+   no-password to the password you just set. You thus have to reconnect to the hot-spot using
+   the password. Some devices do not give you the chance to enter the password (they remember that
+   the hot-spot was password-less) so you may have to "forget" or delete the wifi network in your
+   device, rescan for wifi networks, and then connect.
+7. When reconnecting the Sensorgnome Web UI should automatically come up in the browser,
    if not, navigate again to `http://192.168.7.2` or `http://sgpi.local`.
-7. Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
+8. Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
 
 ### FAQ
 
@@ -80,6 +84,11 @@ Tips:
   may not be the regular web browser you use on your device. If it does not work well or
   is closed on you open your standard browser and try `http://192.168.7.2` or
   `http://sgpi.local`.
+- If the captive portal ends up being broken or too confusing turn it off on the landing page
+  at `http://192.168.7.2`, `http://sgpi.local`. Then possibly disconnect and reconnect to the
+  hot-spot and navigate to one of the those two URLs explicitly by bringing up a browser.
+  Your device operating system will warn about "no interenet access" and some
+  "stay connected anyway" setting may be necessary.
 
 #### Why a disk image?
 
@@ -122,6 +131,34 @@ but could be tested & documented if there is significant demand:
   the exact use-case is not obvious when considering that each Sensorgnome does need some
   interactive configuration and verification that all the radios and connectivity work as
   intended.
+
+#### Does the hot-spot turn on at boot time?
+
+Currently the hot-spot always turns on at boot time.
+It can be turned on/off on the network tab of the web UI.
+It is planned to provide a switch to enable/disable it at boot, but for the moment to
+facilitate debugging the hot-spot is always on at boot.
+
+#### What are hostnames of the form 192-168-0-18.my.local-ip.co for?
+
+The local-ip.co host names have to do with HTTPS. A host name of the form `A-B-C-D.my.local-ip.co`
+resolves to the IP address `A.B.C.D`, this is how the connection is routed to the Sensorgnome.
+The Sensorgnome's web server holds a wildcard TLS certificate for `*.my.local-ip.co` which allows
+the user's web server to connect without warning or issues.
+
+The wildcard certificate is issued by Lets Encrypt and has a validity duration of 3 months.
+This means that the certificate needs to be updated by some means, this is not currently
+implemented.
+
+Note: it is planned to switch to similar host names ending in 'my.sensorgnome.net' or similar
+in the future. 
+
+#### Why doesn't the Sensorgnome use a self-signed certificate?
+
+Browser support for self-signed certificates has been steadily shrinking.
+The warnings have been getting more dire and some browsers on some operating systems
+have eliminated support entirely.
+Initial testing with self-signed certificates resulted in lots of difficulties and confusion.
 
 #### What are all the partitions on the SDcard for?
 
