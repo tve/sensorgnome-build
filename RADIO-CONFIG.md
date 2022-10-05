@@ -27,15 +27,16 @@ and P0 (which stands for 10).
 It is recommended to label the ports on a Sensorgnome in the same way from 1 through 10
 (e.g. using marker pen, sticky labels, etc).
 
-The Motus convention is that on an rPi2 or rPi3B port 1 is the upper port next to the
+The Motus convention is that on an **rPi2** or **rPi3B** port 1 is the upper port next to the
 Ethernet jack, port 2 is below, 3 is the upper outer port, and 4 is the lower outer port.
-Typically a Sensorgnome uses a USB hub plugged into the rPi port 4
+Typically a Sensorgnome uses a USB hub plugged into port 4 (bottom outer port)
 and the hub's ports are numbered 4 through 7 or 4 through 10 depending on whether it's a 4-port
 or a 7-port hub.
 
-On an rPi4B the numbering should be reversed so the USB hub is plugged into a USB3 port (the
+On an **rPi4B** the numbering should be reversed so the USB hub is plugged into a USB3 port (the
 blue ports): port 1 is the lower outer port, port 2 above it, port 3 the lower port next
 to the ethernet jack, and port 4 above it.
+Plug a hub into this last port, i.e. top blue USB3 port.
 
 The Operating System uses an entirely different port numbering, which consists of the
 _path_ through ports and hubs to reach a device.
