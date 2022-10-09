@@ -38,17 +38,19 @@ configure it using the Sensorgnome's hot-spot (Wifi access point).
    select the SDcard as destination, start the flashing process.
 3. Remove the SDcard and plug it into the rPi, power on the rPi. It will take up to a minute
    for the rPi to initialize and start its hot-spot.
-4. To connect to the hot-spot look for an SSID of the form SG-1234RPI3ABCD and
-   connect to it. This should automatically bring up a browser with instructions. If it doesn't,
-   bring up a browser at `http://192.168.7.2/'.
+4. To connect to the hot-spot look for an SSID of the form SG-1234RPI3ABCD-init and
+   connect to it, no password required.
+   This should automatically bring up a browser with instructions.
+   If it doesn't, bring up a browser at `http://192.168.7.2/'.
 5. Follow the instructions to set a password for the Sensorgnome, a short name, and a password
    for the hot-spot.
 6. IMPORTANT: At this point you will be disconnected from the hot-spot because it switches from
-   no-password to the password you just set. You thus have to reconnect to the hot-spot using
-   the password. Some devices do not give you the chance to enter the password (they remember that
-   the hot-spot was password-less) so you may have to "forget" or delete the wifi network in your
-   device, rescan for wifi networks, and then connect.
-7. When reconnecting the Sensorgnome Web UI should automatically come up in the browser,
+   no-password to the password you just set.
+   The hot-spot SSID (name) also changes from SG-1234RPI3ABCD-init to SG-1234RPI3ABCD (i.e., no trailing "-init").
+   You will have to reconnect to the hot-spot (without "-init") using the password.
+   (The hot-spot with trailing "-init" will continue to appear on your device for a minute
+   or so, this is because your device remembers it even though it is no longer active.)
+7. When reconnecting, the Sensorgnome Web UI should automatically come up in the browser,
    if not, navigate again to `http://192.168.7.2` or `http://sgpi.local`.
 8. Please proceed to [Configure and Verify Radios](RADIO-CONFIG.md).
 
