@@ -22,7 +22,7 @@ RUN systemctl enable getty@tty1
 RUN rm /usr/share/userconf-pi/sshd_banner
 
 # Configure sensorgnome repository
-RUN bash -c "echo deb https://sensorgnome.s3.amazonaws.com/ testing main | sudo tee /etc/apt/sources.list.d/sensorgnome.list"
+RUN bash -c "echo deb https://sensorgnome.s3.amazonaws.com/ stable main | sudo tee /etc/apt/sources.list.d/sensorgnome.list"
 INSTALL sensorgnome-pub.gpg /etc/apt/trusted.gpg.d/sensorgnome.gpg
 RUN apt update
 

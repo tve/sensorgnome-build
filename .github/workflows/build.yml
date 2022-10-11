@@ -70,6 +70,7 @@ jobs:
     uses: tve/sensorgnome-build/.github/workflows/generate-deb.yml@pimod
     with:
       command: ./gen-package.sh
+      repo_codename: stable
     secrets:
       GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
