@@ -66,6 +66,24 @@ The image build process is organized as follows:
 - the `build.sh` tries to avoid re-downloading or re-building things that are already there,
   to start from a clean slate remove the `images` and `packages` directories.
 
+## Debian repository
+
+- Sensorgnome packages get uploaded to a debian repository at https://sensorgnome.s3.amazonaws.com/
+- Each repository (sensorgnome-support, sensorgnome-control, fcd, ...) uses the `generate-deb.yml`
+  workflow found in this repository to add its packages to the _testing_ codename.
+- In this repository, the `generate-package.sh` script generates a `sensorgnome` package that
+  depends on the latest version of the packages in _testing_.
+- The version dependency of the `sensorgnome` package is ">=", which means that as soon as
+  a new package is in the repo it can be upgraded via apt. The `sensorgnome` package itself does
+  not need to be upgraded.
+- The `sensorgnome` package is published to the _stable_ codename and images are produced to
+  use the _stable_ branch. This means that _stable_ gets the version found in _testing_ at the
+  time the `sensorgnome` package is built&uploaded. This also means that all plain sensorgnome
+  installs only upgrade to versions found in _stable_, i.e., versions from which newer images
+  have been built.
+- To use the packages in testing, one has to switch `/etc/apt/sources.list.d/sensorgnome.list`
+  from _stable_ to _testing_.
+
 ## Docker
 
 The reason the build process uses docker is that it allows carefully constructed OS images with
