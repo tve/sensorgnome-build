@@ -50,6 +50,10 @@ RUN rm -rf /var/log/journal
 RUN bash -c "echo 'RuntimeMaxUse=1M' >> /etc/systemd/journald.conf"
 RUN bash -c 'sed -i -e "s/weekly/daily/" -e "/rotate/s/4/8/" /etc/logrotate.d/rsyslog'
 
+# Change logrotate config so old log files get a date extension to make it easier to sync them
+# to the hub
+RUN sed -i 's/endscript/endscript\n\tdateext\n\tdateyesterday/' /etc/logrotate.d/rsyslog
+
 # Enable I2C (setting '0' = on !?!?)
 RUN raspi-config nonint do_i2c 0
 
