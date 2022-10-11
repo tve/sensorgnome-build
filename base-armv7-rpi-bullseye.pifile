@@ -38,6 +38,7 @@ RUN apt install -y \
     libpam0g-dev \
     nodejs \
     caddy \
+    telegraf \
     vim \
     tmux \
     tcpdump \
