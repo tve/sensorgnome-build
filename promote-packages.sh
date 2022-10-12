@@ -15,6 +15,5 @@ for d in $deps; do
         $d stable main)
     # --versions=2022.033
     if [[ $out =~ "ERROR" ]]; then exit 1; fi
-    break
 done
 echo ""
