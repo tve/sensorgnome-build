@@ -42,7 +42,7 @@ permissions:
   contents: write
 
 jobs:
-  build-all:
+  build-package:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -60,9 +60,9 @@ jobs:
       # To export key: gpg --list-secret-keys --keyid-format LONG; gpg --export-secret-keys --armor {your_keyId}
       - name: Install GPG key to sign package
         uses: crazy-max/ghaction-import-gpg@v5
-        env:
-          GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-          PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
       
       - name: Install deb-s3
         run: |
