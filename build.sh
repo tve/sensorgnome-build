@@ -26,23 +26,23 @@ fi
 
 # Fetch remote packages, iterate through $SG_DEBS and wget the ones starting with http
 # into a packages subdir, then alter SG_DEBS so it points to these local files.
-mkdir -p packages
-pp=""
-for p in ${SG_DEBS[@]}; do
-    if [[ "$p" =~ http.* ]]; then
-        f=packages/${p##*/}
-        echo "*** Fetching $p -> $f"
-        if [[ -f $f ]]; then
-            curl -LRs -z $f -o $f $p
-        else
-            curl -LRs -o $f $p
-        fi
-        pp="$pp $f"
-    else
-        pp="$pp $p"
-    fi
-done
-SG_DEBS="$pp"
+# mkdir -p packages
+# pp=""
+# for p in ${SG_DEBS[@]}; do
+#     if [[ "$p" =~ http.* ]]; then
+#         f=packages/${p##*/}
+#         echo "*** Fetching $p -> $f"
+#         if [[ -f $f ]]; then
+#             curl -LRs -z $f -o $f $p
+#         else
+#             curl -LRs -o $f $p
+#         fi
+#         pp="$pp $f"
+#     else
+#         pp="$pp $p"
+#     fi
+# done
+# SG_DEBS="$pp"
 
 # Create sensorgnome image
 V=$(TZ=PST8PDT date +%Y-%j)
@@ -54,10 +54,10 @@ docker run --rm --privileged \
     -e PATH=/pimod:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin \
     -e TYPE=$TYPE \
     -e V=$V \
-    -e "SG_DEBS=$SG_DEBS" \
     --workdir=/sg \
     $PIMOD_IMAGE \
     pimod.sh /sg/sg-$TYPE.pifile
+#    -e "SG_DEBS=$SG_DEBS" \
 set +x
 mv -f images/sg-$TYPE-temp.img images/sg-$TYPE-$V.img
 rm -f images/sg-$TYPE-$V.zip

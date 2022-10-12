@@ -29,7 +29,7 @@ RUN apt update
 # Install sensorgnome packages
 RUN dpkg --print-architecture
 RUN apt-get -y remove modemmanager
-RUN apt install -y ${SG_DEBS}
+RUN apt install -y sensorgnome
 RUN apt-get clean
 
 # Set-up caddy's PKI (only needed if using self-signed certs?)
