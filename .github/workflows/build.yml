@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: .
 
@@ -48,7 +48,7 @@ jobs:
         if: env.BUILD == 'yes'
 
       # Upload github artifacts for debugging purposes
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: ${{env.BASE_ZIP}}
           path: images/${{env.BASE_ZIP}}

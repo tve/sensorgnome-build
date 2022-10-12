@@ -46,7 +46,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: .
 
@@ -59,7 +59,7 @@ jobs:
       
       # To export key: gpg --list-secret-keys --keyid-format LONG; gpg --export-secret-keys --armor {your_keyId}
       - name: Install GPG key to sign package
-        uses: crazy-max/ghaction-import-gpg@v1
+        uses: crazy-max/ghaction-import-gpg@v5
         env:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
@@ -76,7 +76,7 @@ jobs:
       - run: ls -ls packages
 
       # Upload github artifacts for debugging purposes
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: deb-packages
           path: packages
