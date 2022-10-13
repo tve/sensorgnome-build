@@ -29,9 +29,15 @@ RUN apt update
 # Install sensorgnome packages
 RUN dpkg --print-architecture
 RUN apt-get -y remove modemmanager
-RUN apt install -y sg-boot
 RUN apt install -y sensorgnome
 RUN apt-get clean
+
+# Download latest local-ip.co certs, overwriting what comes in the sg-web-portal pkg so it's
+# freshest.
+RUN curl -L -o /etc/sensorgnome/local-ip.key http://local-ip.co/cert/server.key
+RUN curl -L -o /etc/sensorgnome/local-ip.pem http://local-ip.co/cert/server.pem
+RUN bash -c 'curl -L -o - http://local-ip.co/cert/chain.pem >>/etc/sensorgnome/local-ip.pem'
+RUN bash -c 'chmod 644 /etc/sensorgnome/local-ip.*'
 
 # Set-up caddy's PKI (only needed if using self-signed certs?)
 #RUN caddy trust
