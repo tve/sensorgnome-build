@@ -66,9 +66,6 @@ jobs:
           echo "::notice title=Base image::https://$S3/$GIT_REF/$BASE_ZIP"
   
 
-  # promote-packages from testing to stable
-  promote-packages:
-
   # build-image customizes the base image by adding the sensorgnome software
   build-image:
     runs-on: ubuntu-latest
@@ -99,7 +96,7 @@ jobs:
           github.repository == 'tve/sensorgnome-build' &&
           startsWith(github.ref, 'refs/tags/v') &&
           github.event_name == 'push'
-        uses: tve/sensorgnome-build/.github/workflows/promote-packages.yml@pimod
+        uses: ./.github/workflows/promote-packages.yml@pimod
         secrets:
           GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
           GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
