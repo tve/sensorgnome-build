@@ -41,7 +41,7 @@ docker run --rm --privileged \
     pimod.sh /sg/sg-$TYPE.pifile
 #    -e "SG_DEBS=$SG_DEBS" \
 set +x
-[[ $CODENAME == 'testing' ]] && $V=testing-$V
+[[ $CODENAME == 'testing' ]] && V=testing-$V
 mv -f images/sg-$TYPE-temp.img images/sg-$TYPE-$V.img
 rm -f images/sg-$TYPE-$V.zip
 (cd images; zip sg-$TYPE-$V.zip sg-$TYPE-$V.img)
