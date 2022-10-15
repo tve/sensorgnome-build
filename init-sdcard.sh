@@ -7,13 +7,12 @@ fi
 
 set -x
 #cp network.txt /run/media/$USER/boot/
-cp SG_tag_database.sqlite /run/media/$USER/boot/
+#cp SG_tag_database.sqlite /run/media/$USER/boot/
 
-PI=/run/media/$USER/rootfs/home/gnome
+MNT=/run/media/$USER
+PI=$MNT/rootfs/home/gnome
 
 cp ~/.tmux.* $PI || true
+cp ~/.ssh/*.pub $MNT/boot
 
-mkdir -p $PI/.ssh
-cat ~/.ssh/*.pub >>$PI/.ssh/authorized_keys
-chmod 644 $PI/.ssh/* || true
 sync
