@@ -8,7 +8,8 @@ wget -q -O Packages-testing \
 wget -q -O Packages-stable \
     https://sensorgnome.s3.us-east-2.amazonaws.com/dists/stable/main/binary-armhf/Packages
 
-deps=$(awk -v ORS= '/^Depends:/,/[^,]$/' DEBIAN/control | sed -e 's/^\S*://' -e 's/ *, */ /g')
+#deps=$(awk -v ORS= '/^Depends:/,/[^,]$/' DEBIAN/control | sed -e 's/^\S*://' -e 's/ *, */ /g')
+deps=$(egrep '^Package' Packages-testing | sed -e 's/^\S*:\s*//' | sort -u)
 
 for d in $deps; do
     version_t=$(awk '/^Package:/{pkg=$2} /^Version/&&pkg=="'$d'"{print $2}' Packages-testing | sort | tail -1)
