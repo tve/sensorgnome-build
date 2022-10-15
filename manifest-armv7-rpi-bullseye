@@ -14,7 +14,3 @@ OS_IMAGE=https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lit
 
 # image type, gets prefixes by sg- or base- and suffixed by .zip, .img, .pifile, etc
 TYPE=armv7-rpi-bullseye
-
-# sensorgnome packages to install, either URL or file .in packages subdir
-# Note: the packages below are versioned as YYYY.DDD where DDD is day of year
-SG_DEBS=(sensorgnome)
