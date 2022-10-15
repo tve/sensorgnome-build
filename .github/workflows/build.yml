@@ -115,7 +115,7 @@ jobs:
           ls -lsh images
 
       - name: Build image
-        run: ./build.sh ${{env:CODENAME}}
+        run: ./build.sh $CODENAME
         shell: bash
       - run: ls -ls images
       - run: echo SG_ZIP=$(cd images; echo sg-*.zip) >>$GITHUB_ENV
