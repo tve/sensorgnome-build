@@ -121,10 +121,11 @@ jobs:
       - run: echo SG_ZIP=$(cd images; echo sg-*.zip) >>$GITHUB_ENV
 
       # Upload github artifacts for debugging purposes
-      - uses: actions/upload-artifact@v2
-        with:
-          name: ${{env.SG_ZIP}}
-          path: images/${{env.SG_ZIP}}
+      # (commented out to save 1min of workflow run time)
+      # - uses: actions/upload-artifact@v2
+      #   with:
+      #     name: ${{env.SG_ZIP}}
+      #     path: images/${{env.SG_ZIP}}
 
       - name: Upload images to AWS S3 repo
         run: |
