@@ -167,7 +167,7 @@ Initial testing with self-signed certificates resulted in lots of difficulties a
 When the SDcard is initially flashed from the image there are two partitions/filesystems:
 
 - a 256MB `boot` partition holding a FAT32 filesystem that is used in the initial boot stage.
-- an approx 3GB `rootfs` partition holding an EXT4 Linux filesystem with the operating system,
+- an approx 4GB `rootfs` partition holding an EXT4 Linux filesystem with the operating system,
   this partition cannot (easily) be mounted on a Windows system and may show up as empty or
   unused, but it certainly isn't!
 - the rest of the SDcard is empty/unpartitioned.
@@ -176,3 +176,27 @@ When the SDcard is first booted a third partition is created:
 
 - a large `data` partition filling the rest of the SDcard (e.g. about 26GB on a 32GB card) holding
   a FAT32 filesystem that is used to store the Sensorgnome's config and data.
+
+#### What time is reported for detections that occur before time synchronization?
+
+The Raspberry Pis do not have a real-time clock (RTC) chip that retains the time between system
+reboots or power cycles. Time is only kept while the operating system is running.
+The operating system writes the current time to a file every 11 minutes. At boot time, time is
+initialized to the last thus saved timestamp. As a result, until a fresh time synchronization
+happens (whether Network Time Protocol NTP or GPS) the Sensorgnome thinks it did a quick reboot
+right after saving the time.
+
+There are three ways the Sensorgnome can synchronize time: NTP, GPS, or RTC chip.
+If the SG has internet connection it will start trying to synchronize via NTP.
+If the SG has a GPS (such as the Adafruit GPS HAT) it will synchronize as soon as the GPS
+signals a fix.
+If the SG has an Adafruit GPS HAT and the RTC built into that HAT's GPS module has the time
+(i.e. power was not lost or the battery is functioning) then the RTC time will be used.
+
+Radio tag/pulse detections occur independently of time synchronization, i.e., the SG does not wait
+for time sync before starting the radios. For any detections that are made the name of the
+file in which the detections are save has a letter that indicates the time sync state.
+Specifically, if the letter at he end of the ISO timestamp in the filename is the std 'Z'
+then the time is synchronized, if the letter is a 'P' then it is not.
+
+Note that in older versionsof the software the timestamps of a Sensorgnome without time syn were way in the past, such as pre-2010. This is no longer the case because it prevents HTTPS communication due to the fact that all certificates are flagged as invalid.
