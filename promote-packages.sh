@@ -18,8 +18,7 @@ for d in $deps; do
     if [[ $version_t != $version_s ]]; then
         out=$(deb-s3 copy --bucket=sensorgnome --s3-region=$S3_REGION --preserve-versions \
             --codename=testing --sign=8EFF151A5DDAE8F1 --visibility=public --arch=armhf \
-            $d stable main)
-        # --versions=2022.033
+            $d stable main --versions=$version_t)
         if [[ "$out" =~ "ERROR" ]]; then exit 1; fi
     fi
 done
