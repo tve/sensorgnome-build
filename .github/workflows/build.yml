@@ -25,7 +25,6 @@ jobs:
 
       # get base image name based on MD5's of command files
       - run: |
-          #echo GIT_REF=${{github.ref}} | sed -e 's;refs/[^/]*/;;' >>$GITHUB_ENV
           echo BASE_ZIP=$(./build-baseimg.sh --name) >>$GITHUB_ENV
 
       - name: Configure AWS Credentials
@@ -111,7 +110,7 @@ jobs:
       - name: Fetch existing base image from S3
         run: |
           mkdir -p images
-          aws s3 cp --no-progress s3://$S3_PATH$GIT_REF/$BASE_ZIP images
+          aws s3 cp --no-progress s3://$S3_PATH/$BASE_ZIP images
           ls -lsh images
 
       - name: Build image
