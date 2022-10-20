@@ -1,29 +1,29 @@
 name: Promote Sensorgnome packges to stable
-    # secrets:
-    #   GPG_PRIVATE_KEY:
-    #     required: true
-    #   GPG_PASSPHRASE:
-    #     required: true
 
+inputs:
+  gpg_private_key:
+    required: true
+  gpg_passphrase:
+    required: true
+  
 runs:
   using: "composite"
-  env:
-    GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
-    GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
   steps:
     - name: Install deb-s3
       run: |
         curl -sLO https://github.com/deb-s3/deb-s3/releases/download/0.11.4/deb-s3-0.11.4.gem
         sudo gem install deb-s3-0.11.4.gem
+      shell: bash
 
     # To export key: gpg --list-secret-keys --keyid-format LONG; gpg --export-secret-keys --armor {your_keyId}
     - name: Install GPG key to sign package
       uses: crazy-max/ghaction-import-gpg@v5
       with:
-        gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
-        passphrase: ${{ secrets.GPG_PASSPHRASE }}
+        gpg_private_key: ${{ inputs.gpg_private_key }}
+        passphrase: ${{ inputs.gpg_passphrase }}
 
     - name: Promote .debs
       # GPG_TTY needed to avoid `gpg: signing failed: Inappropriate ioctl for device`
       run: |
         ./promote-packages.sh
+      shell: bash
