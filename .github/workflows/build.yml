@@ -114,7 +114,9 @@ jobs:
           ls -lsh images
 
       - name: Build image
-        run: ./build.sh $CODENAME
+        run: |
+          tag=$([[ "$GIT_REF" =~ v* ]] && echo "-t $GIT_REF")
+          ./build.sh -c $CODENAME $tag
         shell: bash
       - run: ls -ls images
       - run: echo SG_ZIP=$(cd images; echo sg-*.zip) >>$GITHUB_ENV

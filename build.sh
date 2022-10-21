@@ -1,7 +1,31 @@
 #! /bin/bash -e
 
-CODENAME=$1
-MANIFEST=${2:-manifest-armv7-rpi-bullseye}
+# parse commandline options for tag, codename, and manifest
+CODENAME=testing
+MANIFEST=manifest-armv7-rpi-bullseye
+V=$(TZ=PST8PDT date +%Y-%j)
+while getopts ":t:c:m:" opt; do
+    case $opt in
+        t)
+            V=$OPTARG
+            ;;
+        c)
+            CODENAME=$OPTARG
+            ;;
+        m)
+            MANIFEST=$OPTARG
+            ;;
+        \?)
+            echo "Invalid option: -$OPTARG" >&2
+            exit 1
+            ;;
+        :)
+            echo "Option -$OPTARG requires an argument." >&2
+            exit 1
+            ;;
+    esac
+done
+
 source $MANIFEST
 
 # Pull docker images we will need explicitly so we get an error here where the problem is obvious
@@ -26,7 +50,6 @@ else
 fi
 
 # Create sensorgnome image
-V=$(TZ=PST8PDT date +%Y-%j)
 echo ""
 echo "*** Building sensorgnome image: images/sg-$TYPE-$V.zip"
 set -x
