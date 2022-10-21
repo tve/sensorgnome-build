@@ -115,7 +115,9 @@ jobs:
 
       - name: Build image
         run: |
-          tag=$(if [[ "$GIT_REF" = /v* ]]; then echo "-t ${GIT_REF:1}"; else echo ""; fi)
+          echo git_ref=$GIT_REF ${{github.ref}}
+          github_ref=${{github.ref}}
+          tag=$(if [[ -z "$GIT_REF" ]]; then echo "-t ${github_ref#*/v}"; else echo ""; fi)
           echo tag=$tag
           ./build.sh -c $CODENAME $tag
         shell: bash
