@@ -77,9 +77,9 @@ jobs:
         with:
           path: .
 
-      # use branch or tag name in S3 upload path unless it's a v2022-xxx tag
+      # use branch or tag name in S3 upload path unless it's a release version tag
       - run: |
-          echo GIT_REF=${{github.ref}} | sed -e 's;refs/[^/]*/;/;' -e 's;/v20..-[0-9]*;;' >>$GITHUB_ENV
+          echo GIT_REF=${{github.ref}} | sed -e 's;refs/[^/]*/;/;' -e 's;/v2.*;;' >>$GITHUB_ENV
           echo BASE_ZIP=$(./build-baseimg.sh --name) >>$GITHUB_ENV
 
       - name: Configure AWS Credentials
