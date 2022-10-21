@@ -25,6 +25,7 @@ while getopts ":t:c:m:" opt; do
             ;;
     esac
 done
+echo "V=$V, CODENAME=$CODENAME, MANIFEST=$MANIFEST"
 
 source $MANIFEST
 
