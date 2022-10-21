@@ -115,7 +115,7 @@ jobs:
 
       - name: Build image
         run: |
-          tag=$([[ "$GIT_REF" =~ v* ]] && echo "-t $GIT_REF")
+          tag=$([[ "$GIT_REF" = /v* ]] && echo "-t ${GIT_REF:1}")
           echo tag=$tag
           ./build.sh -c $CODENAME $tag
         shell: bash
