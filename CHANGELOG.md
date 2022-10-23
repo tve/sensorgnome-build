@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+
+### Added
+
+- **monitoring**: added reporting of sg-control information
+- **monitoring**: fixed upload of log files
+
+## [v2.0-rc1](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-bullseye-2.0-rc1.zip)
+
+### Summary
+
+No functional change from 2022-292 except for switch to "V2.x" release numbers instead of YYYY-DDD
 
 ## [2022-292](https://sensorgnome.s3.amazonaws.com/images/pimod/sg-armv7-rpi-bullseye-testing-2022-292.zip)
 
