@@ -64,13 +64,18 @@ docker run --rm --privileged \
     $PIMOD_IMAGE \
     pimod.sh /sg/sg-$TYPE.pifile
 #    -e "SG_DEBS=$SG_DEBS" \
-set +x
-[[ $CODENAME == 'testing' ]] && V=testing-$V
-mv -f images/sg-$TYPE-temp.img images/sg-$TYPE-$V.img
-rm -f images/sg-$TYPE-$V.zip
-(cd images; zip sg-$TYPE-$V.zip sg-$TYPE-$V.img)
+# Make some tweak to image name: for test images add -testing, for final images remove OS version
+if [[ $CODENAME == 'testing' ]]; then
+    IMG=sg-$TYPE-testing-$V
+else
+    IMG=sg-${TYPE%-*}-$V
+fi
+
+mv -f images/sg-$TYPE-temp.img images/$IMG.img
+rm -f images/$IMG.zip
+(cd images; zip $IMG.zip $IMG.img)
 #(cd images; 7z a sg-$TYPE-$V.zip sg-$TYPE-$V.img)
 
 echo ""
-echo "*** sensorgnome image built: images/sg-$TYPE-$V.img"
-ls -lh images/sg-$TYPE-$V.*
+echo "*** sensorgnome image built: images/$IMG.img"
+ls -lh images/$IMG.*
