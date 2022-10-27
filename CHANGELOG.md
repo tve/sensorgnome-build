@@ -2,18 +2,25 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased
+## [v2.0-rc5](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-bullseye-2.0-rc1.zip)
+
+### Fixed/improved
+
+- **lotek radios**: the web UI now allows switching radio frequency (166.38/150.1/150.5Mhz)
+- **rtlsdr radios**: the plugging and unplugging of rtlsdr radios now functions correctly
 
 ### Added
 
 - **monitoring**: added reporting of sg-control information
 - **monitoring**: fixed upload of log files
 
-## [v2.0-rc1](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-bullseye-2.0-rc1.zip)
+## [v2.0-rc4](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-bullseye-2.0-rc1.zip)
 
 ### Summary
 
 No functional change from 2022-292 except for switch to "V2.x" release numbers instead of YYYY-DDD
+
+Note that v2.0-rc1 through rc3 were failed attempts at creating a release candidate (had to iron out the release process somehow).
 
 ## [2022-292](https://sensorgnome.s3.amazonaws.com/images/pimod/sg-armv7-rpi-bullseye-testing-2022-292.zip)
 
