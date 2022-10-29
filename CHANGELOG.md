@@ -2,7 +2,14 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v2.0-rc5](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-bullseye-2.0-rc1.zip)
+## [v2.0-rc6](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc6.zip)
+
+### Fixed/improved
+
+- **short label**: fixed initial setting and editing of receiver "short label"/"label"
+- **upload**: force refresh of auth token on upload error to avoid odd corner cases
+
+## [v2.0-rc5](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc5.zip)
 
 ### Fixed/improved
 
@@ -14,7 +21,7 @@ All notable changes to this project will be documented in this file. The format 
 - **monitoring**: added reporting of sg-control information
 - **monitoring**: fixed upload of log files
 
-## [v2.0-rc4](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-bullseye-2.0-rc1.zip)
+## [v2.0-rc4](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-bullseye-2.0-rc4.zip)
 
 ### Summary
 
