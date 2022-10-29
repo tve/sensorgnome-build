@@ -15,7 +15,7 @@ for d in $deps; do
     version_t=$(awk '/^Package:/{pkg=$2} /^Version/&&pkg=="'$d'"{print $2}' Packages-testing | sort | tail -1)
     version_s=$(awk '/^Package:/{pkg=$2} /^Version/&&pkg=="'$d'"{print $2}' Packages-stable | sort | tail -1)
     echo "$d -- testing: $version_t, stable: $version_s"
-    if [[ $version_t != $version_s ]]; then
+    if [[ x$version_t != $version_s ]]; then
         out=$(deb-s3 copy --bucket=sensorgnome --s3-region=$S3_REGION --preserve-versions \
             --codename=testing --sign=8EFF151A5DDAE8F1 --visibility=public --arch=armhf \
             $d stable main --versions=$version_t)
