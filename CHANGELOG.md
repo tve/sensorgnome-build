@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v2.0-rc6](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc6.zip)
+## [v2.0-rc7](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc7.zip)
 
 ### Fixed/improved
 
