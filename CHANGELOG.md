@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file. The format 
 
 - **short label**: fixed initial setting and editing of receiver "short label"/"label"
 - **upload**: force refresh of auth token on upload error to avoid odd corner cases
+- **rtlsdr**: fix detection of rtlsdr at boot time on rpi4
 
 ## [v2.0-rc5](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc5.zip)
 
