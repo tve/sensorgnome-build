@@ -55,17 +55,17 @@ RUN raspi-config nonint do_ssh 0
 RUN bash -c 'sed -i -e "/^daemon/d" -e "/^\*\.=info;/,+3d" /etc/rsyslog.conf'
 RUN rm -rf /var/log/journal
 RUN bash -c "echo 'RuntimeMaxUse=1M' >> /etc/systemd/journald.conf"
-RUN bash -c 'sed -i -e "s/weekly/daily/" -e "/rotate/s/4/8/" /etc/logrotate.d/rsyslog'
 
 # Change logrotate config so old log files get a date extension to make it easier to sync them
 # to the hub
-RUN sed -i 's/endscript/endscript\n\tdateext\n\tdateyesterday/' /etc/logrotate.d/rsyslog
+RUN bash -c 'sed -i -e "s/weekly/daily/" -e "/rotate/s/4/8/" /etc/logrotate.d/rsyslog'
+RUN sed -i 's/endscript/endscript\n\tdateext\n\tdateyesterday\n\tnodelaycompress/' /etc/logrotate.d/rsyslog
 
 # Enable I2C (setting '0' = on !?!?)
 RUN raspi-config nonint do_i2c 0
 
-# Set US/Eastern timezone
-RUN ln -sf /usr/share/zoneinfo/America/Toronto /etc/localtime
+# Set UTC timezone
+RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Reboot on kernel panic
 RUN tee -a /etc/sysctl.conf <<<kernel.panic=10
