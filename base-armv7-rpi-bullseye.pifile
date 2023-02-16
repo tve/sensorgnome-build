@@ -17,7 +17,7 @@ RUN bash -c "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' |
 RUN bash -c "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list"
 
 # Set-up repository for telegraf (monitoring agent)
-RUN bash -c "curl -1sLf 'https://repos.influxdata.com/influxdb.key' | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/influxdb.gpg"
+RUN bash -c "curl -1sLf 'https://repos.influxdata.com/influxdata-archive_compat.key' | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/influxdb.gpg"
 RUN bash -c "echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/debian stable main' | sudo tee /etc/apt/sources.list.d/influxdata.list"
 
 # Update OS and sources
