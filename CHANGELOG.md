@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.0-rc9](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc9.zip)
+
+### Fixed/improved
+
+### Planned
+
+- [ ] CTT detections on home page are bogus (seem to duplicate lotek detections?)
+- [ ] improve sg-control logging of updates/upgrades
+- [ ] add monitoring of tags detected to SG Hub
+- [ ] add more help info to widgets in the web interface
+- [ ] fix formatting of widget info
+- [ ] add monitoring of upload errors (is what's there enough?)
+- [ ] improve sg-control install (avoid compilation of pam module)
+- [ ] sleep GPS polling if gpsd produces ECONNREFUSED, i.e. it's not running
+- [ ] make gpsd polling quicker at start-up
+- [ ] do not print connectivity check failure every time (2 lines!)
+- [ ] start data files with radio freq
+- [ ] start data files with some random stuff or SG-ID (remember why?)
+- [ ] remove session id in HTTP auth for FlexDash
+- [ ] captive portal browser on MacOS doesn't show plots or allow download, safari works fine
+- [ ] show ports for radios on timeline plot
+- [ ] add "data cap" (idea needs fleshing out)
+- [ ] figure out how to turn hotspot off automatically
+- [ ] Adafruit GPS seems to show "no-dev" right after boot until is gets a fix
+
 ## [v2.0-rc8](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc8.zip)
 
 ### Fixed/improved
