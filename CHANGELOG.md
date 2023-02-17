@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.0-rc8](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc8.zip)
+
+### Fixed/improved
+
+- automatic renewal of the HTTPS key/cert
+- fix hotspot password (always set to same as SG pw)
+- run everything in UTC (currently EST which becomes crazy when the SG is in CET and the troubleshooter is in PST and server logs are in UTC)
+- reduce bandwidth used by shipping uncompressed logs
+- ensure all http requests to SG hub are compressed
+- print clear start message in sg-control log to help troubleshooting
+- improve sg-control logging of updates/upgrades (the logging to upgrade.log seems to break)
+- add safeguards to upload dying (see ISSUES.md "SG-5B7DRPI44315 stops uploading")
+- fix telegraf not starting after system upgrade
+- fix sg-control not starting due to chrony start-up delay
+- remove session token in "refreshing motus session" (security issue)
+- enable fsck for /data
+- implement systemd watchdog for sg-hub-agent to avoid hung agent
+- reduce telegraf monitoring interval to 10 minutes (was 1m)
+- direction finder detections widget needs timestamps
+- add system shutdown button
+
 ## [v2.0-rc7](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc7.zip)
 
 ### Fixed/improved
