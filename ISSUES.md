@@ -138,3 +138,19 @@ The SG dashboard displays the boot time by subtracting the uptime from the curre
 is pretty good, but may not coincide with the time at boot because at boot the time may not have
 been accurate, especially if the rPi had been powered off. The time at boot is captured in
 `/proc/stat` as `btime` in case that's of interest.
+
+## SG-A3F8RPI42548 has Quected EG25 LTE modem identified as sixfab HAT
+
+```
+Feb 28 00:00:09 localhost init-sixfab-gps.sh[2539]: 0 lrwxrwxrwx 1 root root 13 Feb 23 13:17 usb-Quectel_EG25-G-if00-port0 -> ../../ttyUSB0
+Feb 28 00:00:09 localhost init-sixfab-gps.sh[2539]: 0 lrwxrwxrwx 1 root root 13 Feb 23 13:17 usb-Quectel_EG25-G-if01-port0 -> ../../ttyUSB1
+Feb 28 00:00:09 localhost init-sixfab-gps.sh[2539]: 0 lrwxrwxrwx 1 root root 13 Feb 23 13:17 usb-Quectel_EG25-G-if02-port0 -> ../../ttyUSB2
+Feb 28 00:00:09 localhost init-sixfab-gps.sh[2539]: 0 lrwxrwxrwx 1 root root 13 Feb 23 13:17 usb-Quectel_EG25-G-if03-port0 -> ../../ttyUSB3
+```
+
+This causes init-sixfab-gps.sh to fail 'cause it expects LE91 in the filenames.
+
+## Gestures fails to start because it doesn't detect the Sixfab HAT
+
+When the gestures service started udev hadn't discovered the Sixfab HAT yet, so gestures concluded that there's no button.
+
