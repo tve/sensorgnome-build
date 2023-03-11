@@ -28,8 +28,7 @@ RUN apt update
 
 # Install sensorgnome packages
 RUN dpkg --print-architecture
-RUN apt-get -y remove modemmanager
-RUN apt install -y sensorgnome
+RUN apt install -y sensorgnome dhcpcd5
 RUN apt-get clean
 
 # Download latest local-ip.co certs, overwriting what comes in the sg-web-portal pkg so it's
