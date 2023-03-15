@@ -18,6 +18,9 @@ Host github.com
     StrictHostKeyChecking no
 EOF
 
+ssh $1 "[[ -d sensorgnome-control ]] || git clone git@github.com:tve/sensorgnome-control.git"
+ssh $1 "ln -s /opt/sensorgnome/control/public/flexdash ~/sensorgnome-control/src/public"
+
 ssh $1 "cat >sensorgnome-control/run; chmod +x sensorgnome-control/run" <<EOF
 #! /bin/bash
 cd /home/gnome/sensorgnome-control/src
@@ -27,12 +30,11 @@ export LC_ALL="C.UTF-8"
 node main
 EOF
 
-ssh $1 "sudo -S 'systemctl stop sg-control; systemctl disable sg-control'"
+ssh $1 "sudo -S bash -c 'systemctl stop sg-control; systemctl disable sg-control; sed -i -e 's/pi/gnome/' /etc/sudoers.d/010_pi-nopassw'"
 
 cat <<EOF
 
 # Run the following manually:
-git clone git@github.com:tve/sensorgnome-control.git
 cd sensorgnome-control
 git checkout flexdash
 cd src
