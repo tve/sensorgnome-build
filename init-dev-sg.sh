@@ -30,7 +30,7 @@ export LC_ALL="C.UTF-8"
 node main
 EOF
 
-ssh $1 "sudo -S bash -c 'systemctl stop sg-control; systemctl disable sg-control; sed -i -e 's/pi/gnome/' /etc/sudoers.d/010_pi-nopassw'"
+ssh $1 "sudo -S bash -c 'systemctl stop sg-control; systemctl disable sg-control; sed -i -e 's/pi/gnome/' /etc/sudoers.d/010_pi-nopasswd'"
 
 cat <<EOF
 
