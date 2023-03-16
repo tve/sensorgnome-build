@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.0-rc10](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc10.zip)
+
+### Fixed/improved
+
+- rewrite cellular modem management using ModemManager, disabling SixFab's software
+- support WaveShare SIM7600 series modems (USB dongle, HAT "should" work too)
+- support SixFab cellular HAT with EC25/EG25 modem
+- added cellular info panel to network tab
+- installed vnstat to keep track of network usage, display info on network tab
+- moved dangerous system operations to a "danger zone" panel, added ability to switch
+  release train (stable vs. testing)
+- misc improvements to the upgrade process
+
 ## [v2.0-rc9](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc9.zip)
 
 ### Fixed/improved
