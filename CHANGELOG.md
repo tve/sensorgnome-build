@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file. The format 
 - moved dangerous system operations to a "danger zone" panel, added ability to switch
   release train (stable vs. testing)
 - misc improvements to the upgrade process
+- attempt to handle device open error due to USB issues for CTT receivers
 
 ## [v2.0-rc9](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc9.zip)
 

@@ -86,25 +86,33 @@ usb 1-1.1.2: Not enough bandwidth for altsetting 1
 sg-control log:
 ```
 Jan  7 23:01:19 localhost sg-control[7631]: events.js:377
-Jan  7 23:01:19 localhost sg-control[7631]:       throw er; // Unhandled 'error
-' event
+Jan  7 23:01:19 localhost sg-control[7631]:       throw er; // Unhandled 'error' event
 Jan  7 23:01:19 localhost sg-control[7631]:       ^
-Jan  7 23:01:19 localhost sg-control[7631]: Error: EIO: i/o error, open '/dev/s
-ensorgnome/CornellTagXCVR.port=7.port_path=1_1_4'
-Jan  7 23:01:19 localhost sg-control[7631]: Emitted 'error' event on ReadStream
- instance at:
-Jan  7 23:01:19 localhost sg-control[7631]:     at internal/fs/streams.js:126:1
-4
-Jan  7 23:01:19 localhost sg-control[7631]:     at FSReqCallback.oncomplete (fs
-.js:180:23) {
+Jan  7 23:01:19 localhost sg-control[7631]: Error: EIO: i/o error, open '/dev/sensorgnome/CornellTagXCVR.port=7.port_path=1_1_4'
+Jan  7 23:01:19 localhost sg-control[7631]: Emitted 'error' event on ReadStream instance at:
+Jan  7 23:01:19 localhost sg-control[7631]:     at internal/fs/streams.js:126:14
+Jan  7 23:01:19 localhost sg-control[7631]:     at FSReqCallback.oncomplete (fs.js:180:23) {
 Jan  7 23:01:19 localhost sg-control[7631]:   errno: -5,
 Jan  7 23:01:19 localhost sg-control[7631]:   code: 'EIO',
 Jan  7 23:01:19 localhost sg-control[7631]:   syscall: 'open',
-Jan  7 23:01:19 localhost sg-control[7631]:   path: '/dev/sensorgnome/CornellTa
-gXCVR.port=7.port_path=1_1_4'
+Jan  7 23:01:19 localhost sg-control[7631]:   path: '/dev/sensorgnome/CornellTagXCVR.port=7.port_path=1_1_4'
 Jan  7 23:01:19 localhost sg-control[7631]: }
 ```
 Solution: reseat USB connectors and power cycle :-(
+
+Update: this is a persistent problem. So far two Sabrent hubs have exibited the issue. From syslog:
+
+```
+Mar 16 22:33:33 localhost kernel: [ 1157.281725] usb 1-1.1.3: 1:0: usb_set_interface failed (-110)
+Mar 16 22:33:33 localhost kernel: [ 1157.281879] cma: cma_alloc: linux,cma: alloc failed, req-size: 1 pages, ret: -4
+Mar 16 22:33:33 localhost kernel: [ 1157.281892] usb 1-1.1.3: Not enough bandwidth for altsetting 1
+```
+
+From lsusb:
+- Bad: ID 05e3:0608 Genesys Logic, Inc. Hub
+- Bad: ID 05e3:0610 Genesys Logic, Inc. Hub
+- Good: ID 214b:7250 Huasheng Electronics USB2.0 HUB
+
 
 ## SG-68B4RPI33F06 fails to start due to chrony glitch
 
