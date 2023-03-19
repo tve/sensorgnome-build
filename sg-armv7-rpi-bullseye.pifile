@@ -50,6 +50,9 @@ RUN pip3 install -U atcom pyyaml pyusb smbus2 crc16
 # Enable SSH (0 == success status code - enable)
 RUN raspi-config nonint do_ssh 0
 
+# Set swapfile size to 500MB
+RUN sed -i -e 's/SWAPSIZE=100/SWAPSIZE=500/' /etc/dphys-swapfile
+
 # Disable some log files so everything doesn't get logged 3 times... Focus on /var/log/syslog
 RUN bash -c 'sed -i -e "/^daemon/d" -e "/^\*\.=info;/,+3d" /etc/rsyslog.conf'
 RUN rm -rf /var/log/journal
