@@ -72,9 +72,6 @@ RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 # Reboot on kernel panic
 RUN tee -a /etc/sysctl.conf <<<kernel.panic=10
 
-# Use act_led (green) for heartbeat
-RUN bash -c 'tee -a /boot/config.txt <<< "dtparam=act_led_trigger=heartbeat"'
-
 # Quiet down rngd logging
 RUN bash -c 'echo RNGDOPTIONS="--stats-interval=86400" >>/etc/default/rng-tools-debian'
 
