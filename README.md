@@ -109,6 +109,8 @@ involved.
   sudo mount /dev/mapper/loopNp1 /mnt
 ```
 
+- to enable the boot console on a CM3, add `console=serial0,115200` to the kernel command line in `/boot/cmdline.txt`.
+
 ## Keys to sign packages and update the debian repo
 
 - TvE has the sensorgnome-repo key in his gpg keyring, it is encrypted using a password found
