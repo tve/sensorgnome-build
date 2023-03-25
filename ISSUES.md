@@ -162,3 +162,21 @@ This causes init-sixfab-gps.sh to fail 'cause it expects LE91 in the filenames.
 
 When the gestures service started udev hadn't discovered the Sixfab HAT yet, so gestures concluded that there's no button.
 
+## SG-68B4RPI33F06 has 9 FCDs and 1 CTT but only shows 7 of the 9 FCDs
+
+Error in sg-control about one of the FCDs:
+```
+Mar 22 19:35:00 localhost sg-control[1088]: USBAudio 1:11: setting frequency to 166.376
+Mar 22 19:35:00 localhost sg-control[1088]: USBAudio 1:11: setting lna_gain to 1
+Mar 22 19:35:00 localhost sg-control[1088]: USBAudio 1:11: setting rf_filter to 6
+Mar 22 19:35:00 localhost sg-control[1088]: USBAudio 1:11: setting mixer_gain to 1
+Mar 22 19:35:00 localhost sg-control[1088]: USBAudio 1:11: setting if_filter to 0
+Mar 22 19:35:00 localhost sg-control[1088]: USBAudio 1:11: setting if_gain to 0
+Mar 22 19:35:01 localhost sg-control[1088]: VAH command:  ["start 6"]
+Mar 22 19:35:01 localhost sg-control[1088]: Error: Error: invalid command
+Mar 22 19:35:01 localhost sg-control[1088]:  so I'm unable to attach plugin lotek-plugins.so:findpulsefdbatch:pulses to {"path":"/dev/sensorgnome/funcubeProPlus.port=6.alsaDev=6.usbPath=1:11.port_path=1_5_3","attr":{"type":"funcubeProPlus","port":"6","alsaDev":"6","usbPath":"1:11","port_path":"1_5_3","radio":"VAH"},"stat":{"dev":5,"mode":8630,"nlink":1,"uid":0,"gid":29,"rdev":29888,"blksize":4096,"ino":328,"size":0,"blocks":0,"atimeMs":1679513561988.2646,"mtimeMs":1679513561988.2646,"ctimeMs":1679513561988.2646,"birthtimeMs":0,"atime":"2023-03-22T19:32:41.988Z","mtime":"2023-03-22T19:32:41.988Z","ctime":"2023-03-22T19:32:41.988Z","birthtime":"1970-01-01T00:00:00.000Z"}}
+```
+
+Also, the SG only shows 7 of the 9 FCDs in sg-control.
+
+Resolution: there is a limit of 8 sound "cards" in the alsa driver. This results in 7 FCDs 'cause one sound card is used by the rpi hardware. There does not seem to be an easy way to increase this limit. Since 7 seems plenty for now this is not being pursued further.
