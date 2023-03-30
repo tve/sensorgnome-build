@@ -15,6 +15,13 @@ All notable changes to this project will be documented in this file. The format 
   release train (stable vs. testing)
 - misc improvements to the upgrade process
 - attempt to handle device open error due to USB issues for CTT receivers
+- use one password for web UI, ssh, _and_ hot-spot
+- changing the password in the web ui also changes hot-spot password
+- start to support image customization using the rpi-imager
+- rework GPS detection to handle modems and to reduce time taken at boot
+- support remote commands to reboot & enable/disable hotspot
+- force system to use UTC time-zone
+- very basic support for SensorStation V1
 
 ## [v2.0-rc9](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc9.zip)
 
