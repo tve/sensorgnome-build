@@ -4,24 +4,29 @@ All notable changes to this project will be documented in this file. The format 
 
 ## [v2.0-rc10](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc10.zip)
 
+### Added
+
+- support WaveShare SIM7600 series modems (USB dongle, HAT "should" work too)
+- added cellular info panel to network tab
+- support remote commands to reboot & enable/disable hotspot
+- installed vnstat to keep track of network usage, display info on network tab
+- added ability to switch release train (stable vs. testing)
+- start to support image customization using the rpi-imager
+- very basic support for SensorStation V1
+
 ### Fixed/improved
 
 - rewrite cellular modem management using ModemManager, disabling SixFab's software
-- support WaveShare SIM7600 series modems (USB dongle, HAT "should" work too)
 - support SixFab cellular HAT with EC25/EG25 modem
-- added cellular info panel to network tab
-- installed vnstat to keep track of network usage, display info on network tab
-- moved dangerous system operations to a "danger zone" panel, added ability to switch
-  release train (stable vs. testing)
+- moved dangerous system operations to a "danger zone" panel
 - misc improvements to the upgrade process
 - attempt to handle device open error due to USB issues for CTT receivers
 - use one password for web UI, ssh, _and_ hot-spot
 - changing the password in the web ui also changes hot-spot password
-- start to support image customization using the rpi-imager
 - rework GPS detection to handle modems and to reduce time taken at boot
-- support remote commands to reboot & enable/disable hotspot
 - force system to use UTC time-zone
-- very basic support for SensorStation V1
+
+Equivalent dev image: 2023-089
 
 ## [v2.0-rc9](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc9.zip)
 
@@ -29,6 +34,8 @@ All notable changes to this project will be documented in this file. The format 
 
 - reduce internet bandwidth by reducing connectivity check frequency (wasn't backing off)
 - fix display of 5-minute CTT detections
+
+Equivalent dev image: 2023-053
 
 ## [v2.0-rc8](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc8.zip)
 
@@ -50,6 +57,8 @@ All notable changes to this project will be documented in this file. The format 
 - reduce telegraf monitoring interval to 10 minutes (was 1m)
 - direction finder detections widget needs timestamps
 - add system shutdown button
+
+Equivalent dev image: 2023-047
 
 ## [v2.0-rc7](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc7.zip)
 
