@@ -7,9 +7,9 @@ PUMP 800M
 # Set-up nodejs repository so we can get a modern version
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
 RUN tee /etc/apt/sources.list.d/nodesource.list <<EOF
-deb https://deb.nodesource.com/node_14.x bullseye main
+deb https://deb.nodesource.com/node_18.x bullseye main
 EOF
-#deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_14.x bullseye main
+#deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/8.x bullseye main
 
 # Set-up repository for caddy (web server)
 RUN apt-get install -y debian-keyring debian-archive-keyring apt-transport-https
