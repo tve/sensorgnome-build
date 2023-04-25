@@ -4,7 +4,8 @@ This repository contains scripts to build a complete Sensorgnome flash image,
 currently only for Raspberry Pi.
 
 This README is about building the Sensorgnome software.
-__For documentation on how to install and use a Sensorgnome, see [SOFTWARE.md](SOFTWARE.md).__
+__Please refer to the [documentation](https://docs.motus.org/sensorgnome-v2/)
+for information on installing and using a Sensorgnome.__
 
 The whole build process from scratch consists of 3 steps:
 

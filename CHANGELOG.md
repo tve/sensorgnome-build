@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.0-rc11](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc10.zip)
+
+### Added/removed
+
+- display wifi state using rPi green LED
+- removed use of short-name (use station name on SGhub where applicable)
+- implement remote commands via SGhub
+- new hotspot-less install flow through SGhub
+- charts on radio tab for noise/performance measurements
+
+### Fixed/improved
+
+- reworked a lot of GPS support
+- fixed uninitialized clock issues
+- avoid native code install for sg-control
+- upgrade to node.js v18
+
+Equivalent dev image: 2023-11x
+
 ## [v2.0-rc10](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc10.zip)
 
 ### Added
