@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v2.0-rc11](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc10.zip)
+## [v2.0-rc12](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc12.zip)
+
+### Added/removed
+
+### Fixed/improved
+
+- fix radio charts
+- fix saving of config and time-series (charts) race condition
+
+## [v2.0-rc11](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc11.zip)
 
 ### Added/removed
 
@@ -19,7 +28,7 @@ All notable changes to this project will be documented in this file. The format 
 - avoid native code install for sg-control
 - upgrade to node.js v18
 
-Equivalent dev image: 2023-11x
+Equivalent dev image: 2023-115
 
 ## [v2.0-rc10](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc10.zip)
 
