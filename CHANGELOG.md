@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file. The format 
 - fix radio charts
 - fix saving of config and time-series (charts) race condition
 
+Equivalent dev image: 2023-126
+
 ## [v2.0-rc11](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc11.zip)
 
 ### Added/removed

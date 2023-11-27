@@ -180,3 +180,72 @@ Mar 22 19:35:01 localhost sg-control[1088]:  so I'm unable to attach plugin lote
 Also, the SG only shows 7 of the 9 FCDs in sg-control.
 
 Resolution: there is a limit of 8 sound "cards" in the alsa driver. This results in 7 FCDs 'cause one sound card is used by the rpi hardware. There does not seem to be an easy way to increase this limit. Since 7 seems plenty for now this is not being pursued further.
+
+## SG-5B16RPI4106B dhcpcd runs out of buffer space
+
+Error in syslog every second:
+```
+Jun  5 06:33:47 localhost dhcpcd[933]: ipv6nd_sendadvertisement: No buffer space available
+```
+
+## SG-5B16RPI4106B pulses but no tags
+
+Job ID 24077502:
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T14-53-51.4370Z-all.txt.gz
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T14-53-51.4410Z-ctt.txt.gz
+- Got 0 (unfiltered) detections between 2023-05-28 14:53:51.437 and 2023-05-28 15:50:08.505.
+
+Job ID 24077696:
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T15-53-51.4410Z-all.txt.gz
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T15-53-51.4450Z-ctt.txt.gz
+- Got 0 (unfiltered) detections between 2023-05-28 15:53:51.441 and 2023-05-28 16:53:34.509.
+
+Job ID 24080427:
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T22-53-51.4590Z-all.txt.gz
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T22-53-51.4620Z-ctt.txt.gz
+- Got 0 (unfiltered) detections between 2023-05-28 22:53:51.459 and 2023-05-28 23:49:33.260.
+
+Job ID 24080794:
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T23-53-51.4650Z-ctt.txt.gz
+- /data/SGdata/2023-05-28/Davy_5-5B16RPI4106B-006-2023-05-28T23-53-51.4620Z-all.txt.gz
+- Got 0 (unfiltered) detections between 2023-05-28 23:53:51.462 and 2023-05-29 00:48:55.000.
+
+## SG-E0E7RPI44165 modem disconnects from USB and doesn't reappear
+
+Initial detection:
+```
+Aug 31 18:17:06 localhost kernel: [   10.493680] usb 1-1.3: New USB device found, idVendor=2c7c, idProduct=0125, bcdDevice= 3.18
+Aug 31 18:17:06 localhost kernel: [   10.493721] usb 1-1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+Aug 31 18:17:06 localhost kernel: [   10.493739] usb 1-1.3: Product: EG25-G
+Aug 31 18:17:06 localhost kernel: [   10.493755] usb 1-1.3: Manufacturer: Quectel
+```
+
+But later when ModemManager starts:
+```
+Aug 31 18:17:10 localhost ModemManager[563]: <info>  [base-manager] couldn't check support for device '/sys/devices/platform/scb/fd580000.ethernet': not supported by any plugin
+Aug 31 18:17:10 localhost ModemManager[563]: <info>  [base-manager] couldn't check support for device '/sys/devices/platform/soc/fe300000.mmcnr/mmc_host/mmc1/mmc1:0001/mmc1:0001:1': not supported by any plugin
+```
+
+On SG-BBDBRPI40313:
+
+```
+Feb 21 01:23:36 raspberrypi ModemManager[482]: <warn>  [ttyUSB0/probe] failed to parse QCDM version info command result: -7
+Feb 21 01:23:37 raspberrypi ModemManager[482]: <info>  [base-manager] couldn't check support for device '/sys/devices/platform/scb/fd580000.ethernet': not supported by any plugin
+Feb 21 01:23:37 raspberrypi ModemManager[482]: <info>  [device /sys/devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb1/1-1/1-1.3] creating modem with plugin 'quectel' and '5' ports
+Feb 21 01:23:37 raspberrypi sg-boot[654]: mkfs.fat 4.2 (2021-01-31)
+Feb 21 01:23:37 raspberrypi ModemManager[482]: <info>  [base-manager] modem for device '/sys/devices/platform/scb/fd500000.pcie/pci0000:00/0000:00:00.0/0000:01:00.0/usb1/1-1/1-1.3' successfully created
+Feb 21 01:23:37 raspberrypi ModemManager[482]: <info>  [base-manager] couldn't check support for device '/sys/devices/platform/soc/fe300000.mmcnr/mmc_host/mmc1/mmc1:0001/mmc1:0001:1': not supported by any plugin
+```
+
+## Some CTT json tags are not recognized and serial port hangs
+
+CTT seems to have two different JSON formats (really?) and one is not recognized, plus the tags
+must do something funny with the serial port because reading & writing it ends up hanging.
+
+The format looks like:
+```
+{"protocol":"1.0.0","meta":{"data_type":"coded_id","rssi":0},"data":{"id":"78664C3304"}}
+```
+
+The hanging is fixed by using the serialport module instead of just opening the port as a file.
+It's not clear why I switched to opening the port as a file in the first place.
