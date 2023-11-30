@@ -12,6 +12,7 @@ PIMOD_IMAGE=nature40/pimod:v0.6.0
 #OS_IMAGE=https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-04-07/2022-04-04-raspios-bullseye-armhf-lite.img.xz
 #OS_IMAGE=https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-07/2022-09-06-raspios-bullseye-armhf-lite.img.xz
 #OS_IMAGE=https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2022-09-26/2022-09-22-raspios-bullseye-armhf-lite.img.xz
-OS_IMAGE=https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2023-02-22/2023-02-21-raspios-bullseye-armhf-lite.img.xz
+#OS_IMAGE=https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2023-02-22/2023-02-21-raspios-bullseye-armhf-lite.img.xz
+OS_IMAGE=https://downloads.raspberrypi.com/raspios_oldstable_lite_armhf/images/raspios_oldstable_lite_armhf-2023-10-10/2023-05-03-raspios-bullseye-armhf-lite.img.xz
 # image type, gets prefixes by sg- or base- and suffixed by .zip, .img, .pifile, etc
 TYPE=armv7-rpi-bullseye
