@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.0-rc13](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc13.zip)
+
+### Fixed/improved
+
+- update to latest version of Raspberry Pi OS 'bullseye' (2023-05-03) and updated packages
+- fixed support for latest "V3" CTT dongles producing JSON output
+- switched interface to CTT dongles to use serialport module instead of std file access
+- fix to charts not showing in UI
+
 ## [v2.0-rc12](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc12.zip)
 
 ### Added/removed
