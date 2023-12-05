@@ -2,7 +2,7 @@
 
 FROM images/$IMAGE_IMG
 TO images/base-$TYPE-temp.img
-PUMP 800M
+PUMP 2G
 
 # Set-up nodejs repository so we can get a modern version
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
