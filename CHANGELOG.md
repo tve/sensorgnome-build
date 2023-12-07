@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file. The format 
 - switched interface to CTT dongles to use serialport module instead of std file access
 - fix to charts not showing in UI
 - extend sg-log to 120 days and syslog to 60 days, increase root partition to accommodate
+- report cellular info into sg-hub-agent so it can be monitored on sghub
 
 ## [v2.0-rc12](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc12.zip)
 
