@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: .
 
@@ -29,7 +29,7 @@ jobs:
 
       - name: Configure AWS Credentials
         # See https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{env.AWS_ROLE}}
           role-session-name: GithubActionsMotus
@@ -47,7 +47,7 @@ jobs:
         if: env.BUILD == 'yes'
 
       # Upload github artifacts for debugging purposes
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: ${{env.BASE_ZIP}}
           path: images/${{env.BASE_ZIP}}
@@ -73,7 +73,7 @@ jobs:
       CODENAME: testing
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           path: .
 
@@ -84,7 +84,7 @@ jobs:
 
       - name: Configure AWS Credentials
         # See https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services
-        uses: aws-actions/configure-aws-credentials@master
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{env.AWS_ROLE}}
           role-session-name: GithubActionsMotus

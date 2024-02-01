@@ -22,8 +22,10 @@ RUN systemctl enable getty@tty1
 RUN rm /usr/share/userconf-pi/sshd_banner
 
 # Configure sensorgnome repository
-RUN bash -c "echo deb https://sensorgnome.s3.amazonaws.com/ $CODENAME main | sudo tee /etc/apt/sources.list.d/sensorgnome.list"
-INSTALL sensorgnome-pub.gpg /etc/apt/trusted.gpg.d/sensorgnome.gpg
+#INSTALL sensorgnome-pub.gpg /etc/apt/trusted.gpg.d/sensorgnome.gpg
+RUN bash -c "curl -1sLf -o /usr/share/keyrings/sensorgnome.gpg 'https://sensorgnome.s3.amazonaws.com/sensorgnome.gpg'"
+RUN gpg --no-default-keyring --keyring /usr/share/keyrings/sensorgnome.gpg --list-keys
+RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/sensorgnome.gpg] https://sensorgnome.s3.amazonaws.com/' $CODENAME main >/etc/apt/sources.list.d/sensorgnome.list"
 RUN apt update
 
 # Install sensorgnome packages (the has-double line can be deleted when no pre 2023-080 SG exists)

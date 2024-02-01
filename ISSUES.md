@@ -249,3 +249,19 @@ The format looks like:
 
 The hanging is fixed by using the serialport module instead of just opening the port as a file.
 It's not clear why I switched to opening the port as a file in the first place.
+
+## GPSd doesn't detect or work with Adafruit GPS HAT
+
+Typically it is shown as no-dev in the Web UI. Most likely this is due to baud rate mismatch
+or perhaps due to the probing of GPSd putting the GPS into a weird state.
+
+GPSd is supposed to "autobaud" but in reality this was broken and is fixed in 3.23 or 3.24 (not
+sure). Debian sits on 3.22 and only provides 3.25 in unstable at the moment.
+Installing 3.25 from sources shows that it does autobaud but ends up being unreliable and
+frequently finds a checksum error in the stanzas coming from the GPS and then starts detection
+essentially from scratch. It is unclear whether the GPS sends garbage or something else happens
+(this was at 38400 baud). It seems that rather than having gpsd use the GPS' baud rate that the
+baud rate should be changed to 9600.
+
+Gist with a script that detects and changes the baud rate:
+https://gist.github.com/tve/19ab477ba43b685103c107d1cbb1dc34

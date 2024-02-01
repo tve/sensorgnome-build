@@ -5,25 +5,22 @@ TO images/base-$TYPE-temp.img
 PUMP 2G
 
 # Set-up nodejs repository so we can get a modern version
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 1655A0AB68576280
-RUN tee /etc/apt/sources.list.d/nodesource.list <<EOF
-deb https://deb.nodesource.com/node_18.x bullseye main
-EOF
-#deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/8.x bullseye main
+RUN bash -c "curl -1sLf https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /usr/share/keyrings/nodesource.gpg"
+RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/nodesource.gpg] https://deb.nodesource.com/node_18.x nodistro main' >/etc/apt/sources.list.d/nodesource.list"
 
 # Set-up repository for caddy (web server)
 RUN apt-get install -y debian-keyring debian-archive-keyring apt-transport-https
-RUN bash -c "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | sudo gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg"
-RUN bash -c "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt' | sudo tee /etc/apt/sources.list.d/caddy-stable.list"
+RUN bash -c "curl -1sLf 'https://dl.cloudsmith.io/public/caddy/stable/gpg.key' | gpg --dearmor -o /usr/share/keyrings/caddy-stable-archive-keyring.gpg"
+RUN bash -c "curl -1sLf -o /etc/apt/sources.list.d/caddy-stable.list 'https://dl.cloudsmith.io/public/caddy/stable/debian.deb.txt'"
 
 # Set-up repository for telegraf (monitoring agent)
-RUN bash -c "curl -1sLf 'https://repos.influxdata.com/influxdata-archive_compat.key' | sudo gpg --dearmor -o /etc/apt/trusted.gpg.d/influxdb.gpg"
-RUN bash -c "echo 'deb [signed-by=/etc/apt/trusted.gpg.d/influxdb.gpg] https://repos.influxdata.com/debian stable main' | sudo tee /etc/apt/sources.list.d/influxdata.list"
+RUN bash -c "curl -1sLf 'https://repos.influxdata.com/influxdata-archive_compat.key' | gpg --dearmor -o /usr/share/keyrings/influxdata.gpg"
+RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/influxdata.gpg] https://repos.influxdata.com/debian stable main' >/etc/apt/sources.list.d/influxdata.list"
 
 # Set-up bullseye backports (we need modemmanager from there specifically)
 # apt only installs packages from this repo if -t bullseye-backports is specified
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 0E98404D386FA1D9
-RUN bash -c "echo 'deb http://deb.debian.org/debian/ bullseye-backports main' | sudo tee /etc/apt/sources.list.d/bullseye-backports.list"
+RUN bash -c "echo 'deb http://deb.debian.org/debian/ bullseye-backports main' >/etc/apt/sources.list.d/bullseye-backports.list"
 
 # Update OS and sources
 RUN apt-get update

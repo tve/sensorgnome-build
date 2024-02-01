@@ -124,3 +124,17 @@ involved.
 
 - The result must be set as `GPG_PRIVATE_KEY` secret in github, and the passphrase as `GPG_PASSPHRASE`
 - To upload the package to S3, an AWS role must be configured to allow the github action to upload
+- To extend the validity of the keys:
+
+```
+gpg --edit-key 11162C1D8661F9148480CDD98EFF151A5DDAE8F1
+gpg> expire
+gpg> key 1
+gpg> expire
+gpg> save
+```
+- To export the public key, which needs to be placed in /etc/apt/trusted.gpg.d/sensorgnome.gpg:
+
+```
+gpg --export 11162C1D8661F9148480CDD98EFF151A5DDAE8F1 >sensorgnome-pub-2024.gpg
+```
