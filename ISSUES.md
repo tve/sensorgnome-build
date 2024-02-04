@@ -265,3 +265,7 @@ baud rate should be changed to 9600.
 
 Gist with a script that detects and changes the baud rate:
 https://gist.github.com/tve/19ab477ba43b685103c107d1cbb1dc34
+
+## Sensorgnome debian repo key expiry
+
+Fix: sudo curl -L -o /etc/apt/trusted.gpg.d/sensorgnome.gpg https://sensorgnome.s3.amazonaws.com/sensorgnome.gpg

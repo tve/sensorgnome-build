@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file. The format 
 - fix to charts not showing in UI
 - extend sg-log to 120 days and syslog to 60 days, increase root partition to accommodate
 - report cellular info into sg-hub-agent so it can be monitored on sghub
+- periodically query FCD/RTLSDR sample rate, display in web ui, and report via sg-hub-agent
+- start boot count at random "epoch" offset
 
 ## [v2.0-rc12](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc12.zip)
 
