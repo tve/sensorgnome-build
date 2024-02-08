@@ -138,3 +138,13 @@ gpg> save
 ```
 gpg --export 11162C1D8661F9148480CDD98EFF151A5DDAE8F1 >sensorgnome-pub-2024.gpg
 ```
+
+## Sensorstation boot
+
+- The jumper should be in the "enable USB boot" position
+- To mount the SS EMMC: run rpiboot, plug the micro-USB in, then power on the SS
+- To boot the SS normally: remove the micro-USB then power on the SS
+- To see the boot console, use a USB-serial adapter on the rPi expansion connector at 115200
+- If the console switches to NUL after the initial boot: that's gpsd trying to talk to a
+  gps @9600 baud
+  

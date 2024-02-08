@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.0-rc14](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc14.zip)
+
+### Fixed/improved
+
+- revert boot count "epoch"
+
+### Added/removed
+
+- add abilityt to alter boot count (software tab, danger zone)
+- add 1-page view (instead of tabbed) for screen shots/saves
+- add UTC time in top-right corner of web UI for screen shots/saves
+- log change of release train to syslog
+- preliminary support for SensorStation V3
+
 ## [v2.0-rc13](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc13.zip)
 
 ### Fixed/improved
