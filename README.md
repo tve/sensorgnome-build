@@ -146,5 +146,5 @@ gpg --export 11162C1D8661F9148480CDD98EFF151A5DDAE8F1 >sensorgnome-pub-2024.gpg
 - To boot the SS normally: remove the micro-USB then power on the SS
 - To see the boot console, use a USB-serial adapter on the rPi expansion connector at 115200
 - If the console switches to NUL after the initial boot: that's gpsd trying to talk to a
-  gps @9600 baud
+  gps @9600 baud; this can be disabled in /opt/sensorgnome/gps-clock/init-adafruit-gps.sh
   
