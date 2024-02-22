@@ -10,7 +10,7 @@ All notable changes to this project will be documented in this file. The format 
 
 ### Added/removed
 
-- add abilityt to alter boot count (software tab, danger zone)
+- add ability to alter boot count (software tab, danger zone)
 - add 1-page view (instead of tabbed) for screen shots/saves
 - add UTC time in top-right corner of web UI for screen shots/saves
 - log change of release train to syslog
