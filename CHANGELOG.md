@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## Unreleased
+
+- add sample rate check for funcubes/rtlsdr and restart dongle if there's an issue
+- improve radio error reporting in UI
+- support RTLSDR.com ("blog") V4 dongle
+- display SNR for Lotek pulses and tags (text view and new chart)
+- changed pulse detection for rtlsdr to 6dB to match FCD
+- added experimental AGC for rtlsdr, disabled by default
+- make timeseries on radio page more robust to time jumps (still issues left)
+
+
 ## [v2.0-rc14](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc14.zip)
 
 ### Fixed/improved
