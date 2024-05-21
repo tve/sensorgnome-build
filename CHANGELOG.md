@@ -8,11 +8,11 @@ All notable changes to this project will be documented in this file. The format 
 - improve radio error reporting in UI
 - support RTLSDR.com ("blog") V4 dongle
 - support turning on bias-tee for RTL-SDR (was already supported for FCD)
+- fix for Pi3 for Adafruit/MTK GPS
 - display SNR for Lotek pulses and tags (text view and new chart)
 - changed pulse detection for rtlsdr to 6dB to match FCD
-- added experimental AGC for rtlsdr, disabled by default
+- added experimental AGC for rtlsdr, disabled by default, display current gain
 - make timeseries on radio page more robust to time jumps (still issues left)
-
 
 ## [v2.0-rc14](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc14.zip)
 
