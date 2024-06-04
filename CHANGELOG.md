@@ -12,7 +12,10 @@ All notable changes to this project will be documented in this file. The format 
 - display SNR for Lotek pulses and tags (text view and new chart)
 - changed pulse detection for rtlsdr to 6dB to match FCD
 - added experimental AGC for rtlsdr, disabled by default, display current gain
-- make timeseries on radio page more robust to time jumps (still issues left)
+- make timeseries on radio page more robust to time jumps
+- add IF (intermediate frequency) gains for RTL-SDR E4000 tuner to acquisition.json
+- for RTL-SDR E4000 tuner pick the next higher tuner_gain if an invalid value is set in acquisition.json
+- display cell IMEI
 - add serial output feed capability
 
 ## [v2.0-rc14](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc14.zip)
