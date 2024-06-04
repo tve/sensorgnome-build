@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file. The format 
 - for RTL-SDR E4000 tuner pick the next higher tuner_gain if an invalid value is set in acquisition.json
 - display cell IMEI
 - add serial output feed capability
+- upgrade to RaspberryOS 2024-03-12 base image
 
 ## [v2.0-rc14](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc14.zip)
 
