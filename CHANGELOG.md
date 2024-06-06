@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file. The format 
 - display cell IMEI
 - add serial output feed capability
 - upgrade to RaspberryOS 2024-03-12 base image
+- add toggle to hide pulses from tags&pulses panel
 
 ## [v2.0-rc14](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc14.zip)
 
