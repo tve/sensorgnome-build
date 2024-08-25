@@ -269,3 +269,12 @@ https://gist.github.com/tve/19ab477ba43b685103c107d1cbb1dc34
 ## Sensorgnome debian repo key expiry
 
 Fix: sudo curl -L -o /etc/apt/trusted.gpg.d/sensorgnome.gpg https://sensorgnome.s3.amazonaws.com/sensorgnome.gpg
+
+## Old Microchip CTT receivers not working due to incorrect baud rate
+
+Issue noticed 8/5/2024, issue introduced 11/26/2023, affects RC builds rc13 through rc15, dev builds 2023-333 through 2024-157.
+Cause: code change to support CTT v3 dongles changed baud rate from 115200 to 9600 for unknown reasons, commit ee78c67
+Sensorgnomes known to have these receivers (all belong to Birds of Canada):
+- SG-1BC7RPI3C2C5: runs 2023-115, i.e. not affected
+- SG-AEA7RPI320AE: runs 2023-126, i.e. not affected
+- SG-4C33RPI3CD7A: runs 2023-115, i.e. not affected

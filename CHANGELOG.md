@@ -2,7 +2,11 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## Unreleased (included in latest dev build)
+## [v2.0](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.zip)
+
+- fix baud rate for older CTT receivers (ones with permanently attached cable having USB-serial)
+
+## [v2.0-rc15](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc15.zip)
 
 - add sample rate check for funcubes/rtlsdr and restart dongle if there's an issue
 - improve radio error reporting in UI
