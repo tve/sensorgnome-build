@@ -39,8 +39,11 @@ RUN apt-get clean
 # freshest.
 RUN curl -L -o /etc/sensorgnome/local-ip.key http://local-ip.co/cert/server.key
 RUN curl -L -o /etc/sensorgnome/local-ip.pem http://local-ip.co/cert/server.pem
+RUN ls -l /etc/sensorgnome/local-ip.pem
+RUN openssl x509 -noout -enddate -in /etc/sensorgnome/local-ip.pem
 RUN bash -c 'curl -L -o - http://local-ip.co/cert/chain.pem >>/etc/sensorgnome/local-ip.pem'
 RUN bash -c 'chmod 644 /etc/sensorgnome/local-ip.*'
+RUN openssl x509 -noout -enddate -in /etc/sensorgnome/local-ip.pem
 
 # Set-up caddy's PKI (only needed if using self-signed certs?)
 #RUN caddy trust
