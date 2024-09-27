@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v2.0](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.zip)
+## [v2.0.0](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.0.zip)
 
 - fix baud rate for older CTT receivers (ones with permanently attached cable having USB-serial)
 
