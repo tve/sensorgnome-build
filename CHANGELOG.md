@@ -2,9 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v2.0.1](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.1.zip)
+
+- fix image version timestamp when upgradings
+- add test tag to sqlite DB
+
 ## [v2.0.0](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.0.zip)
 
 - fix baud rate for older CTT receivers (ones with permanently attached cable having USB-serial)
+- this version was never released because of a broken local-ip.co service and uncertainty around it
 
 ## [v2.0-rc15](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0-rc15.zip)
 
