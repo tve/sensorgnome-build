@@ -278,3 +278,65 @@ Sensorgnomes known to have these receivers (all belong to Birds of Canada):
 - SG-1BC7RPI3C2C5: runs 2023-115, i.e. not affected
 - SG-AEA7RPI320AE: runs 2023-126, i.e. not affected
 - SG-4C33RPI3CD7A: runs 2023-115, i.e. not affected
+
+## SG-11A9RPI340AA and SG-847CRPI37DF3 cell modem issues
+
+- Both use a Quectel EG25-G modem, two different(?) SIM cards
+- One connects, the other doesn't, problem moves with SIM card
+
+### Connecting one
+
+```
+Nov 19 18:17:21 localhost ModemManager[548]: <info>  [modem0] simple connect started...
+Nov 19 18:17:21 localhost ModemManager[548]: <info>  [modem0] simple connect state (3/10): enable
+Nov 19 18:17:21 localhost ModemManager[548]: <info>  [modem0] state changed (disabled -> enabling)
+Nov 19 18:17:21 localhost ModemManager[548]: <info>  [modem0] power state updated: on
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] simple connect state (4/10): wait to get fully enabled
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] state changed (enabling -> enabled)
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] simple connect state (5/10): wait after enabled
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] 3GPP registration state changed (unknown -> registering)
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] 3GPP registration state changed (registering -> roaming)
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] state changed (enabled -> registered)
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] simple connect state (6/10): register
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] simple connect state (7/10): wait to get packet service state attached
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] simple connect state (8/10): bearer
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] simple connect state (9/10): connect
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0] state changed (registered -> connecting)
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0/bearer1] QMI IPv4 Settings:
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0/bearer1]     address: 100.72.76.94/30
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0/bearer1]     gateway: 100.72.76.93
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0/bearer1]     DNS #1: 8.8.4.4
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0/bearer1]     DNS #2: 8.8.8.8
+Nov 19 18:17:22 localhost ModemManager[548]: <info>  [modem0/bearer1]        MTU: 1360
+Nov 19 18:17:23 localhost ModemManager[548]: <info>  [modem0/bearer1] couldn't start network: QMI protocol error (14): 'CallFailed'
+Nov 19 18:17:23 localhost ModemManager[548]: <info>  [modem0/bearer1] verbose call end reason (2,210): [internal] pdn-ipv6-call-disallowed
+Nov 19 18:17:23 localhost ModemManager[548]: <info>  [modem0/bearer1] reloading stats is supported by the device
+Nov 19 18:17:23 localhost ModemManager[548]: <info>  [modem0] state changed (connecting -> connected)
+Nov 19 18:17:23 localhost ModemManager[548]: <info>  [modem0] simple connect state (10/10): all done
+Nov 19 18:17:23 localhost init-modem[961]: successfully connected the modem
+Nov 19 18:17:23 localhost dhcpcd[451]: wwan0: carrier acquired
+Nov 19 18:17:23 localhost modemmanager: if-up for modem 0 interface wwan0
+Nov 19 18:17:23 localhost dhcpcd[451]: wwan0: IAID 00:00:00:03
+Nov 19 18:17:24 localhost dhcpcd[451]: wwan0: soliciting an IPv6 router
+Nov 19 18:17:24 localhost dhcpcd[451]: ap0: no IPv6 Routers available
+Nov 19 18:17:24 localhost dhcpcd[451]: wwan0: soliciting a DHCP lease
+Nov 19 18:17:24 localhost dhcpcd[451]: wwan0: offered 100.72.76.94 from 100.72.76.93
+Nov 19 18:17:24 localhost dhcpcd[451]: wwan0: leased 100.72.76.94 for 7200 seconds
+Nov 19 18:17:24 localhost dhcpcd[451]: wwan0: adding route to 100.72.76.92/30
+Nov 19 18:17:24 localhost dhcpcd[451]: wwan0: adding default route via 100.72.76.93
+```
+
+### Failing one
+
+```
+Nov 19 19:17:21 localhost ModemManager[563]: <info>  [modem0] simple connect started...
+Nov 19 19:17:21 localhost ModemManager[563]: <info>  [modem0] simple connect state (3/10): enable
+Nov 19 19:17:21 localhost ModemManager[563]: <info>  [modem0] state changed (disabled -> enabling)
+Nov 19 19:17:21 localhost ModemManager[563]: <info>  [modem0] power state updated: on
+Nov 19 19:17:21 localhost ModemManager[563]: <info>  [modem0] 3GPP registration state changed (unknown -> unknown)
+Nov 19 19:17:22 localhost ModemManager[563]: <info>  [modem0] simple connect state (4/10): wait to get fully enabled
+Nov 19 19:17:22 localhost ModemManager[563]: <info>  [modem0] state changed (enabling -> enabled)
+Nov 19 19:17:22 localhost ModemManager[563]: <info>  [modem0] simple connect state (5/10): wait after enabled
+Nov 19 19:17:22 localhost ModemManager[563]: <info>  [modem0] simple connect state (6/10): register
+Nov 19 19:17:51 localhost init-modem[969]: error: couldn't connect the modem: 'Timeout was reached'
+```

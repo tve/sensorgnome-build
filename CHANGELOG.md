@@ -2,9 +2,15 @@
 
 All notable changes to this project will be documented in this file. The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [next](https://www.sensorgnome.net/download)
+
+- add a lab tab with settings for experimental features
+- add preliminary burstfinder support with toggles on lab tab
+- add experimental toggle to give cellular route high/low priority
+
 ## [v2.0.1](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.1.zip)
 
-- fix image version timestamp when upgradings
+- fix image version timestamp when upgrading
 - add test tag to sqlite DB
 
 ## [v2.0.0](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.0.zip)
