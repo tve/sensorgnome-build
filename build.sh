@@ -1,8 +1,8 @@
 #! /bin/bash -e
 
 # parse commandline options for tag, codename, and manifest
-CODENAME=testing
-MANIFEST=manifest-armv7-rpi-bullseye
+CODENAME=booktest
+MANIFEST=manifest-armv7-rpi-bookworm
 V=$(TZ=PST8PDT date +%Y-%j)
 while getopts ":t:c:m:" opt; do
     case $opt in
@@ -65,7 +65,7 @@ docker run --rm --privileged \
     pimod.sh /sg/sg-$TYPE.pifile
 #    -e "SG_DEBS=$SG_DEBS" \
 # Make some tweak to image name: for test images add -testing, for final images remove OS version
-if [[ $CODENAME == 'testing' ]]; then
+if [[ $CODENAME == 'booktest' ]]; then
     IMG=sg-$TYPE-testing-$V
 else
     IMG=sg-${TYPE%-*}-$V

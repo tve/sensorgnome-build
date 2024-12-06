@@ -15,7 +15,7 @@ The whole build process from scratch consists of 3 steps:
 
 This repository only deals with the third step. The first step is found in the
 sensorgnome-dockcross repo, which results in a docker image on DockerHub
-(currently `tvoneicken/sensorgnome-dockcross:armv7-rpi-bullseye-main`).
+(currently `tvoneicken/sensorgnome-dockcross:armv7-rpi-bookworm-main`).
 Unless this image needs to be rebuilt the easiest is to use the DockerHub one.
 
 The second step should be handled within all the respective repositories and ideally each
@@ -71,19 +71,19 @@ The image build process is organized as follows:
 
 - Sensorgnome packages get uploaded to a debian repository at https://sensorgnome.s3.amazonaws.com/
 - Each repository (sensorgnome-support, sensorgnome-control, fcd, ...) uses the `generate-deb.yml`
-  workflow found in this repository to add its packages to the _testing_ codename.
+  workflow found in this repository to add its packages to the _booktest_ codename.
 - In this repository, the `generate-package.sh` script generates a `sensorgnome` package that
   depends on the latest version of the packages in _testing_.
 - The version dependency of the `sensorgnome` package is ">=", which means that as soon as
   a new package is in the repo it can be upgraded via apt. The `sensorgnome` package itself does
   not need to be upgraded.
-- The `sensorgnome` package is published to the _stable_ codename and images are produced to
-  use the _stable_ branch. This means that _stable_ gets the version found in _testing_ at the
+- The `sensorgnome` package is published to the _bookworm_ codename and images are produced to
+  use the _bookworm_ branch. This means that _bookworm_ gets the version found in _testing_ at the
   time the `sensorgnome` package is built&uploaded. This also means that all plain sensorgnome
-  installs only upgrade to versions found in _stable_, i.e., versions from which newer images
+  installs only upgrade to versions found in _bookworm_, i.e., versions from which newer images
   have been built.
-- To use the packages in testing, one has to switch `/etc/apt/sources.list.d/sensorgnome.list`
-  from _stable_ to _testing_.
+- To use the packages in booktest, one has to switch `/etc/apt/sources.list.d/sensorgnome.list`
+  from _bookworm_ to _booktest_.
 
 ## Docker
 

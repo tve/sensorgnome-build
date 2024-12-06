@@ -12,7 +12,7 @@ if [[ ${1} == "--name" ]]; then
     shift
 fi
 
-MANIFEST=${1:-manifest-armv7-rpi-bullseye}
+MANIFEST=${1:-manifest-armv7-rpi-bookworm}
 source $MANIFEST
 
 # See whether we already have the image and skip building if requested (happens in github action)

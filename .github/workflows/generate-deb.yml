@@ -18,7 +18,7 @@ on:
       repo_codename:
         required: false
         type: string
-        default: testing
+        default: booktest
       aws_role:
         required: false
         type: string

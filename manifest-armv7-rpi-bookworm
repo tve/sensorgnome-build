@@ -1,0 +1,13 @@
+# Manifest to build Sensorgnome for ARMv7 Raspberry Pi running bookworm
+# (this is a shell script)
+
+# dockerhub image for pimod
+#PIMOD_IMAGE=tvoneicken/pimod:master
+PIMOD_IMAGE=nature40/pimod:v0.6.0
+
+#DOCKCROSS_IMAGE=tvoneicken/sensorgnome-dockcross:armv7-rpi-bookworm-main
+
+# original operating system image, typ from raspberrypi.org
+OS_IMAGE=https://downloads.raspberrypi.com/raspios_lite_armhf/images/raspios_lite_armhf-2024-11-19/2024-11-19-raspios-bookworm-armhf-lite.img.xz
+# image type, gets prefixes by sg- or base- and suffixed by .zip, .img, .pifile, etc
+TYPE=armv7-rpi-bookworm

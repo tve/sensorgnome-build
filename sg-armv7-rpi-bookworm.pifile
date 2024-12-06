@@ -1,0 +1,95 @@
+# Create ARMv7 bookworm image for RaspberryPi Sensorgnome
+
+FROM images/base-$TYPE.img
+TO images/sg-$TYPE-temp.img
+
+PUMP 2000M
+
+# Create data directories, these will be copied to the new partition on first boot
+mkdir -p /data/SGdata
+date >/data/SGdata/created
+
+# Change the pi user to 'gnome', can't use userconf-pi inside this docker env
+NU=gnome
+RUN usermod -l $NU pi
+RUN usermod -m -d /home/$NU $NU
+RUN groupmod -n $NU pi
+RUN sed -i -e "s/^pi:/$NU:/" /etc/subuid
+RUN sed -i -e "s/^pi:/$NU:/" /etc/subgid
+RUN chpasswd -e <<<$NU:x
+RUN systemctl disable userconfig
+RUN systemctl enable getty@tty1
+RUN rm /usr/share/userconf-pi/sshd_banner
+
+# Configure sensorgnome repository
+RUN bash -c "curl -1sLf -o /usr/share/keyrings/sensorgnome.gpg 'https://sensorgnome.s3.amazonaws.com/sensorgnome.gpg'"
+RUN gpg --no-default-keyring --keyring /usr/share/keyrings/sensorgnome.gpg --list-keys
+RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/sensorgnome.gpg] https://sensorgnome.s3.amazonaws.com/' $CODENAME main >/etc/apt/sources.list.d/sensorgnome.list"
+RUN apt update
+
+# Install sensorgnome packages (the has-double line can be deleted when no pre 2023-080 SG exists)
+RUN dpkg --print-architecture
+RUN mkdir -p /opt/sensorgnome/upgrader
+RUN touch /opt/sensorgnome/upgrader/has-double
+RUN apt install -y sensorgnome dhcpcd5
+RUN mkdir -p /etc/sensorgnome
+RUN apt-get clean
+
+# Download latest local-ip.co certs, overwriting what comes in the sg-web-portal pkg so it's
+# freshest.
+RUN curl -L -o /etc/sensorgnome/local-ip.key http://local-ip.co/cert/server.key
+RUN curl -L -o /etc/sensorgnome/local-ip.pem http://local-ip.co/cert/server.pem
+RUN bash -c 'curl -L -o - http://local-ip.co/cert/chain.pem >>/etc/sensorgnome/local-ip.pem'
+RUN bash -c 'chmod 644 /etc/sensorgnome/local-ip.*'
+RUN openssl x509 -noout -enddate -in /etc/sensorgnome/local-ip.pem
+
+# Set-up caddy's PKI (only needed if using self-signed certs?)
+#RUN caddy trust
+#RUN mkdir -p /var/lib/caddy/.local/share
+#RUN mv /root/.local/share/caddy /var/lib/caddy/.local/share
+#RUN chown -R caddy /var/lib/caddy
+
+# Install some python packages for sixfab stuff
+#RUN pip3 install -U atcom pyyaml pyusb smbus2 crc16
+
+# Enable SSH (0 == success status code - enable)
+RUN raspi-config nonint do_ssh 0
+
+# Set swapfile size to 500MB
+RUN sed -i -e 's/SWAPSIZE=100/SWAPSIZE=500/' /etc/dphys-swapfile
+
+# Disable some log files so everything doesn't get logged 3 times... Focus on /var/log/syslog
+# RUN bash -c 'sed -i -e "/^daemon/d" -e "/^\*\.=info;/,+3d" /etc/rsyslog.conf' # FIXME!
+RUN rm -rf /var/log/journal
+RUN bash -c "echo 'RuntimeMaxUse=1M' >> /etc/systemd/journald.conf"
+
+# Change logrotate config so old log files get a date extension to make it easier to sync them
+# to the hub
+#RUN bash -c 'sed -i -e "s/weekly/daily/" -e "/rotate/s/4/60/" /etc/logrotate.d/rsyslog'
+#RUN sed -i 's/endscript/endscript\n\tdateext\n\tdateyesterday\n\tnodelaycompress/' /etc/logrotate.d/rsyslog
+
+# Enable I2C (setting '0' = on !?!?)
+RUN raspi-config nonint do_i2c 0
+
+# Set UTC timezone
+RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+
+# Reboot on kernel panic
+RUN tee -a /etc/sysctl.conf <<<kernel.panic=10
+
+# Quiet down rngd logging
+RUN bash -c 'echo RNGDOPTIONS="--stats-interval=86400" >>/etc/default/rng-tools-debian'
+
+# Prevent resizing of root partition on first boot. This allows us to create a data
+# partition. The PUMP statement above creates a large enough root partition.
+# Commands copied from /usr/lib/raspi-config/init_resize.sh
+RUN sed -i 's| init=\S*||' /boot/cmdline.txt
+RUN sed -i 's| sdhci\.debug_quirks2=4||' /boot/cmdline.txt
+RUN sed -i "s/ quiet//g" /boot/cmdline.txt
+RUN rm /etc/rc3.d/S01resize2fs_once
+
+# Change the avahi/bonjour/mDNS hostname to sgpi.local and enable advertising
+RUN bash -c 'sed -ir -e "/host-name/s/.*/host-name=sgpi/" -e "/publish-workstation/s/no/yes/" /etc/avahi/avahi-daemon.conf'
+
+# Timestamp the Sensorgnome image so we can detect and unset clock
+RUN bash -c 'date +%s >/etc/sensorgnome/image-stamp'
