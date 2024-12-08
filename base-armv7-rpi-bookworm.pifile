@@ -60,6 +60,7 @@ RUN apt-get install -y \
     usbtop \
     rsyslog \
     logrotate \
-    dhcpcd5
+    dhcpcd5 \
+    openresolv
 
 RUN cp /usr/share/dhcpcd/hooks/10-wpa_supplicant /lib/dhcpcd/dhcpcd-hooks/10-wpa_supplicant
