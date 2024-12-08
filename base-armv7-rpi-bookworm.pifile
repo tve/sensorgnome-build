@@ -26,12 +26,12 @@ RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/influxdata.gpg] https://re
 RUN apt-get update
 RUN apt-get upgrade -y
 
-# Install modemmanager from backports
+# Install modemmanager
 RUN apt-get install -y modemmanager # -t bullseye-backports
 
 # Install some apps, they should be pulled in via dependencies but doing it here causes the
 # installation time to be absorbed into the base build.
-RUN apt-get remove npm -y
+RUN apt-get remove npm network-manager -y
 RUN apt-get install -y \
     udhcpc \
     autossh \
@@ -58,4 +58,8 @@ RUN apt-get install -y \
     python3-pip \
     vnstat \
     usbtop \
-    rsyslog
+    rsyslog \
+    logrotate \
+    dhcpcd5
+
+RUN cp /usr/share/dhcpcd/hooks/10-wpa_supplicant /lib/dhcpcd/dhcpcd-hooks/10-wpa_supplicant
