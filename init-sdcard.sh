@@ -8,10 +8,17 @@ if [[ ! -d $BOOT ]]; then
     exit 1
 fi
 
+if [[ ! -d $MNT/rootfs/home/gnome ]]; then
+    mkdir -p $MNT/rootfs
+    sudo mount /dev/sdc2 $MNT/rootfs
+fi
+
 PI=$MNT/rootfs/home/gnome
 
 cp ~/.tmux.* $PI || true
-cp ~/.ssh/*.pub $BOOT
-#cp SG_tag_database.sqlite /$MNT/bootfs
+mkdir -p $PI/.ssh
+chmod 700 $PI/.ssh
+cp ~/.ssh/2022-tve.pub $PI/.ssh/authorized_keys
+sed -i -e '/^%sudo/s/$/ NOPASSWD: ALL/' /etc/sudoers
 
 sync
