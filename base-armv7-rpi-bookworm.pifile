@@ -28,6 +28,7 @@ RUN apt-get upgrade -y
 
 # Install modemmanager
 RUN apt-get install -y modemmanager # -t bullseye-backports
+RUN apt-get install -y dhcpcd -t bookworm
 
 # Install some apps, they should be pulled in via dependencies but doing it here causes the
 # installation time to be absorbed into the base build.
@@ -60,7 +61,6 @@ RUN apt-get install -y \
     usbtop \
     rsyslog \
     logrotate \
-    dhcpcd5 \
     openresolv
 
 RUN cp /usr/share/dhcpcd/hooks/10-wpa_supplicant /lib/dhcpcd/dhcpcd-hooks/10-wpa_supplicant
