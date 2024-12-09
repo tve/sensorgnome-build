@@ -17,10 +17,10 @@ RUN bash -c "curl -1sLf -o /etc/apt/sources.list.d/caddy-stable.list 'https://dl
 RUN bash -c "curl -1sLf 'https://repos.influxdata.com/influxdata-archive_compat.key' | gpg --dearmor -o /usr/share/keyrings/influxdata.gpg"
 RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/influxdata.gpg] https://repos.influxdata.com/debian stable main' >/etc/apt/sources.list.d/influxdata.list"
 
-# Set-up bullseye backports (we need modemmanager from there specifically)
-# apt only installs packages from this repo if -t bullseye-backports is specified
-#RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 0E98404D386FA1D9
-#RUN bash -c "echo 'deb http://deb.debian.org/debian/ bullseye-backports main' >/etc/apt/sources.list.d/bullseye-backports.list"
+# Set-up bookworm backports (we need dhcpcd from there specifically)
+# apt only installs packages from this repo if -t bookworm-backports is specified
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 0E98404D386FA1D9
+RUN bash -c "echo 'deb http://deb.debian.org/debian/ bookworm-backports main' >/etc/apt/sources.list.d/bookworm-backports.list"
 
 # Update OS and sources
 RUN apt-get update
