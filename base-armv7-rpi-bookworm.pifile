@@ -28,7 +28,7 @@ RUN apt-get upgrade -y
 
 # Install modemmanager
 RUN apt-get install -y modemmanager # -t bullseye-backports
-RUN apt-get install -y dhcpcd -t bookworm
+RUN apt-get install -y dhcpcd -t bookworm-backports
 
 # Install some apps, they should be pulled in via dependencies but doing it here causes the
 # installation time to be absorbed into the base build.
