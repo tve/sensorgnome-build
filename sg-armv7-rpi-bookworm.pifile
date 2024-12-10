@@ -19,7 +19,8 @@ RUN sed -i -e "s/^pi:/$NU:/" /etc/subgid
 RUN chpasswd -e <<<$NU:x
 RUN systemctl disable userconfig
 RUN systemctl enable getty@tty1
-#RUN rm /usr/share/userconf-pi/sshd_banner
+RUN rm /usr/share/userconf-pi/sshd_banner
+RUN bash -c '(echo; echo export SYSTEMD_LESS=XRF) >> /home/$NU/.bashrc'
 
 # Configure sensorgnome repository
 RUN bash -c "curl -1sLf -o /usr/share/keyrings/sensorgnome.gpg 'https://sensorgnome.s3.amazonaws.com/sensorgnome.gpg'"
@@ -59,8 +60,8 @@ RUN bash -c "echo 'RuntimeMaxUse=1M' >> /etc/systemd/journald.conf"
 
 # Change logrotate config so old log files get a date extension to make it easier to sync them
 # to the hub
-#RUN bash -c 'sed -i -e "s/weekly/daily/" -e "/rotate/s/4/60/" /etc/logrotate.d/rsyslog'
-#RUN sed -i 's/endscript/endscript\n\tdateext\n\tdateyesterday\n\tnodelaycompress/' /etc/logrotate.d/rsyslog
+RUN bash -c 'sed -i -e "s/weekly/daily/" -e "/rotate/s/4/60/" /etc/logrotate.d/rsyslog'
+RUN sed -i 's/endscript/endscript\n\tdateext\n\tdateyesterday\n\tnodelaycompress/' /etc/logrotate.d/rsyslog
 
 # Enable I2C (setting '0' = on !?!?)
 RUN raspi-config nonint do_i2c 0
