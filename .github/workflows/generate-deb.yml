@@ -61,10 +61,11 @@ jobs:
           gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
           passphrase: ${{ secrets.GPG_PASSPHRASE }}
       
+      # Upgraded to 0.11.8 dec/13/24, was 0.11.3 previously
       - name: Install deb-s3
         run: |
-          curl -sLO https://github.com/deb-s3/deb-s3/releases/download/0.11.3/deb-s3-0.11.3.gem
-          sudo gem install deb-s3-0.11.3.gem
+          curl -sLO https://github.com/deb-s3/deb-s3/releases/download/0.11.8/deb-s3-0.11.8.gem
+          sudo gem install deb-s3-0.11.8.gem
 
       - name: Generate .deb packages
         run: ${{ inputs.command }}
