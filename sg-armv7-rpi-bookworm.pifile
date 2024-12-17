@@ -89,6 +89,7 @@ RUN bash -c 'sed -ir -e "/host-name/s/.*/host-name=sgpi/" -e "/publish-workstati
 # Ensure wifi comes up unblocked
 RUN rfkill unblock wlan
 RUN rfkill unblock wifi
+RUN bash -c 'echo RFKILL; ls -l /var/lib/systemd/rfkill; cat /var/lib/systemd/rfkill/*wlan'
 
 # Timestamp the Sensorgnome image so we can detect and unset clock
 RUN bash -c 'date +%s >/etc/sensorgnome/image-stamp'
