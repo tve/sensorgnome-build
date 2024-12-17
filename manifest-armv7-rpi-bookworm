@@ -3,7 +3,7 @@
 
 # dockerhub image for pimod
 #PIMOD_IMAGE=tvoneicken/pimod:master
-PIMOD_IMAGE=nature40/pimod:v0.6.0
+PIMOD_IMAGE=nature40/pimod:v0.6.1
 
 #DOCKCROSS_IMAGE=tvoneicken/sensorgnome-dockcross:armv7-rpi-bookworm-main
 

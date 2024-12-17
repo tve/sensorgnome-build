@@ -40,7 +40,7 @@ BASE_IMG=base-$TYPE.img
 if [[ -f images/$BASE_ZIP ]]; then
     echo ""
     echo "*** Extracting base image: $BASE_IMG"
-    (cd images; rm -f $BASE_IMG; 7z x -bd $BASE_ZIP $BASE_IMG)
+    #(cd images; rm -f $BASE_IMG; 7z x -bd $BASE_ZIP $BASE_IMG)
 else
     echo images/$BASE_ZIP not found
     echo ""

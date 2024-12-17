@@ -26,8 +26,25 @@ RUN bash -c "echo 'deb http://deb.debian.org/debian/ bookworm-backports main' >/
 RUN apt-get update
 RUN apt-get upgrade -y
 
-# Install modemmanager
-RUN apt-get install -y modemmanager # -t bullseye-backports
+# # Install libqmi for modemmanager
+# RUN apt-get install -y libqmi-glib5 libqmi-utils libqmi-proxy libqmi-glib-dev gir1.2-qmi-1.0
+# 
+# # Install modemmanager
+# RUN apt-get install -y cmake bash-completion gnome-common gobject-introspection intltool \
+#     libdbus-1-dev libgirepository1.0-dev libgudev-1.0-dev libmbim-glib-dev libpolkit-gobject-1-dev \
+#     libsystemd-dev python3-dbus python3-gi
+# # Remove plugins that didn't build 'cause they depend on mbim
+# RUN bash -c "cd /usr/lib/arm-linux-gnueabihf/ModemManager/; rm *foxconn* *fibocom*"
+# 
+# RUN cd /tmp
+# RUN git clone http://raspbian.raspberrypi.com/raspbian/pool/main/m/modemmanager/modemmanager_1.22.0.orig.tar.xz
+# RUN cd modemmanager-1.22.0
+# RUN meson setup build --prefix=/usr --buildtype=release --sysconfdir=/etc -Dmbim=false -Dgtk_doc=false
+# RUN ninja -C build install
+# RUN cd
+
+# Install from backports
+#RUN apt-get install -y modemmanager # -t bullseye-backports
 RUN apt-get install -y dhcpcd -t bookworm-backports
 
 # Install some apps, they should be pulled in via dependencies but doing it here causes the

@@ -28,6 +28,30 @@ RUN gpg --no-default-keyring --keyring /usr/share/keyrings/sensorgnome.gpg --lis
 RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/sensorgnome.gpg] https://sensorgnome.s3.amazonaws.com/' $CODENAME main >/etc/apt/sources.list.d/sensorgnome.list"
 RUN apt update
 
+# Install libqmi
+RUN apt-get install -y devscripts meson bash-completion gobject-introspection \
+    libgirepository1.0-dev libglib2.0-dev libgudev-1.0-dev libmbim-glib-dev \
+    libqrtr-glib-dev gtk-doc-tools help2man glib-2.0 libglib2.0 libglib2.0-doc
+WORKDIR /root
+RUN git clone https://gitlab.freedesktop.org/mobile-broadband/libqmi.git
+WORKDIR /root/libqmi
+RUN git checkout 1.35.6-dev
+RUN meson setup build --prefix=/usr -Dmbim_qmux=false -Dqrtr=false -Dbash_completion=false --buildtype=release
+RUN ninja -C build install
+
+# Install modemmanager
+RUN apt-get install -y meson cmake bash-completion gnome-common gobject-introspection intltool \
+    libdbus-1-dev libgirepository1.0-dev libgudev-1.0-dev libpolkit-gobject-1-dev \
+    libsystemd-dev python3-dbus python3-gi
+# Remove plugins that didn't build 'cause they depend on mbim
+#RUN bash -c "cd /usr/lib/arm-linux-gnueabihf/ModemManager/; rm *foxconn* *fibocom*"
+WORKDIR /root
+RUN bash -c 'curl https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/1.23.12-dev/ModemManager-1.23.12-dev.tar.gz | tar zxf -'
+WORKDIR /root/ModemManager-1.23.12-dev
+RUN meson setup build --prefix=/usr --buildtype=release --sysconfdir=/etc -Dmbim=false -Dqrtr=false -Dgtk_doc=false -Dbash_completion=false -Dsystemd_suspend_resume=false
+RUN ninja -C build install
+WORKDIR /root
+
 # Install sensorgnome packages (the has-double line can be deleted when no pre 2023-080 SG exists)
 RUN dpkg --print-architecture
 RUN mkdir -p /opt/sensorgnome/upgrader
