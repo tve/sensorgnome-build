@@ -22,29 +22,40 @@ RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/influxdata.gpg] https://re
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 648ACFD622F3D138 0E98404D386FA1D9
 RUN bash -c "echo 'deb http://deb.debian.org/debian/ bookworm-backports main' >/etc/apt/sources.list.d/bookworm-backports.list"
 
+# Set-up repository for tailscale VPN client
+RUN bash -c "curl -1sLf https://pkgs.tailscale.com/stable/raspbian/bookworm.noarmor.gpg >/usr/share/keyrings/tailscale-archive-keyring.gpg"
+RUN bash -c "echo 'deb [signed-by=/usr/share/keyrings/tailscale-archive-keyring.gpg] https://pkgs.tailscale.com/stable/raspbian bookworm main' >/etc/apt/sources.list.d/tailscale.list"
+
 # Update OS and sources
 RUN apt-get update
 RUN apt-get upgrade -y
 
-# # Install libqmi for modemmanager
-# RUN apt-get install -y libqmi-glib5 libqmi-utils libqmi-proxy libqmi-glib-dev gir1.2-qmi-1.0
-# 
-# # Install modemmanager
-# RUN apt-get install -y cmake bash-completion gnome-common gobject-introspection intltool \
-#     libdbus-1-dev libgirepository1.0-dev libgudev-1.0-dev libmbim-glib-dev libpolkit-gobject-1-dev \
-#     libsystemd-dev python3-dbus python3-gi
-# # Remove plugins that didn't build 'cause they depend on mbim
-# RUN bash -c "cd /usr/lib/arm-linux-gnueabihf/ModemManager/; rm *foxconn* *fibocom*"
-# 
-# RUN cd /tmp
-# RUN git clone http://raspbian.raspberrypi.com/raspbian/pool/main/m/modemmanager/modemmanager_1.22.0.orig.tar.xz
-# RUN cd modemmanager-1.22.0
-# RUN meson setup build --prefix=/usr --buildtype=release --sysconfdir=/etc -Dmbim=false -Dgtk_doc=false
-# RUN ninja -C build install
-# RUN cd
+# Install libqmi
+RUN apt-get install -y devscripts meson bash-completion gobject-introspection \
+    libgirepository1.0-dev libglib2.0-dev libgudev-1.0-dev libmbim-glib-dev \
+    libqrtr-glib-dev gtk-doc-tools help2man glib-2.0 libglib2.0 libglib2.0-doc
+WORKDIR /root
+RUN git clone https://gitlab.freedesktop.org/mobile-broadband/libqmi.git
+WORKDIR /root/libqmi
+RUN git checkout 1.35.6-dev
+RUN meson setup build --prefix=/usr -Dmbim_qmux=false -Dqrtr=false -Dbash_completion=false --buildtype=release
+RUN ninja -C build install
+
+# Install modemmanager
+RUN apt-get install -y meson cmake bash-completion gnome-common gobject-introspection intltool \
+    libdbus-1-dev libgirepository1.0-dev libgudev-1.0-dev libpolkit-gobject-1-dev \
+    libsystemd-dev python3-dbus python3-gi
+# Remove plugins that didn't build 'cause they depend on mbim
+#RUN bash -c "cd /usr/lib/arm-linux-gnueabihf/ModemManager/; rm *foxconn* *fibocom*"
+WORKDIR /root
+RUN bash -c 'curl https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/1.23.12-dev/ModemManager-1.23.12-dev.tar.gz | tar zxf -'
+WORKDIR /root/ModemManager-1.23.12-dev
+RUN meson setup build --prefix=/usr --buildtype=release --sysconfdir=/etc -Dmbim=false -Dqrtr=false -Dgtk_doc=false -Dbash_completion=false -Dsystemd_suspend_resume=false
+RUN ninja -C build install
+WORKDIR /root
+RUN rm -rf libqmi ModemManager*
 
 # Install from backports
-#RUN apt-get install -y modemmanager # -t bullseye-backports
 RUN apt-get install -y dhcpcd -t bookworm-backports
 
 # Install some apps, they should be pulled in via dependencies but doing it here causes the
@@ -78,6 +89,7 @@ RUN apt-get install -y \
     usbtop \
     rsyslog \
     logrotate \
-    openresolv
+    openresolv \
+    tailscale
 
 RUN cp /usr/share/dhcpcd/hooks/10-wpa_supplicant /lib/dhcpcd/dhcpcd-hooks/10-wpa_supplicant
