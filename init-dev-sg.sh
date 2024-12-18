@@ -18,7 +18,7 @@ Host github.com
     StrictHostKeyChecking no
 EOF
 
-ssh $1 "[[ -d sensorgnome-control ]] || git clone git@github.com:tve/sensorgnome-control.git"
+ssh $1 "test -d sensorgnome-control || git clone git@github.com:tve/sensorgnome-control.git"
 ssh $1 "ln -s /opt/sensorgnome/control/public/flexdash ~/sensorgnome-control/src/public"
 
 ssh $1 "cat >sensorgnome-control/run; chmod +x sensorgnome-control/run" <<EOF
