@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file. The format 
 - add a lab tab with settings for experimental features
 - add preliminary burstfinder support with toggles on lab tab
 - add experimental toggle to give cellular route high/low priority
+- collect signal strength info when registered/connected to a cell
+- fix timeout when trying to connect
 
 ## [v2.0.1](https://sensorgnome.s3.amazonaws.com/images/sg-armv7-rpi-2.0.1.zip)
 
