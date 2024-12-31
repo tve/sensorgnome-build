@@ -50,7 +50,7 @@ RUN apt-get install -y meson cmake bash-completion gnome-common gobject-introspe
 WORKDIR /root
 RUN bash -c 'curl https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/1.23.12-dev/ModemManager-1.23.12-dev.tar.gz | tar zxf -'
 WORKDIR /root/ModemManager-1.23.12-dev
-RUN meson setup build --prefix=/usr --buildtype=release --sysconfdir=/etc -Dmbim=false -Dqrtr=false -Dgtk_doc=false -Dbash_completion=false -Dsystemd_suspend_resume=false
+RUN meson setup build --prefix=/usr --buildtype=release --sysconfdir=/etc -Dmbim=false -Dqrtr=false -Dgtk_doc=false -Dbash_completion=false -Dsystemd_suspend_resume=false -Dat_command_via_dbus=true
 RUN ninja -C build install
 WORKDIR /root
 RUN rm -rf libqmi ModemManager*
