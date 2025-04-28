@@ -3,6 +3,9 @@ mmcli -V | head -1 || echo "ModemManager not installed"
 sudo apt update
 
 # Install libqmi from source (removed libmbim-glib-dev)
+echo
+echo "Installing libqmi from source"
+echo "----------------------------------------"
 apt-get install -y devscripts meson bash-completion gobject-introspection \
     libgirepository1.0-dev libglib2.0-dev libgudev-1.0-dev \
     libqrtr-glib-dev gtk-doc-tools help2man glib-2.0 libglib2.0 libglib2.0-doc
@@ -13,8 +16,12 @@ cd libqmi
 git checkout 1.36.0
 meson setup build --prefix=/usr -Dmbim_qmux=false -Dqrtr=false -Dbash_completion=false --buildtype=release
 ninja -C build install
+echo "libqmi installed"
 
 # Install modemmanager
+echo
+echo "Installing ModemManager from source"
+echo "----------------------------------------"
 apt-get install -y meson cmake bash-completion gnome-common gobject-introspection intltool \
     libdbus-1-dev libgirepository1.0-dev libgudev-1.0-dev libpolkit-gobject-1-dev \
     libsystemd-dev python3-dbus python3-gi
@@ -23,3 +30,4 @@ curl https://gitlab.freedesktop.org/mobile-broadband/ModemManager/-/archive/1.24
 cd ModemManager-1.24.0
 meson setup build --prefix=/usr --buildtype=release --sysconfdir=/etc -Dmbim=false -Dqrtr=false -Dgtk_doc=false -Dbash_completion=false -Dsystemd_suspend_resume=false -Dat_command_via_dbus=true
 ninja -C build install
+echo "ModemManager installed"
