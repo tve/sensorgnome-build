@@ -3,6 +3,15 @@ MNT=/run/media/$USER
 BOOT=$(echo -n $MNT/boot*)
 
 if [[ ! -d $BOOT ]]; then
+    echo "Did not find $MNT/boot*, trying to mound sdcard"
+    dev=$(lsblk -d -o NAME,MODEL,SIZE | grep -E '(uSD|USB DISK).*[0-9][0-9]\.[0-9]G' | cut -d" " -f1)
+    if [[ -z $dev ]]; then echo "No device found"; exit 1; fi
+    udisksctl mount -b /dev/${dev}1
+    udisksctl mount -b /dev/${dev}2
+    sleep 1
+fi
+
+if [[ ! -d $BOOT ]]; then
     echo "Cannot find SD card at $MNT/boot*"
     echo "Did you perhaps forget to remove and re-insert the SD card after flashing?"
     exit 1
