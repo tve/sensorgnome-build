@@ -1,6 +1,7 @@
 #! /bin/bash -e
 MNT=/run/media/$USER
 BOOT=$(echo -n $MNT/boot*)
+echo BOOT=$BOOT
 
 if [[ ! -d $BOOT ]]; then
     echo "Did not find $MNT/boot*, trying to mound sdcard"
@@ -8,7 +9,8 @@ if [[ ! -d $BOOT ]]; then
     if [[ -z $dev ]]; then echo "No device found"; exit 1; fi
     udisksctl mount -b /dev/${dev}1
     udisksctl mount -b /dev/${dev}2
-    sleep 1
+    sleep 2
+    ls $MNT
 fi
 
 if [[ ! -d $BOOT ]]; then
